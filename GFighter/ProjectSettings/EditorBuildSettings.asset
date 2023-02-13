@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/2-CharacterSelect.unity
     guid: 85548ba7e10b89a43924ee92dc2a061f
+  - enabled: 1
+    path: Assets/Scenes/3-FightingArena.unity
+    guid: 89c7cc2ac7601bc43bf813d962aadaa0
   m_configObjects: {}

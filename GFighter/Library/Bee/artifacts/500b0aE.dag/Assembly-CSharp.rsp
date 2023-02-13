@@ -336,6 +336,8 @@
 -r:"Library/Bee/artifacts/500b0aE.dag/Unity.VSCode.Editor.ref.dll"
 -r:"Library/Bee/artifacts/500b0aE.dag/UnityEditor.UI.ref.dll"
 -r:"Library/Bee/artifacts/500b0aE.dag/UnityEngine.UI.ref.dll"
+"Assets/CharacterPhotos/SaveRenderTextureToFile.cs"
+"Assets/Scripts/Character.cs"
 "Assets/Scripts/CharacterSelection.cs"
 "Assets/Scripts/Menu.cs"
 -langversion:9.0
