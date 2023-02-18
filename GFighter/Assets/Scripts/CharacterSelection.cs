@@ -72,6 +72,7 @@ public class CharacterSelection : MonoBehaviour
                 SelectedPlayerCharacter = SelectedCharacter;
                 ChangeText(1);
                 PlayerCharacterSelected = true;
+                PlayerPrefs.SetInt("SelectedPlayerCharacter",SelectedPlayerCharacter);
                 InitializeOtherPlayerforCpu(SelectedCharacter);
                 CharactersPlayers3DModels[SelectedPlayerCharacter].GetComponent<Animator>().SetTrigger("Menu_IdleToReady");
                 AudioPlayer.PlayOneShot(CharacterSelectSound);
@@ -82,6 +83,7 @@ public class CharacterSelection : MonoBehaviour
                 SelectedCPUCharacter = SelectedCharacter;
                 ChangeText(2);
                 CPUCharacterSelected = true;
+                PlayerPrefs.SetInt("SelectedCpuCharacter", SelectedCPUCharacter);
                 CharactersCPU3DModels[SelectedCPUCharacter].GetComponent<Animator>().SetTrigger("Menu_IdleToReady");
                 UISelectedCharacter.GetComponent<Animator>().enabled=false;
                 AudioPlayer.PlayOneShot(CharacterSelectSound);

@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class CPU : MonoBehaviour
 {
+    public float health;
     CharacterController CPUController;
     Animator CPUAnimator;
-    public float verticalVelocity;
+    float verticalVelocity;
     Vector3 MovementDirection;
     // Start is called before the first frame update
     void Start()
     {
+        health = 1f;
         CPUController = GetComponent<CharacterController>();
         CPUAnimator = GetComponent<Animator>();
         verticalVelocity = -1.98f;
