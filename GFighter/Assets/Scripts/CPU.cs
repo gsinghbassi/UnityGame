@@ -9,6 +9,7 @@ public class CPU : MonoBehaviour
     Animator CPUAnimator;
     float verticalVelocity;
     Vector3 MovementDirection;
+    public bool CPUmaxDistanceReached;
     // Start is called before the first frame update
     void Start()
     {

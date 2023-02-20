@@ -483,9 +483,9 @@ GameObject:
   - component: {fileID: 1637255236205580706}
   - component: {fileID: 1239065540223086862}
   - component: {fileID: 961160255}
-  - component: {fileID: 961160257}
   - component: {fileID: 961160256}
   - component: {fileID: 338053866084631137}
+  - component: {fileID: 4631315894989467438}
   m_Layer: 0
   m_Name: Paladin
   m_TagString: Untagged
@@ -549,19 +549,6 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1, z: -0.01}
---- !u!65 &961160257
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2158176788920847128}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.15, y: 2, z: 0.15}
-  m_Center: {x: 0, y: 1, z: 0}
 --- !u!114 &961160256
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -588,7 +575,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 0
-  PlayerSpeed: 0
+  PlayerSpeed: 1
+--- !u!65 &4631315894989467438
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2158176788920847128}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.6444361, y: 2.101304, z: 0.38641667}
+  m_Center: {x: 0.020452857, y: 1.044666, z: -0.01415956}
 --- !u!1 &2177221141465081923
 GameObject:
   m_ObjectHideFlags: 0

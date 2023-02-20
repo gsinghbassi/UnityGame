@@ -12,6 +12,8 @@ public class Player : MonoBehaviour
     public float PlayerSpeed;
     float verticalVelocity;   
     Vector3 MovementDirection;
+    public bool PlayermaxDistanceReached;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -45,12 +47,12 @@ public class Player : MonoBehaviour
             
             PlayerAnimator.SetBool("WalkForward", false);
         }
-        if (Input.GetKey(KeyCode.LeftArrow))
+        if (Input.GetKey(KeyCode.LeftArrow) && !PlayermaxDistanceReached)
         {
             Movement("Left");
             PlayerAnimator.SetBool("WalkBack", true);
         }
-        if (Input.GetKeyUp(KeyCode.LeftArrow))
+        if (Input.GetKeyUp(KeyCode.LeftArrow) || PlayermaxDistanceReached)
         {            
             PlayerAnimator.SetBool("WalkBack", false);
         }

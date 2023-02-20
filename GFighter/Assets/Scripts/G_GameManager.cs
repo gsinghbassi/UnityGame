@@ -20,11 +20,18 @@ public class G_GameManager : MonoBehaviour
     public Image CPUPicture;
     public Image PlayerHealth;
     public Image CPUHealth;
+    
 
+    CameraControls CameraController;
+    float PlayerPositionZ;
+    float CPUPositionZ;
+    float PlayerCPUpositionDifference;
+    float maxDistancebetweenPlayers = 8f;
 
     // Start is called before the first frame update
     void Start()
     {
+        CameraController = GameObject.Find("Camera").GetComponent<CameraControls>();
         SelectedPlayerCharacter = PlayerPrefs.GetInt("SelectedPlayerCharacter");
         SelectedCPUCharacter = PlayerPrefs.GetInt("SelectedCpuCharacter");
         PlayerCharacter = Characters[SelectedPlayerCharacter];
@@ -33,12 +40,18 @@ public class G_GameManager : MonoBehaviour
         CPUPicture.sprite = (Sprite)AssetDatabase.LoadAssetAtPath(("Assets/CharacterPhotos/"+ CPUCharacter.name+".png"), typeof(Sprite));
         InstancePlayerCharacter=Instantiate(PlayerCharacter, PlayerStartPosition.position, PlayerStartPosition.rotation);
         InstanceCPUCharacter=Instantiate(CPUCharacter, CPUStartPosition.position, CPUStartPosition.rotation);
-        InstancePlayerCharacter.GetComponent<CPU>().enabled = false;
+        InstanceCPUCharacter.transform.localScale = new Vector3(-1f, InstanceCPUCharacter.transform.localScale.y, InstanceCPUCharacter.transform.localScale.z);
         InstancePlayerCharacter.GetComponent<Player>().enabled = true;
-        InstanceCPUCharacter.GetComponent<Player>().enabled = false;
         InstanceCPUCharacter.GetComponent<CPU>().enabled = true;
         InstancePlayerCharacter.GetComponent<Animator>().SetBool("GameMode", true);
         InstanceCPUCharacter.GetComponent<Animator>().SetBool("GameMode", true);
+        //InstancePlayerCharacter.GetComponent<CPU>().enabled = false;
+        Destroy(InstancePlayerCharacter.GetComponent<CPU>());        
+        //InstanceCPUCharacter.GetComponent<Player>().enabled = false;
+        Destroy(InstanceCPUCharacter.GetComponent<Player>());
+        CameraController.PlayerCharacter = InstancePlayerCharacter;
+        CameraController.CPUCharacter = InstanceCPUCharacter;
+       
     }
 
     // Update is called once per frame
@@ -46,6 +59,23 @@ public class G_GameManager : MonoBehaviour
     {
         PlayerHealth.fillAmount = InstancePlayerCharacter.GetComponent<Player>().health;
         CPUHealth.fillAmount = InstanceCPUCharacter.GetComponent<CPU>().health;
+        PlayerDistanceCheck();
+    }
 
+    void PlayerDistanceCheck()
+    {
+        PlayerPositionZ = InstancePlayerCharacter.transform.position.z;
+        CPUPositionZ = InstanceCPUCharacter.transform.position.z;
+        PlayerCPUpositionDifference = PlayerPositionZ - CPUPositionZ;
+        if (PlayerCPUpositionDifference < maxDistancebetweenPlayers)
+        {
+            InstancePlayerCharacter.GetComponent<Player>().PlayermaxDistanceReached = false;
+            InstanceCPUCharacter.GetComponent<CPU>().CPUmaxDistanceReached = false;
+        }
+        else if (PlayerCPUpositionDifference >= maxDistancebetweenPlayers)
+        {
+            InstancePlayerCharacter.GetComponent<Player>().PlayermaxDistanceReached = true;
+            InstanceCPUCharacter.GetComponent<CPU>().CPUmaxDistanceReached = true;
+        }
     }
 }
