@@ -31,6 +31,7 @@ public class G_GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        StartCoroutine(PlayerandCPUReady());
         CameraController = GameObject.Find("Camera").GetComponent<CameraControls>();
         SelectedPlayerCharacter = PlayerPrefs.GetInt("SelectedPlayerCharacter");
         SelectedCPUCharacter = PlayerPrefs.GetInt("SelectedCpuCharacter");
@@ -77,5 +78,13 @@ public class G_GameManager : MonoBehaviour
             InstancePlayerCharacter.GetComponent<Player>().PlayermaxDistanceReached = true;
             InstanceCPUCharacter.GetComponent<CPU>().CPUmaxDistanceReached = true;
         }
+    }
+
+
+    IEnumerator PlayerandCPUReady()
+    {
+        yield return new WaitForSeconds(5.0f);
+        InstancePlayerCharacter.GetComponent<Player>().PlayerReady = true;
+        InstanceCPUCharacter.GetComponent<CPU>().CPUReady = true;
     }
 }

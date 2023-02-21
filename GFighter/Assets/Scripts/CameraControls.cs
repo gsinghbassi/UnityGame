@@ -8,21 +8,26 @@ public class CameraControls : MonoBehaviour
     public  GameObject CPUCharacter;
     float PlayerpositionZ;
     float CPUpositionZ;
-    public float CameraCenterPosition;
-    public float CameraCenterPositionPrevious;
-    public float CameraCenterPositionDifference;
+    float CameraCenterPosition;
+    float CameraCenterPositionPrevious;
+    float CameraCenterPositionDifference;
     float CameraXmin;
     float CameraXmax;
-    public float CameraX;
+    float CameraX;
+
+    float DistanceBetweenPlayerandCPU;
+    float DistanceBetweenPlayerandCPUPrevious;
 
     // Start is called before the first frame update
     void Start()
     {
         CameraXmin = -3.5f;
-        CameraXmax = CameraXmin - 2f;
+        CameraXmax = CameraXmin - 2.5f;
         CameraX = CameraXmin;
         CameraCenterPosition = (PlayerpositionZ + CPUpositionZ) / 2;
         CameraCenterPositionPrevious = CameraCenterPosition;
+        DistanceBetweenPlayerandCPU = Vector3.Distance(PlayerCharacter.transform.position, CPUCharacter.transform.position);
+        DistanceBetweenPlayerandCPUPrevious = DistanceBetweenPlayerandCPU;
     }
 
     // Update is called once per frame
@@ -31,19 +36,24 @@ public class CameraControls : MonoBehaviour
         PlayerpositionZ = PlayerCharacter.transform.position.z;
         CPUpositionZ = CPUCharacter.transform.position.z;
         CameraCenterPosition=(PlayerpositionZ+CPUpositionZ)/ 2;
+        DistanceBetweenPlayerandCPU = Vector3.Distance(PlayerCharacter.transform.position, CPUCharacter.transform.position);
+        
+
         if (CameraCenterPositionPrevious != CameraCenterPosition)
         {
             CameraCenterPositionDifference = CameraCenterPosition - CameraCenterPositionPrevious;
-            if (CameraX >= CameraXmax)
+           
+            
+            if(CameraX >= CameraXmax &&  DistanceBetweenPlayerandCPU >DistanceBetweenPlayerandCPUPrevious)
             {
-                CameraX = CameraX-CameraCenterPositionDifference;
+                CameraX = CameraX - Mathf.Abs(CameraCenterPositionDifference);
             }
-            /* This needs work
-            else if (CameraX < CameraXmin)
+            if(CameraX <= CameraXmin &&  DistanceBetweenPlayerandCPU < DistanceBetweenPlayerandCPUPrevious)
             {
-                CameraX = CameraX + CameraCenterPositionDifference;
-            }*/
+                CameraX = CameraX + Mathf.Abs(CameraCenterPositionDifference);
+            }  
             CameraCenterPositionPrevious = CameraCenterPosition;
+            DistanceBetweenPlayerandCPUPrevious = DistanceBetweenPlayerandCPU;
         }
         transform.position = new Vector3(CameraX, transform.position.y, CameraCenterPosition);
     }
