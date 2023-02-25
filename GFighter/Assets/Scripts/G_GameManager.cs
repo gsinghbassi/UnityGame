@@ -20,12 +20,14 @@ public class G_GameManager : MonoBehaviour
     public Image CPUPicture;
     public Image PlayerHealth;
     public Image CPUHealth;
-    
+    public static float PlayerSendDamage;
+    public static float CPUSendDamage;
+
 
     CameraControls CameraController;
     float PlayerPositionZ;
     float CPUPositionZ;
-    float PlayerCPUpositionDifference;
+    public float PlayerCPUpositionDifference;
     float maxDistancebetweenPlayers = 8f;
 
     // Start is called before the first frame update
@@ -61,6 +63,9 @@ public class G_GameManager : MonoBehaviour
         PlayerHealth.fillAmount = InstancePlayerCharacter.GetComponent<Player>().health;
         CPUHealth.fillAmount = InstanceCPUCharacter.GetComponent<CPU>().health;
         PlayerDistanceCheck();
+        PlayerSendDamage = InstancePlayerCharacter.GetComponent<Player>().SendDamage; 
+        CPUSendDamage = InstanceCPUCharacter.GetComponent<CPU>().SendDamage;      
+
     }
 
     void PlayerDistanceCheck()

@@ -5,7 +5,7 @@ using UnityEngine;
 public class CameraControls : MonoBehaviour
 {
     public GameObject PlayerCharacter;
-    public  GameObject CPUCharacter;
+    public GameObject CPUCharacter;
     float PlayerpositionZ;
     float CPUpositionZ;
     float CameraCenterPosition;

@@ -337,6 +337,7 @@
 -r:"Library/Bee/artifacts/500b0aE.dag/UnityEditor.UI.ref.dll"
 -r:"Library/Bee/artifacts/500b0aE.dag/UnityEngine.UI.ref.dll"
 "Assets/CharacterPhotos/SaveRenderTextureToFile.cs"
+"Assets/Scripts/BKP_2playerscript.cs"
 "Assets/Scripts/CameraControls.cs"
 "Assets/Scripts/CharacterSelection.cs"
 "Assets/Scripts/CPU.cs"
