@@ -32,10 +32,13 @@ public class CharacterSelection : MonoBehaviour
     public AudioClip ClickSound;
     public AudioClip CharacterMoveSound;
     public AudioClip CharacterSelectSound;
+    bool selectionready;
 
     // Start is called before the first frame update
     void Start()
     {
+        StartCoroutine(PrepareSelection());
+        selectionready = false;
         PlayerCharacterSelected = false;
         CPUCharacterSelected = false;
            G_3Dmodels = GameObject.Find("CharacterModels").transform;
@@ -62,49 +65,51 @@ public class CharacterSelection : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-        
 
-        if(Input.GetKeyDown(KeyCode.Return))
+        if (selectionready)
         {
-            if (!PlayerCharacterSelected)
+
+            if (Input.GetKeyDown(KeyCode.Return))
             {
-                SelectedPlayerCharacter = SelectedCharacter;
-                ChangeText(1);
-                PlayerCharacterSelected = true;
-                PlayerPrefs.SetInt("SelectedPlayerCharacter",SelectedPlayerCharacter);
-                InitializeOtherPlayerforCpu(SelectedCharacter);
-                CharactersPlayers3DModels[SelectedPlayerCharacter].GetComponent<Animator>().SetTrigger("Menu_IdleToReady");
-                AudioPlayer.PlayOneShot(CharacterSelectSound);
+                if (!PlayerCharacterSelected)
+                {
+                    SelectedPlayerCharacter = SelectedCharacter;
+                    ChangeText(1);
+                    PlayerCharacterSelected = true;
+                    PlayerPrefs.SetInt("SelectedPlayerCharacter", SelectedPlayerCharacter);
+                    InitializeOtherPlayerforCpu(SelectedCharacter);
+                    CharactersPlayers3DModels[SelectedPlayerCharacter].GetComponent<Animator>().SetTrigger("Menu_IdleToReady");
+                    AudioPlayer.PlayOneShot(CharacterSelectSound);
+
+                }
+                else if (PlayerCharacterSelected)
+                {
+                    SelectedCPUCharacter = SelectedCharacter;
+                    ChangeText(2);
+                    CPUCharacterSelected = true;
+                    PlayerPrefs.SetInt("SelectedCpuCharacter", SelectedCPUCharacter);
+                    CharactersCPU3DModels[SelectedCPUCharacter].GetComponent<Animator>().SetTrigger("Menu_IdleToReady");
+                    UISelectedCharacter.GetComponent<Animator>().enabled = false;
+                    AudioPlayer.PlayOneShot(CharacterSelectSound);
+                    transform.Find("Back").gameObject.SetActive(false);
+                    transform.Find("Instructions").gameObject.SetActive(false);
+                    StartCoroutine(LoadScene());
+                }
 
             }
-            else if(PlayerCharacterSelected)
+
+            if (Input.GetKeyDown(KeyCode.LeftArrow))
             {
-                SelectedCPUCharacter = SelectedCharacter;
-                ChangeText(2);
-                CPUCharacterSelected = true;
-                PlayerPrefs.SetInt("SelectedCpuCharacter", SelectedCPUCharacter);
-                CharactersCPU3DModels[SelectedCPUCharacter].GetComponent<Animator>().SetTrigger("Menu_IdleToReady");
-                UISelectedCharacter.GetComponent<Animator>().enabled=false;
-                AudioPlayer.PlayOneShot(CharacterSelectSound);
-                transform.Find("Back").gameObject.SetActive(false);
-                transform.Find("Instructions").gameObject.SetActive(false);
-                StartCoroutine(LoadScene());
+                Debug.Log("Left");    //Remove Later
+                CharacterSelecter(0);
+                AudioPlayer.PlayOneShot(CharacterMoveSound);
             }
-
-        }
-
-        if(Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            Debug.Log("Left");    //Remove Later
-            CharacterSelecter(0);
-            AudioPlayer.PlayOneShot(CharacterMoveSound);
-        }
-        if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            Debug.Log("Right");    //Remove Later
-            CharacterSelecter(1);
-            AudioPlayer.PlayOneShot(CharacterMoveSound);
+            if (Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                Debug.Log("Right");    //Remove Later
+                CharacterSelecter(1);
+                AudioPlayer.PlayOneShot(CharacterMoveSound);
+            }
         }
     }
 
@@ -195,6 +200,11 @@ public class CharacterSelection : MonoBehaviour
     {
         yield return new WaitForSeconds(3.5f);
         SceneManager.LoadScene("3-FightingArena");
+    }
+    IEnumerator PrepareSelection()
+    {
+        yield return new WaitForSeconds(2f);
+        selectionready = true;
     }
 
 }
