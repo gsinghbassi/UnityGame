@@ -37,7 +37,7 @@ public class Player : MonoBehaviour
         runActive = false;
         health = 1f;
         walkSpeed = 1f;
-        runSpeed = 6f;
+        runSpeed = 4f;
         PlayerSpeed = walkSpeed;
         PlayerController = GetComponent<CharacterController>();
         PlayerAnimator = GetComponent<Animator>();
@@ -68,6 +68,9 @@ public class Player : MonoBehaviour
         {
             InputsPlayer();
         }
+
+       
+
     }
 
 
@@ -190,7 +193,6 @@ public class Player : MonoBehaviour
         {
             damageonce = true;
             PlayerAnimator.SetTrigger("HitMiddle");
-            Debug.Log("GotHit by" + other.name);
             health = health - G_GameManager.CPUSendDamage;
 
         }
@@ -198,7 +200,6 @@ public class Player : MonoBehaviour
         {
             damageonce = true;
             PlayerAnimator.SetTrigger("HitTop");
-            Debug.Log("GotHit by" + other.name);
             health = health - G_GameManager.CPUSendDamage;
             damagedelay = Time.time + 1f;
         }

@@ -23,15 +23,16 @@ public class CPU : MonoBehaviour
 
     float KeyPressTimeCheck;
     float KeyPressDelayInterval;
-    public float SendDamage;
-    bool runningkick;
+    public float SendDamage;    
     G_GameManager GameManagerReference;
+
 
     //CPU AI
     float PlayerCPUDistance;
-    bool CPULeft;
-    bool CPURight;
+    public bool CPULeft;
+    public bool CPURight;
     bool CPUKick;
+    bool CPURunKick;
     bool CPUPunch;
     bool CPURun;
     int runORwalkCheck;
@@ -42,14 +43,22 @@ public class CPU : MonoBehaviour
     bool CPUWaitUpdated;
     float PlayerRange;
     bool isPlayerinRange;
-
-
+    int AttackSelector;
+    int AttackCount;
+    int KicksCount;
+    int PunchCount;
+    bool AttackAllowed;   
+    bool stopretreating;
+    
 
 
     // Start is called before the first frame update
     void Start()
     {
-        gotoPlayer = false;        
+       
+       gotoPlayer = false;
+        stopretreating = false;
+        AttackAllowed =true;
         CPUWaitUpdated = false;
         CPUWait = Time.time + Random.Range(7f, 9f);
         PlayerRange = 0.4f;
@@ -60,14 +69,13 @@ public class CPU : MonoBehaviour
 
         damagedelay = 0f;
         damageonce = false;
-        runningkick = false;
         SendDamage = 0f;
         CPUReady = false;
         MovementAllowed = true;
         runActive = false;
         health = 1f;
         walkSpeed = 1f;
-        runSpeed = 6f;
+        runSpeed = 4f;
         CPUSpeed = walkSpeed;
         CPUController = GetComponent<CharacterController>();
         CPUAnimator = GetComponent<Animator>();
@@ -99,6 +107,7 @@ public class CPU : MonoBehaviour
             InputsCPU();
             CPUAI();
         }   
+        
         
        
     }
@@ -137,14 +146,77 @@ public class CPU : MonoBehaviour
             CPUWaitUpdated = true;
         }
 
-        if (health < 0.5f)
+        if (health < 0.5f && !stopretreating)
         {
             gotoPlayer = false;
             CPURight = true;
+            CPULeft = false;
+            StartCoroutine(Stopretreat());
         }
         
+
+
+        if(PlayerCPUDistance<PlayerRange+0.5f)
+        {
+            isPlayerinRange = true;
+        }
+        else if (PlayerCPUDistance > PlayerRange + 0.5f)
+        {
+            isPlayerinRange = false;
+            
+        }
+
+        if (isPlayerinRange &&AttackAllowed)
+        {
+           if(AttackCount>2)
+            {
+                if (KicksCount>=2)
+                {
+                    AttackSelector = 1;
+                    KicksCount = 0;
+                }
+                else if (PunchCount >= 2)
+                {
+                    AttackSelector = 2;
+                    PunchCount = 0;
+                }
+                AttackCount = 0;
+            }
+            else
+            {
+                AttackSelector = Random.Range(1, 3);
+            }
+  
+            
+            if (AttackSelector == 1)
+            {
+                CPUPunch = true;
+                PunchCount++;
+            }
+            else if (AttackSelector == 2)
+            {
+                CPUKick = true;
+                KicksCount++;
+            }
+            AttackCount++;
+            
+        }
+
+        else if (!isPlayerinRange)
+        {
+            AttackCount = 0;
+            KicksCount = 0;
+            PunchCount = 0;
+            AttackSelector = 0;          
+            CPUPunch = false;
+            CPUKick = false;
+            CPUAnimator.ResetTrigger("Punch");
+            CPUAnimator.ResetTrigger("Kick");
+        }
+
     }
 
+    
     
 
     void InputsCPU()
@@ -156,12 +228,13 @@ public class CPU : MonoBehaviour
             if ((!runActive&& PlayerCPUDistance<=4f) ||keepwalking)
             {
                 Movement("Left");
+                CPUAnimator.SetLayerWeight(1, 0f);
                 CPUAnimator.SetBool("WalkForward", true);
             }
 
             if(PlayerCPUDistance > 4f && !runORwalk)
             {
-                runORwalkCheck = Random.Range(0, 2);   
+                runORwalkCheck = Random.Range(0, 2);                  
                 runORwalk = true;
             }
 
@@ -173,17 +246,17 @@ public class CPU : MonoBehaviour
             if (runORwalkCheck == 1)
             {
                 runActive = true;
-            }
-           
+            }           
 
                 if (runActive)
-            {
-                runningkick = true;
+            {                
                 Movement("Run");
                 CPUAnimator.SetBool("Run", true);
-            }
-
-            
+                if (PlayerCPUDistance < PlayerRange + 0.8f)
+                {
+                    CPURunKick = true; 
+                }
+                        }            
 
         }
 
@@ -197,11 +270,8 @@ public class CPU : MonoBehaviour
             if (runActive)
             {
                 runActive = false;
-                runningkick = false;
-                CPUAnimator.SetBool("Run", false);
-                
-            }
-            
+                CPUAnimator.SetBool("Run", false);                
+            }           
 
         }
 
@@ -220,33 +290,46 @@ public class CPU : MonoBehaviour
             CPUAnimator.SetLayerWeight(1, 0f);
         }
 
-        if (CPUPunch && MovementAllowed)  //punch
+        if (CPUPunch && MovementAllowed) 
         {
             MovementAllowed = false;
+            AttackAllowed = false;
             CPUAnimator.SetLayerWeight(1, 0f);
             CPUAnimator.SetTrigger("Punch");
             SendDamage = 0.08f;
-            StartCoroutine(MovementAllowReset(CPUAnimator.GetCurrentAnimatorClipInfo(0).Length));
+            StartCoroutine(AttackReset("CPUPunch",CPUAnimator.GetCurrentAnimatorClipInfo(0).Length));
             StartCoroutine(SendDamageReset(CPUAnimator.GetCurrentAnimatorClipInfo(0).Length));
+        
         }
 
-        if (CPUKick && MovementAllowed)  //kick
+        if (CPUKick && MovementAllowed) 
         {
 
             MovementAllowed = false;
-            CPUAnimator.SetTrigger("Kick");
-            if (!runningkick)
-            {
-                SendDamage = 0.15f;
-            }
-            if (runningkick)
-            {
-                SendDamage = 0.06f;
-            }
-            StartCoroutine(MovementAllowReset(CPUAnimator.GetCurrentAnimatorClipInfo(0).Length));
+            AttackAllowed = false;
+            CPUAnimator.SetLayerWeight(1, 0f);
+            CPUAnimator.SetTrigger("Kick");                           
+            SendDamage = 0.15f;          
+            StartCoroutine(AttackReset("CPUKick", CPUAnimator.GetCurrentAnimatorClipInfo(0).Length));
             StartCoroutine(SendDamageReset(CPUAnimator.GetCurrentAnimatorClipInfo(0).Length));
         }
+       if(CPURunKick)
+        {
+            AttackAllowed = false;
+            CPUAnimator.SetLayerWeight(1, 0f);
+            CPUAnimator.SetTrigger("Kick");
+            SendDamage = 0.06f;
+            StartCoroutine(AttackReset("CPURunKick", CPUAnimator.GetCurrentAnimatorClipInfo(0).Length));
+            StartCoroutine(SendDamageReset(CPUAnimator.GetCurrentAnimatorClipInfo(0).Length));
+
+        }
+
+
     }
+
+    
+
+
 
 
         void Movement(string G_Input)
@@ -257,7 +340,7 @@ public class CPU : MonoBehaviour
             MovementDirection = Vector3.back * (CPUSpeed * Time.deltaTime);
         }
 
-        if (G_Input == "Run")
+        if (G_Input == "Run")  
         {
             CPUSpeed = runSpeed;
             MovementDirection = Vector3.forward * (CPUSpeed * Time.deltaTime);
@@ -283,7 +366,6 @@ public class CPU : MonoBehaviour
         {
             damageonce = true;
             CPUAnimator.SetTrigger("HitMiddle");
-            Debug.Log("GotHit by" + other.name);
             health = health - G_GameManager.PlayerSendDamage;
             
         }
@@ -291,7 +373,6 @@ public class CPU : MonoBehaviour
         {
             damageonce = true;
             CPUAnimator.SetTrigger("HitTop");
-            Debug.Log("GotHit by" + other.name);
             health = health - G_GameManager.PlayerSendDamage;
             damagedelay = Time.time + 1f;
         }
@@ -310,9 +391,25 @@ public class CPU : MonoBehaviour
         CPUAnimator.SetLayerWeight(1, 0f);
         CPUAnimator.SetTrigger("Die");
     }
-    IEnumerator MovementAllowReset(float G_Time)
+    
+    
+
+    IEnumerator AttackReset (string G_String,float G_Time)
     {
         yield return new WaitForSeconds(G_Time);
+        if(G_String=="CPUPunch")
+        {
+            CPUPunch = false;
+        }
+        if (G_String == "CPUKick")
+        {
+            CPUKick = false;
+        }
+        if(G_String=="CPURunKick")
+        {
+            CPURunKick = false;
+        }
+        AttackAllowed = true;
         MovementAllowed = true;
     }
 
@@ -322,4 +419,12 @@ public class CPU : MonoBehaviour
         SendDamage = 0f;
     }
 
+    IEnumerator Stopretreat()
+    {
+        yield return new WaitForSeconds(2.5f);
+        stopretreating = true;
+        CPURight = false;
+     //   yield return new WaitForSeconds(5f);
+      //  stopretreating = false;
+    }    
 }
