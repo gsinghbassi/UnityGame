@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 
 public class Player : MonoBehaviour
@@ -24,10 +26,24 @@ public class Player : MonoBehaviour
     float KeyPressDelayInterval;
     public float SendDamage;   //KeepPublic   
     bool runningkick;
+    TextMeshProUGUI HitsText;
+    int hits;
+    float HitTimeCheck;
+    GameObject Effect1; //KeepPublic   
+    GameObject Effect2; //KeepPublic   
+    public Material PlayerMaterial; //Keep this public
+    Color DamageColor = new Color(0.3584906f, 0.0253649f, 0.0253649f);
+    public bool lose;
+    public bool win;
+
 
     // Start is called before the first frame update
     void Start()
     {
+        lose = false;
+        win = false;
+        HitsText = transform.Find("Hits").transform.Find("HitsText").GetComponent<TextMeshProUGUI>();
+        StartCoroutine(HitsTextReset(0f));
         damagedelay = 0f;
         damageonce = false;
         runningkick = false;
@@ -53,7 +69,9 @@ public class Player : MonoBehaviour
         verticalVelocity = -1.98f;
         KeyPressDelayInterval = 1f;
         KeyPressTimeCheck = Time.time;
-
+        Effect1 = (GameObject)AssetDatabase.LoadAssetAtPath(("Assets/Prefabs/Effects/Effect1.prefab"), typeof(GameObject));
+        Effect2 = (GameObject)AssetDatabase.LoadAssetAtPath(("Assets/Prefabs/Effects/Effect2.prefab"), typeof(GameObject));
+        PlayerMaterial.color = Color.white;
     }
 
     // Update is called once per frame
@@ -64,12 +82,15 @@ public class Player : MonoBehaviour
         {
             Die();
         }
-        if (PlayerReady)
+        if (PlayerReady&&!lose &&!win)
         {
             InputsPlayer();
         }
 
-       
+        if (win)
+        {
+            Win();
+        }
 
     }
 
@@ -194,7 +215,8 @@ public class Player : MonoBehaviour
             damageonce = true;
             PlayerAnimator.SetTrigger("HitMiddle");
             health = health - G_GameManager.CPUSendDamage;
-
+            Instantiate(Effect1, other.transform.position, Effect1.transform.rotation);
+            
         }
         if (other.tag == "P_Hand" && G_GameManager.CPUSendDamage != 0f && !damageonce && Time.time > damagedelay)
         {
@@ -202,7 +224,17 @@ public class Player : MonoBehaviour
             PlayerAnimator.SetTrigger("HitTop");
             health = health - G_GameManager.CPUSendDamage;
             damagedelay = Time.time + 1f;
+            Instantiate(Effect2, other.transform.position, Effect2.transform.rotation);
+            
         }
+        if (damageonce)
+        {
+            StartCoroutine(PlayerDamageColorChange());
+            hits++;
+            HitsText.text = hits + " Hits";
+            HitTimeCheck = Time.time + 1f;
+        }
+       
 
     }
     private void OnTriggerExit(Collider other)
@@ -210,6 +242,10 @@ public class Player : MonoBehaviour
         if (other.tag == "P_Foot" || other.tag == "P_Hand")
         {
             damageonce = false;
+            if (Time.time > HitTimeCheck)
+            {
+                StartCoroutine(HitsTextReset(0.5f));
+            }
         }
     }
 
@@ -218,9 +254,17 @@ public class Player : MonoBehaviour
 
     public void Die()
     {
+        StartCoroutine(HitsTextReset(0f));
+        PlayerAnimator.SetLayerWeight(1, 0f);
         PlayerAnimator.SetTrigger("Die");
+        lose = true;
     }
 
+    
+    public void Win()
+    {
+        PlayerAnimator.SetTrigger("Win");
+    }
 
     IEnumerator MovementAllowReset(float G_Time)
     {
@@ -232,5 +276,18 @@ public class Player : MonoBehaviour
     {
         yield return new WaitForSeconds(G_Time);
         SendDamage = 0f;
+    }
+
+    IEnumerator HitsTextReset(float G_Time)
+    {
+        yield return new WaitForSeconds(G_Time);
+        HitsText.text = "";
+        hits = 0;
+    }
+    IEnumerator PlayerDamageColorChange()
+    {
+        PlayerMaterial.color = Color.red;
+        yield return new WaitForSeconds(0.3f);
+        PlayerMaterial.color = Color.white;
     }
 }

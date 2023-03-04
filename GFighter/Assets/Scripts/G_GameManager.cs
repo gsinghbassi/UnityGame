@@ -48,6 +48,8 @@ public class G_GameManager : MonoBehaviour
         InstanceCPUCharacter.GetComponent<CPU>().enabled = true;
         InstancePlayerCharacter.GetComponent<Animator>().SetBool("GameMode", true);
         InstanceCPUCharacter.GetComponent<Animator>().SetBool("GameMode", true);
+        InstancePlayerCharacter.GetComponent<Player>().PlayerMaterial= (Material)AssetDatabase.LoadAssetAtPath(("Assets/Materials/" + PlayerCharacter.name + ".mat"), typeof(Material));
+        InstanceCPUCharacter.GetComponent<CPU>().CPUMaterial= (Material)AssetDatabase.LoadAssetAtPath(("Assets/Materials/" + CPUCharacter.name + ".mat"), typeof(Material));
         //InstancePlayerCharacter.GetComponent<CPU>().enabled = false;
         Destroy(InstancePlayerCharacter.GetComponent<CPU>());        
         //InstanceCPUCharacter.GetComponent<Player>().enabled = false;
@@ -65,7 +67,14 @@ public class G_GameManager : MonoBehaviour
         PlayerDistanceCheck();
         PlayerSendDamage = InstancePlayerCharacter.GetComponent<Player>().SendDamage; 
         CPUSendDamage = InstanceCPUCharacter.GetComponent<CPU>().SendDamage;      
-
+        if(InstancePlayerCharacter.GetComponent<Player>().lose)
+        {
+            InstanceCPUCharacter.GetComponent<CPU>().win = true;
+        }
+        else if (InstanceCPUCharacter.GetComponent<CPU>().lose)
+        {
+            InstancePlayerCharacter.GetComponent<Player>().win = true;
+        }
     }
 
     void PlayerDistanceCheck()

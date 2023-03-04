@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 using UnityEngine.SceneManagement;
-
+using TMPro;
 
 public class CPU : MonoBehaviour
 {
@@ -25,12 +26,19 @@ public class CPU : MonoBehaviour
     float KeyPressDelayInterval;
     public float SendDamage;    
     G_GameManager GameManagerReference;
+    TextMeshProUGUI HitsText;
+    int hits;
+    float HitTimeCheck;
+    GameObject Effect1;
+    GameObject Effect2;
+    public Material CPUMaterial; //Keep this public
+    
 
 
     //CPU AI
     float PlayerCPUDistance;
-    public bool CPULeft;
-    public bool CPURight;
+    bool CPULeft;
+    bool CPURight;
     bool CPUKick;
     bool CPURunKick;
     bool CPUPunch;
@@ -49,14 +57,19 @@ public class CPU : MonoBehaviour
     int PunchCount;
     bool AttackAllowed;   
     bool stopretreating;
-    
+    public bool lose; //KeepPublic   
+    public bool win; //KeepPublic   
 
 
     // Start is called before the first frame update
     void Start()
     {
-       
-       gotoPlayer = false;
+        lose = false;
+        win = false;
+        HitsText = transform.Find("Hits").transform.Find("HitsText").GetComponent<TextMeshProUGUI>();
+        StartCoroutine(HitsTextReset(0f));
+        transform.Find("Hits").transform.Find("HitsText").Rotate(0, 180, 0);
+        gotoPlayer = false;
         stopretreating = false;
         AttackAllowed =true;
         CPUWaitUpdated = false;
@@ -92,6 +105,9 @@ public class CPU : MonoBehaviour
         verticalVelocity = -1.98f;
         KeyPressDelayInterval = 1f;
         KeyPressTimeCheck = Time.time;
+        Effect1 = (GameObject)AssetDatabase.LoadAssetAtPath(("Assets/Prefabs/Effects/Effect1.prefab"), typeof(GameObject));
+        Effect2 = (GameObject)AssetDatabase.LoadAssetAtPath(("Assets/Prefabs/Effects/Effect2.prefab"), typeof(GameObject));
+        CPUMaterial.color = Color.white;
     }
 
     // Update is called once per frame
@@ -102,13 +118,16 @@ public class CPU : MonoBehaviour
         { 
             Die();
         }
-        if (CPUReady&&health>0)
+        if (CPUReady&&!lose&&!win)
         {
             InputsCPU();
             CPUAI();
         }   
         
-        
+        if(win)
+        {
+            Win();
+        }
        
     }
 
@@ -367,6 +386,7 @@ public class CPU : MonoBehaviour
             damageonce = true;
             CPUAnimator.SetTrigger("HitMiddle");
             health = health - G_GameManager.PlayerSendDamage;
+            Instantiate(Effect1,other.transform.position, Effect1.transform.rotation);
             
         }
         if (other.tag == "P_Hand" && G_GameManager.PlayerSendDamage!=0f && !damageonce &&Time.time>damagedelay)
@@ -375,6 +395,14 @@ public class CPU : MonoBehaviour
             CPUAnimator.SetTrigger("HitTop");
             health = health - G_GameManager.PlayerSendDamage;
             damagedelay = Time.time + 1f;
+            Instantiate(Effect2, other.transform.position, Effect2.transform.rotation);
+        }
+        if (damageonce)
+        {
+            StartCoroutine(CPUDamageColorChange());
+            hits++;
+            HitsText.text = hits + " Hits";
+            HitTimeCheck = Time.time + 1f;
         }
 
     }
@@ -383,16 +411,25 @@ public class CPU : MonoBehaviour
         if (other.tag == "P_Foot" || other.tag == "P_Hand")
         {
             damageonce = false;
+            if (Time.time > HitTimeCheck)
+            {
+                StartCoroutine(HitsTextReset(0.5f));
+            }
         }
     }
 
         public void Die()
     {
+        StartCoroutine(HitsTextReset(0f));
         CPUAnimator.SetLayerWeight(1, 0f);
         CPUAnimator.SetTrigger("Die");
+        lose = true;
     }
-    
-    
+
+    public void Win()
+    {
+        CPUAnimator.SetTrigger("Win");
+    }
 
     IEnumerator AttackReset (string G_String,float G_Time)
     {
@@ -426,5 +463,17 @@ public class CPU : MonoBehaviour
         CPURight = false;
      //   yield return new WaitForSeconds(5f);
       //  stopretreating = false;
-    }    
+    }
+    IEnumerator HitsTextReset(float G_Time)
+    {
+        yield return new WaitForSeconds(G_Time);
+        HitsText.text = "";
+        hits = 0;
+    }
+    IEnumerator CPUDamageColorChange()
+    {
+        CPUMaterial.color = Color.red;
+        yield return new WaitForSeconds(0.3f);
+        CPUMaterial.color = Color.white;
+    }
 }
