@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using UnityEngine.UI;
+using TMPro;
 
 public class G_GameManager : MonoBehaviour
 {   
@@ -22,17 +23,27 @@ public class G_GameManager : MonoBehaviour
     public Image CPUHealth;
     public static float PlayerSendDamage;
     public static float CPUSendDamage;
-
+    public TextMeshProUGUI WinLoseText;
 
     CameraControls CameraController;
     float PlayerPositionZ;
     float CPUPositionZ;
     public float PlayerCPUpositionDifference;
     float maxDistancebetweenPlayers = 8f;
+    GameObject MainCamera;
+    GameObject PlayerCamera;
+    GameObject CPUCamera;
+    GameObject inGameMenu;
+    
+
+
 
     // Start is called before the first frame update
     void Start()
     {
+        MainCamera = GameObject.Find("Camera");
+        MainCamera.SetActive(true);
+        
         StartCoroutine(PlayerandCPUReady());
         CameraController = GameObject.Find("Camera").GetComponent<CameraControls>();
         SelectedPlayerCharacter = PlayerPrefs.GetInt("SelectedPlayerCharacter");
@@ -43,6 +54,8 @@ public class G_GameManager : MonoBehaviour
         CPUPicture.sprite = (Sprite)AssetDatabase.LoadAssetAtPath(("Assets/CharacterPhotos/"+ CPUCharacter.name+".png"), typeof(Sprite));
         InstancePlayerCharacter=Instantiate(PlayerCharacter, PlayerStartPosition.position, PlayerStartPosition.rotation);
         InstanceCPUCharacter=Instantiate(CPUCharacter, CPUStartPosition.position, CPUStartPosition.rotation);
+        CameraController.PlayerCharacter = InstancePlayerCharacter;
+        CameraController.CPUCharacter = InstanceCPUCharacter;
         InstanceCPUCharacter.transform.localScale = new Vector3(-1f, InstanceCPUCharacter.transform.localScale.y, InstanceCPUCharacter.transform.localScale.z);
         InstancePlayerCharacter.GetComponent<Player>().enabled = true;
         InstanceCPUCharacter.GetComponent<CPU>().enabled = true;
@@ -50,13 +63,15 @@ public class G_GameManager : MonoBehaviour
         InstanceCPUCharacter.GetComponent<Animator>().SetBool("GameMode", true);
         InstancePlayerCharacter.GetComponent<Player>().PlayerMaterial= (Material)AssetDatabase.LoadAssetAtPath(("Assets/Materials/" + PlayerCharacter.name + ".mat"), typeof(Material));
         InstanceCPUCharacter.GetComponent<CPU>().CPUMaterial= (Material)AssetDatabase.LoadAssetAtPath(("Assets/Materials/" + CPUCharacter.name + ".mat"), typeof(Material));
-        //InstancePlayerCharacter.GetComponent<CPU>().enabled = false;
-        Destroy(InstancePlayerCharacter.GetComponent<CPU>());        
-        //InstanceCPUCharacter.GetComponent<Player>().enabled = false;
+        Destroy(InstancePlayerCharacter.GetComponent<CPU>()); 
         Destroy(InstanceCPUCharacter.GetComponent<Player>());
-        CameraController.PlayerCharacter = InstancePlayerCharacter;
-        CameraController.CPUCharacter = InstanceCPUCharacter;
-       
+        
+        PlayerCamera =InstancePlayerCharacter.transform.Find("Camera").gameObject;
+        PlayerCamera.SetActive(false);
+        CPUCamera = InstanceCPUCharacter.transform.Find("Camera").gameObject;
+        CPUCamera.SetActive(false);
+        WinLoseText.text = "";
+        inGameMenu = GameObject.Find("CanvasMenu");
     }
 
     // Update is called once per frame
@@ -70,10 +85,27 @@ public class G_GameManager : MonoBehaviour
         if(InstancePlayerCharacter.GetComponent<Player>().lose)
         {
             InstanceCPUCharacter.GetComponent<CPU>().win = true;
+            InstancePlayerCharacter.SetActive(false);
+            MainCamera.SetActive(false);
+            CPUCamera.SetActive(true);
+            WinLoseText.text = "YOU LOSE";
+            inGameMenu.transform.Find("MenuButtons").transform.Find("RESUME").gameObject.SetActive(false);
+            inGameMenu.GetComponent<InGameMenu>().MenuActiveDeactive();
+            inGameMenu.GetComponent<InGameMenu>().menuallowed = false;
+            Time.timeScale = 1f;
+            
         }
         else if (InstanceCPUCharacter.GetComponent<CPU>().lose)
         {
             InstancePlayerCharacter.GetComponent<Player>().win = true;
+            InstanceCPUCharacter.SetActive(false);
+            MainCamera.SetActive(false);
+            PlayerCamera.SetActive(true);
+            WinLoseText.text = "YOU WIN";
+            inGameMenu.transform.Find("MenuButtons").transform.Find("RESUME").gameObject.SetActive(false);
+            inGameMenu.GetComponent<InGameMenu>().MenuActiveDeactive();
+            inGameMenu.GetComponent<InGameMenu>().menuallowed = false;
+            Time.timeScale = 1f;
         }
     }
 

@@ -376,33 +376,36 @@ public class CPU : MonoBehaviour
 
     void Gravity()
     {
-        //PlayerController.Move((new Vector3(0.0f,verticalVelocity,0.0f)*Time.deltaTime));
+        //CPUController.Move((new Vector3(0.0f,verticalVelocity,0.0f)*Time.deltaTime));
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "P_Foot" && G_GameManager.PlayerSendDamage!=0f && !damageonce)
+        if (!win)
         {
-            damageonce = true;
-            CPUAnimator.SetTrigger("HitMiddle");
-            health = health - G_GameManager.PlayerSendDamage;
-            Instantiate(Effect1,other.transform.position, Effect1.transform.rotation);
-            
-        }
-        if (other.tag == "P_Hand" && G_GameManager.PlayerSendDamage!=0f && !damageonce &&Time.time>damagedelay)
-        {
-            damageonce = true;
-            CPUAnimator.SetTrigger("HitTop");
-            health = health - G_GameManager.PlayerSendDamage;
-            damagedelay = Time.time + 1f;
-            Instantiate(Effect2, other.transform.position, Effect2.transform.rotation);
-        }
-        if (damageonce)
-        {
-            StartCoroutine(CPUDamageColorChange());
-            hits++;
-            HitsText.text = hits + " Hits";
-            HitTimeCheck = Time.time + 1f;
+            if (other.tag == "P_Foot" && G_GameManager.PlayerSendDamage != 0f && !damageonce)
+            {
+                damageonce = true;
+                CPUAnimator.SetTrigger("HitMiddle");
+                health = health - G_GameManager.PlayerSendDamage;
+                Instantiate(Effect1, other.transform.position, Effect1.transform.rotation);
+
+            }
+            if (other.tag == "P_Hand" && G_GameManager.PlayerSendDamage != 0f && !damageonce && Time.time > damagedelay)
+            {
+                damageonce = true;
+                CPUAnimator.SetTrigger("HitTop");
+                health = health - G_GameManager.PlayerSendDamage;
+                damagedelay = Time.time + 1f;
+                Instantiate(Effect2, other.transform.position, Effect2.transform.rotation);
+            }
+            if (damageonce)
+            {
+                StartCoroutine(CPUDamageColorChange());
+                hits++;
+                HitsText.text = hits + " Hits";
+                HitTimeCheck = Time.time + 1f;
+            }
         }
 
     }
@@ -428,7 +431,21 @@ public class CPU : MonoBehaviour
 
     public void Win()
     {
-        CPUAnimator.SetTrigger("Win");
+
+        ClearTriggers();
+        CPUAnimator.SetTrigger("Win");        
+        StartCoroutine(HitsTextReset(0f));
+    }
+
+    void ClearTriggers()
+    {
+
+        CPUAnimator.ResetTrigger("HitTop");
+        CPUAnimator.ResetTrigger("HitMiddle");
+        CPUAnimator.ResetTrigger("Kick");
+        CPUAnimator.ResetTrigger("Punch");
+        CPUAnimator.ResetTrigger("Jump");
+
     }
 
     IEnumerator AttackReset (string G_String,float G_Time)
@@ -476,4 +493,5 @@ public class CPU : MonoBehaviour
         yield return new WaitForSeconds(0.3f);
         CPUMaterial.color = Color.white;
     }
+    
 }

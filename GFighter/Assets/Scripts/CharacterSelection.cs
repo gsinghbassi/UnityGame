@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.Audio;
@@ -20,7 +21,7 @@ public class CharacterSelection : MonoBehaviour
     bool CPUCharacterSelected;
     Transform UISelectedCharacter;
     public int maxCharacters;
-    GameObject[] Characters;
+    public GameObject[] Characters;
     GameObject[] CharactersPlayers3DModels;
     GameObject[] CharactersCPU3DModels;
     Transform G_3Dmodels;
@@ -37,6 +38,7 @@ public class CharacterSelection : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Time.timeScale = 1f;
         StartCoroutine(PrepareSelection());
         selectionready = false;
         PlayerCharacterSelected = false;
@@ -55,7 +57,8 @@ public class CharacterSelection : MonoBehaviour
             Characters[i] = transform.Find("Characters").transform.GetChild(i).gameObject;
             CharactersPlayers3DModels[i] = G_3Dmodels.Find("Player").transform.GetChild(i).gameObject;
             CharactersCPU3DModels[i] = G_3Dmodels.Find("Cpu").transform.GetChild(i).gameObject;
-         }
+            MaterialReset(CharactersPlayers3DModels[i].name);
+        }
         SelectedCharacter = 0;
         SelectedPreviousCharacter = SelectedCharacter;
         
@@ -173,6 +176,12 @@ public class CharacterSelection : MonoBehaviour
 
     }
 
+    void MaterialReset(string G_Name)
+    {
+      
+       Material FixMat=(Material)AssetDatabase.LoadAssetAtPath(("Assets/Materials/" + G_Name + ".mat"), typeof(Material));
+       FixMat.color= Color.white;
+    }
 
     void ChangeText(int G_Input)
     {

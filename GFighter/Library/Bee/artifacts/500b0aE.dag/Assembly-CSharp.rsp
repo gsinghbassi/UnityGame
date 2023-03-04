@@ -340,6 +340,7 @@
 "Assets/Scripts/CPU.cs"
 "Assets/Scripts/Effect.cs"
 "Assets/Scripts/G_GameManager.cs"
+"Assets/Scripts/InGameMenu.cs"
 "Assets/Scripts/Menu.cs"
 "Assets/Scripts/Player.cs"
 "Assets/Scripts/Playerbkp.cs"

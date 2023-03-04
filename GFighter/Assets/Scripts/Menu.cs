@@ -31,12 +31,7 @@ public class Menu : MonoBehaviour
         MenuOptions.SetActive(false);
         MenuCredits.SetActive(false);
         MusicToggle = MenuOptions.transform.Find("MusicToggle").GetComponent<Toggle>();        
-        LoadSettings();
-        
-
-
-
-
+        LoadSettings();     
     }
 
     // Update is called once per frame

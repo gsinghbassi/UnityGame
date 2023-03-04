@@ -263,7 +263,20 @@ public class Player : MonoBehaviour
     
     public void Win()
     {
+        ClearTriggers();
         PlayerAnimator.SetTrigger("Win");
+        StartCoroutine(HitsTextReset(0f));
+    }
+
+    void ClearTriggers()
+    {
+
+        PlayerAnimator.ResetTrigger("HitTop");
+        PlayerAnimator.ResetTrigger("HitMiddle");
+        PlayerAnimator.ResetTrigger("Kick");
+        PlayerAnimator.ResetTrigger("Punch");
+        PlayerAnimator.ResetTrigger("Jump");
+
     }
 
     IEnumerator MovementAllowReset(float G_Time)
@@ -290,4 +303,6 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(0.3f);
         PlayerMaterial.color = Color.white;
     }
+   
+    
 }

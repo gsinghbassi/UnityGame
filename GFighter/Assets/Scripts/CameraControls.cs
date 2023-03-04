@@ -26,8 +26,7 @@ public class CameraControls : MonoBehaviour
         CameraX = CameraXmin;
         CameraCenterPosition = (PlayerpositionZ + CPUpositionZ) / 2;
         CameraCenterPositionPrevious = CameraCenterPosition;
-        DistanceBetweenPlayerandCPU = Vector3.Distance(PlayerCharacter.transform.position, CPUCharacter.transform.position);
-        DistanceBetweenPlayerandCPUPrevious = DistanceBetweenPlayerandCPU;
+        StartCoroutine(FirstCheckDelay());
     }
 
     // Update is called once per frame
@@ -56,5 +55,12 @@ public class CameraControls : MonoBehaviour
             DistanceBetweenPlayerandCPUPrevious = DistanceBetweenPlayerandCPU;
         }
         transform.position = new Vector3(CameraX, transform.position.y, CameraCenterPosition);
+    }
+
+    IEnumerator FirstCheckDelay()
+    {
+        yield return new WaitForSeconds(1f);
+        DistanceBetweenPlayerandCPU = Vector3.Distance(PlayerCharacter.transform.position, CPUCharacter.transform.position);
+        DistanceBetweenPlayerandCPUPrevious = DistanceBetweenPlayerandCPU;
     }
 }
