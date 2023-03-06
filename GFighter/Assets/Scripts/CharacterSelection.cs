@@ -33,6 +33,8 @@ public class CharacterSelection : MonoBehaviour
     public AudioClip ClickSound;
     public AudioClip CharacterMoveSound;
     public AudioClip CharacterSelectSound;
+    public AudioClip BellSound;
+
     bool selectionready;
 
     // Start is called before the first frame update
@@ -207,6 +209,7 @@ public class CharacterSelection : MonoBehaviour
 
     IEnumerator LoadScene()
     {
+        AudioPlayer.PlayOneShot(BellSound);
         yield return new WaitForSeconds(3.5f);
         SceneManager.LoadScene("3-FightingArena");
     }

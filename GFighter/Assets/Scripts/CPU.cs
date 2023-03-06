@@ -23,7 +23,7 @@ public class CPU : MonoBehaviour
     float damagedelay;
 
     float KeyPressTimeCheck;
-    float KeyPressDelayInterval;
+    
     public float SendDamage;    
     G_GameManager GameManagerReference;
     TextMeshProUGUI HitsText;
@@ -59,11 +59,26 @@ public class CPU : MonoBehaviour
     bool stopretreating;
     public bool lose; //KeepPublic   
     public bool win; //KeepPublic   
+    
 
+
+
+    //Audio Controls
+    AudioSource CPUAudioController;
+    AudioClip GS_Punch;
+    AudioClip GS_Kick;
+    AudioClip GS_Damage;
+    AudioClip GS_Jump;
+    AudioClip GS_Die;   
+    AudioClip GS_Lose;   
+    AudioClip GS_YouLose;   
+    AudioClip GS_Footsteps;
+    bool WinSoundActivated;
 
     // Start is called before the first frame update
     void Start()
     {
+        CPUAudioController = GetComponent<AudioSource>();
         lose = false;
         win = false;
         HitsText = transform.Find("Hits").transform.Find("HitsText").GetComponent<TextMeshProUGUI>();
@@ -102,12 +117,19 @@ public class CPU : MonoBehaviour
         }
 
 
-        verticalVelocity = -1.98f;
-        KeyPressDelayInterval = 1f;
+        verticalVelocity = -1.98f;        
         KeyPressTimeCheck = Time.time;
         Effect1 = (GameObject)AssetDatabase.LoadAssetAtPath(("Assets/Prefabs/Effects/Effect1.prefab"), typeof(GameObject));
         Effect2 = (GameObject)AssetDatabase.LoadAssetAtPath(("Assets/Prefabs/Effects/Effect2.prefab"), typeof(GameObject));
         CPUMaterial.color = Color.white;
+        GS_Punch = (AudioClip)AssetDatabase.LoadAssetAtPath(("Assets/Audio/Punch.mp3"), typeof(AudioClip));
+        GS_Kick = (AudioClip)AssetDatabase.LoadAssetAtPath(("Assets/Audio/Kick.mp3"), typeof(AudioClip));
+        GS_Damage = (AudioClip)AssetDatabase.LoadAssetAtPath(("Assets/Audio/Damage.mp3"), typeof(AudioClip));
+        GS_Jump = (AudioClip)AssetDatabase.LoadAssetAtPath(("Assets/Audio/Jump.mp3"), typeof(AudioClip));
+        GS_Die = (AudioClip)AssetDatabase.LoadAssetAtPath(("Assets/Audio/Die.mp3"), typeof(AudioClip));
+        GS_Lose = (AudioClip)AssetDatabase.LoadAssetAtPath(("Assets/Audio/Lose.mp3"), typeof(AudioClip));
+        GS_YouLose = (AudioClip)AssetDatabase.LoadAssetAtPath(("Assets/Audio/YouLose.mp3"), typeof(AudioClip));
+        GS_Footsteps = (AudioClip)AssetDatabase.LoadAssetAtPath(("Assets/Audio/FootSteps.mp3"), typeof(AudioClip));
     }
 
     // Update is called once per frame
@@ -315,6 +337,7 @@ public class CPU : MonoBehaviour
             AttackAllowed = false;
             CPUAnimator.SetLayerWeight(1, 0f);
             CPUAnimator.SetTrigger("Punch");
+            CPUAudioController.PlayOneShot(GS_Punch);
             SendDamage = 0.08f;
             StartCoroutine(AttackReset("CPUPunch",CPUAnimator.GetCurrentAnimatorClipInfo(0).Length));
             StartCoroutine(SendDamageReset(CPUAnimator.GetCurrentAnimatorClipInfo(0).Length));
@@ -327,7 +350,8 @@ public class CPU : MonoBehaviour
             MovementAllowed = false;
             AttackAllowed = false;
             CPUAnimator.SetLayerWeight(1, 0f);
-            CPUAnimator.SetTrigger("Kick");                           
+            CPUAnimator.SetTrigger("Kick");
+            CPUAudioController.PlayOneShot(GS_Kick);
             SendDamage = 0.15f;          
             StartCoroutine(AttackReset("CPUKick", CPUAnimator.GetCurrentAnimatorClipInfo(0).Length));
             StartCoroutine(SendDamageReset(CPUAnimator.GetCurrentAnimatorClipInfo(0).Length));
@@ -401,6 +425,7 @@ public class CPU : MonoBehaviour
             }
             if (damageonce)
             {
+                CPUAudioController.PlayOneShot(GS_Damage);
                 StartCoroutine(CPUDamageColorChange());
                 hits++;
                 HitsText.text = hits + " Hits";
@@ -426,6 +451,7 @@ public class CPU : MonoBehaviour
         StartCoroutine(HitsTextReset(0f));
         CPUAnimator.SetLayerWeight(1, 0f);
         CPUAnimator.SetTrigger("Die");
+        CPUAudioController.PlayOneShot(GS_Die);
         lose = true;
     }
 
@@ -433,9 +459,21 @@ public class CPU : MonoBehaviour
     {
 
         ClearTriggers();
+        PlayVictorySound();      
         CPUAnimator.SetTrigger("Win");        
         StartCoroutine(HitsTextReset(0f));
     }
+
+    void PlayVictorySound()
+    {
+        if (!WinSoundActivated)
+        {
+            CPUAudioController.PlayOneShot(GS_Lose);
+            CPUAudioController.PlayOneShot(GS_YouLose);
+            WinSoundActivated = true;
+        }
+    }
+
 
     void ClearTriggers()
     {

@@ -52,25 +52,29 @@ public class InGameMenu : MonoBehaviour
     }
     public void QuitGame()
     {
-        
+        AudioPlayer.PlayOneShot(ClickSound, 1f);
         Application.Quit();
     }
 
     public void QuitToMenu()
     {
+        AudioPlayer.PlayOneShot(ClickSound, 1f);
         SceneManager.LoadScene(0);
     }
     public void Restart()
     {
+        AudioPlayer.PlayOneShot(ClickSound, 1f);
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
     public void Resume()
     {
+        AudioPlayer.PlayOneShot(ClickSound, 1f);
         MenuButtons.SetActive(false);
         UnPause();
     }
     void Pause()
     {
+        AudioPlayer.PlayOneShot(ClickSound, 1f);
         Time.timeScale = 0f;
     }
     void UnPause()

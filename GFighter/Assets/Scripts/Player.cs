@@ -33,13 +33,28 @@ public class Player : MonoBehaviour
     GameObject Effect2; //KeepPublic   
     public Material PlayerMaterial; //Keep this public
     Color DamageColor = new Color(0.3584906f, 0.0253649f, 0.0253649f);
-    public bool lose;
-    public bool win;
+    public bool lose; //KeepPublic   
+    public bool win; //KeepPublic   
+
+
+
+    //Audio Controls
+    AudioSource PlayerAudioController;
+    AudioClip GS_Punch;
+    AudioClip GS_Kick;
+    AudioClip GS_Damage;
+    AudioClip GS_Die;
+    AudioClip GS_Jump;
+    AudioClip GS_Win;
+    AudioClip GS_YouWin;
+    AudioClip GS_Footsteps;
+    bool WinSoundActivated;
 
 
     // Start is called before the first frame update
     void Start()
     {
+        PlayerAudioController = GetComponent<AudioSource>();
         lose = false;
         win = false;
         HitsText = transform.Find("Hits").transform.Find("HitsText").GetComponent<TextMeshProUGUI>();
@@ -72,6 +87,16 @@ public class Player : MonoBehaviour
         Effect1 = (GameObject)AssetDatabase.LoadAssetAtPath(("Assets/Prefabs/Effects/Effect1.prefab"), typeof(GameObject));
         Effect2 = (GameObject)AssetDatabase.LoadAssetAtPath(("Assets/Prefabs/Effects/Effect2.prefab"), typeof(GameObject));
         PlayerMaterial.color = Color.white;
+
+        GS_Punch = (AudioClip)AssetDatabase.LoadAssetAtPath(("Assets/Audio/Punch.mp3"), typeof(AudioClip));
+        GS_Kick = (AudioClip)AssetDatabase.LoadAssetAtPath(("Assets/Audio/Kick.mp3"), typeof(AudioClip));
+        GS_Damage = (AudioClip)AssetDatabase.LoadAssetAtPath(("Assets/Audio/Damage.mp3"), typeof(AudioClip));
+        GS_Jump = (AudioClip)AssetDatabase.LoadAssetAtPath(("Assets/Audio/Jump.mp3"), typeof(AudioClip));
+        GS_Die = (AudioClip)AssetDatabase.LoadAssetAtPath(("Assets/Audio/Die.mp3"), typeof(AudioClip));
+        GS_Win = (AudioClip)AssetDatabase.LoadAssetAtPath(("Assets/Audio/Win.mp3"), typeof(AudioClip));
+        GS_YouWin = (AudioClip)AssetDatabase.LoadAssetAtPath(("Assets/Audio/YouWin.mp3"), typeof(AudioClip));
+        GS_Footsteps = (AudioClip)AssetDatabase.LoadAssetAtPath(("Assets/Audio/FootSteps.mp3"), typeof(AudioClip));
+
     }
 
     // Update is called once per frame
@@ -147,11 +172,22 @@ public class Player : MonoBehaviour
             PlayerAnimator.SetLayerWeight(1, 0f);
         }
 
+        if(Input.GetKeyDown(KeyCode.Space) && MovementAllowed)
+        {
+            MovementAllowed = false;
+            PlayerAnimator.SetLayerWeight(1, 0f);
+            PlayerAnimator.SetTrigger("Jump");
+            PlayerAudioController.PlayOneShot(GS_Jump);
+            StartCoroutine(MovementAllowReset(PlayerAnimator.GetCurrentAnimatorClipInfo(0).Length));
+            
+        }
+
         if (Input.GetKeyDown("z") && MovementAllowed)  //punch
         {
             MovementAllowed = false;
             PlayerAnimator.SetLayerWeight(1, 0f);
             PlayerAnimator.SetTrigger("Punch");
+            PlayerAudioController.PlayOneShot(GS_Punch);
             SendDamage = 0.08f;
             StartCoroutine(MovementAllowReset(PlayerAnimator.GetCurrentAnimatorClipInfo(0).Length));
             StartCoroutine(SendDamageReset(PlayerAnimator.GetCurrentAnimatorClipInfo(0).Length));
@@ -162,6 +198,7 @@ public class Player : MonoBehaviour
 
             MovementAllowed = false;
             PlayerAnimator.SetTrigger("Kick");
+            PlayerAudioController.PlayOneShot(GS_Kick);
             if (!runningkick)
             {
                 SendDamage = 0.15f;
@@ -229,6 +266,7 @@ public class Player : MonoBehaviour
         }
         if (damageonce)
         {
+            PlayerAudioController.PlayOneShot(GS_Damage);
             StartCoroutine(PlayerDamageColorChange());
             hits++;
             HitsText.text = hits + " Hits";
@@ -257,6 +295,7 @@ public class Player : MonoBehaviour
         StartCoroutine(HitsTextReset(0f));
         PlayerAnimator.SetLayerWeight(1, 0f);
         PlayerAnimator.SetTrigger("Die");
+        PlayerAudioController.PlayOneShot(GS_Die);
         lose = true;
     }
 
@@ -264,8 +303,20 @@ public class Player : MonoBehaviour
     public void Win()
     {
         ClearTriggers();
+        PlayVictorySound();
         PlayerAnimator.SetTrigger("Win");
+        PlayerAnimator.SetLayerWeight(1, 0f);
         StartCoroutine(HitsTextReset(0f));
+    }
+
+    void PlayVictorySound()
+    {
+        if (!WinSoundActivated)
+        {
+            PlayerAudioController.PlayOneShot(GS_Win);
+            PlayerAudioController.PlayOneShot(GS_YouWin);
+            WinSoundActivated = true;
+        }
     }
 
     void ClearTriggers()

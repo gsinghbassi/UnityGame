@@ -326,9 +326,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxCharacters: 0
+  Characters: []
   ClickSound: {fileID: 8300000, guid: f23a3eae547d70c4690fc914729930e9, type: 3}
   CharacterMoveSound: {fileID: 8300000, guid: 67a095d55cf11d54482509cdc62ff8da, type: 3}
   CharacterSelectSound: {fileID: 8300000, guid: bfa317822d717034f9fedab79159ee3e, type: 3}
+  BellSound: {fileID: 8300000, guid: 0564950fd81c7674a9affbdeffdbcc42, type: 3}
 --- !u!82 &14353949
 AudioSource:
   m_ObjectHideFlags: 0
