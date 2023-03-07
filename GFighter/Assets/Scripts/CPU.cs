@@ -130,6 +130,7 @@ public class CPU : MonoBehaviour
         GS_Lose = (AudioClip)AssetDatabase.LoadAssetAtPath(("Assets/Audio/Lose.mp3"), typeof(AudioClip));
         GS_YouLose = (AudioClip)AssetDatabase.LoadAssetAtPath(("Assets/Audio/YouLose.mp3"), typeof(AudioClip));
         GS_Footsteps = (AudioClip)AssetDatabase.LoadAssetAtPath(("Assets/Audio/FootSteps.mp3"), typeof(AudioClip));
+        GetAllChildrenRecursive(gameObject);
     }
 
     // Update is called once per frame
@@ -484,6 +485,27 @@ public class CPU : MonoBehaviour
         CPUAnimator.ResetTrigger("Punch");
         CPUAnimator.ResetTrigger("Jump");
 
+    }
+
+    void GetAllChildrenRecursive(GameObject parent)
+    {
+        // Loop through all the children of the parent object
+        foreach (Transform child in parent.transform)
+        {
+            // Do something with the child (add it to a list, for example)
+            Debug.Log(child.name);
+            if (child.tag == "P_Hand")
+            {
+                child.tag = "CPU_Hand";
+            }
+            else if (child.tag == "P_Foot")
+            {
+                child.tag = "CPU_Foot";
+            }
+
+            // Call the function recursively to get all children of the child object
+            GetAllChildrenRecursive(child.gameObject);
+        }
     }
 
     IEnumerator AttackReset (string G_String,float G_Time)

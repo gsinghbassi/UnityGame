@@ -6,6 +6,7 @@ TagManager:
   tags:
   - P_Foot
   - P_Hand
+  - CPU_Foot
   layers:
   - Default
   - TransparentFX

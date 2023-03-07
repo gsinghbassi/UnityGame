@@ -35,7 +35,8 @@ public class Player : MonoBehaviour
     Color DamageColor = new Color(0.3584906f, 0.0253649f, 0.0253649f);
     public bool lose; //KeepPublic   
     public bool win; //KeepPublic   
-
+    bool JumpAttackAllowed;
+    bool JumpAttackinProgress;
 
 
     //Audio Controls
@@ -54,6 +55,7 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        JumpAttackAllowed = false;
         PlayerAudioController = GetComponent<AudioSource>();
         lose = false;
         win = false;
@@ -163,7 +165,14 @@ public class Player : MonoBehaviour
         {
             Movement("Left");
             PlayerAnimator.SetBool("WalkBack", true);
-            PlayerAnimator.SetLayerWeight(1, 1f);
+            if (!JumpAttackinProgress)
+            {
+                PlayerAnimator.SetLayerWeight(1, 1f);
+            }
+            else if (JumpAttackinProgress)
+            {
+                PlayerAnimator.SetLayerWeight(1, 0f);
+            }
 
         }
         if (Input.GetKeyUp(KeyCode.LeftArrow) || PlayermaxDistanceReached)
@@ -174,15 +183,37 @@ public class Player : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.Space) && MovementAllowed)
         {
-            MovementAllowed = false;
+            JumpAttackAllowed = true;
             PlayerAnimator.SetLayerWeight(1, 0f);
             PlayerAnimator.SetTrigger("Jump");
-            PlayerAudioController.PlayOneShot(GS_Jump);
-            StartCoroutine(MovementAllowReset(PlayerAnimator.GetCurrentAnimatorClipInfo(0).Length));
-            
+            PlayerAudioController.PlayOneShot(GS_Jump);            
+            StartCoroutine(PlayerJumpAttackReset());
         }
 
-        if (Input.GetKeyDown("z") && MovementAllowed)  //punch
+        
+        if (Input.GetKeyDown("z") && JumpAttackAllowed)
+        {
+            JumpAttackAllowed = false;
+            JumpAttackinProgress = true;
+            PlayerAnimator.SetLayerWeight(1, 0f);
+            PlayerAnimator.SetTrigger("JumpPunch"); 
+            PlayerAudioController.PlayOneShot(GS_Punch);
+            SendDamage = 0.12f;
+            StartCoroutine(PlayerJumpinProgressReset(PlayerAnimator.GetCurrentAnimatorClipInfo(0).Length));
+            StartCoroutine(SendDamageReset(PlayerAnimator.GetCurrentAnimatorClipInfo(0).Length));
+        }
+        if (Input.GetKeyDown("x") && JumpAttackAllowed)
+        {
+            JumpAttackAllowed = false;
+            JumpAttackinProgress = true;
+            PlayerAnimator.SetTrigger("JumpKick");
+            PlayerAudioController.PlayOneShot(GS_Kick);
+            SendDamage = 0.18f;
+            StartCoroutine(PlayerJumpinProgressReset(PlayerAnimator.GetCurrentAnimatorClipInfo(0).Length));
+            StartCoroutine(SendDamageReset(PlayerAnimator.GetCurrentAnimatorClipInfo(0).Length));
+        }
+
+        if (Input.GetKeyDown("z") && MovementAllowed &&!JumpAttackinProgress)  //punch
         {
             MovementAllowed = false;
             PlayerAnimator.SetLayerWeight(1, 0f);
@@ -192,8 +223,8 @@ public class Player : MonoBehaviour
             StartCoroutine(MovementAllowReset(PlayerAnimator.GetCurrentAnimatorClipInfo(0).Length));
             StartCoroutine(SendDamageReset(PlayerAnimator.GetCurrentAnimatorClipInfo(0).Length));
         }
-
-        if (Input.GetKeyDown("x") && MovementAllowed)  //kick
+        
+         if (Input.GetKeyDown("x") && MovementAllowed && !JumpAttackinProgress)  //kick
         {
 
             MovementAllowed = false;
@@ -247,21 +278,23 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "P_Foot" && G_GameManager.CPUSendDamage != 0f && !damageonce)
+        if (other.tag == "CPU_Foot" && G_GameManager.CPUSendDamage != 0f && !damageonce)
         {
-            damageonce = true;
-            PlayerAnimator.SetTrigger("HitMiddle");
-            health = health - G_GameManager.CPUSendDamage;
-            Instantiate(Effect1, other.transform.position, Effect1.transform.rotation);
+            
+                damageonce = true;
+                PlayerAnimator.SetTrigger("HitMiddle");
+                health = health - G_GameManager.CPUSendDamage;
+                Instantiate(Effect1, other.transform.position, Effect1.transform.rotation);
             
         }
-        if (other.tag == "P_Hand" && G_GameManager.CPUSendDamage != 0f && !damageonce && Time.time > damagedelay)
+        if (other.tag == "CPU_Hand" && G_GameManager.CPUSendDamage != 0f && !damageonce && Time.time > damagedelay)
         {
-            damageonce = true;
-            PlayerAnimator.SetTrigger("HitTop");
-            health = health - G_GameManager.CPUSendDamage;
-            damagedelay = Time.time + 1f;
-            Instantiate(Effect2, other.transform.position, Effect2.transform.rotation);
+            
+                damageonce = true;
+                PlayerAnimator.SetTrigger("HitTop");
+                health = health - G_GameManager.CPUSendDamage;
+                damagedelay = Time.time + 1f;
+                Instantiate(Effect2, other.transform.position, Effect2.transform.rotation);
             
         }
         if (damageonce)
@@ -277,7 +310,7 @@ public class Player : MonoBehaviour
     }
     private void OnTriggerExit(Collider other)
     {
-        if (other.tag == "P_Foot" || other.tag == "P_Hand")
+        if (other.tag == "CPU_Foot" || other.tag == "CPU_Hand")
         {
             damageonce = false;
             if (Time.time > HitTimeCheck)
@@ -354,6 +387,16 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(0.3f);
         PlayerMaterial.color = Color.white;
     }
-   
-    
+   IEnumerator PlayerJumpAttackReset()
+    {
+        yield return new WaitForSeconds(0.5f);
+        JumpAttackAllowed = false;
+    }
+    IEnumerator PlayerJumpinProgressReset(float G_Time)
+    {
+        
+        yield return new WaitForSeconds(G_Time+1f);
+        JumpAttackinProgress = false;
+    }
+
 }

@@ -1334,6 +1334,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5408382646435799946}
+  - component: {fileID: 1267937693330345988}
   m_Layer: 0
   m_Name: mixamorig:LeftHand
   m_TagString: P_Hand
@@ -1361,6 +1362,19 @@ Transform:
   m_Father: {fileID: 8639394892980799664}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1267937693330345988
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3410151526451740549}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.16046289, y: 0.25352132, z: 0.13091446}
+  m_Center: {x: 0.003588181, y: 0.11702872, z: 0.015978782}
 --- !u!1 &3555590750056516676
 GameObject:
   m_ObjectHideFlags: 0

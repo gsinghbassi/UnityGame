@@ -344,6 +344,7 @@
 "Assets/Scripts/Menu.cs"
 "Assets/Scripts/Player.cs"
 "Assets/Scripts/Playerbkp.cs"
+"Assets/Scripts/Test.cs"
 -langversion:9.0
 
 /deterministic
