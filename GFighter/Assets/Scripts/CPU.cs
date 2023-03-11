@@ -43,6 +43,7 @@ public class CPU : MonoBehaviour
     bool CPURunKick;
     bool CPUPunch;
     bool CPURun;
+    bool CPUJump;
     int runORwalkCheck;
     bool keepwalking;
     bool runORwalk;
@@ -59,7 +60,8 @@ public class CPU : MonoBehaviour
     bool stopretreating;
     public bool lose; //KeepPublic   
     public bool win; //KeepPublic   
-    
+    bool JumpAttackAllowed;
+    bool JumpAttackinProgress;
 
 
 
@@ -78,6 +80,7 @@ public class CPU : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        JumpAttackAllowed = false;
         CPUAudioController = GetComponent<AudioSource>();
         lose = false;
         win = false;
@@ -318,6 +321,10 @@ public class CPU : MonoBehaviour
         }
 
 
+        if(CPUJump)
+        { //Write jump ai here
+          }
+
 
         if (CPURight && !CPUmaxDistanceReached && MovementAllowed)
         {
@@ -496,10 +503,13 @@ public class CPU : MonoBehaviour
             Debug.Log(child.name);
             if (child.tag == "P_Hand")
             {
+                Debug.Log("Changed tag of " + child.name + " from " + child.tag + " to CPHand");
                 child.tag = "CPU_Hand";
+                
             }
             else if (child.tag == "P_Foot")
             {
+                Debug.Log("Changed tag of " + child.name + " from " + child.tag + " to CPFoot");
                 child.tag = "CPU_Foot";
             }
 
