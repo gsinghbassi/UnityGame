@@ -337,6 +337,7 @@
 "Assets/Scripts/BKP_2playerscript.cs"
 "Assets/Scripts/CameraControls.cs"
 "Assets/Scripts/CharacterSelection.cs"
+"Assets/Scripts/colliderupdate.cs"
 "Assets/Scripts/CPU.cs"
 "Assets/Scripts/Effect.cs"
 "Assets/Scripts/G_GameManager.cs"

@@ -20,9 +20,12 @@ public class G_GameManager : MonoBehaviour
     public Image PlayerPicture;    
     public Image CPUPicture;
     public Image PlayerHealth;
-    public Image CPUHealth;
+    public Image CPUHealth; 
+    public Image PlayerStamina;
+    public Image CPUStamina;
     public static float PlayerSendDamage;
     public static float CPUSendDamage;
+    public static bool playerishurt;
     public TextMeshProUGUI WinLoseText;
 
     CameraControls CameraController;
@@ -34,6 +37,7 @@ public class G_GameManager : MonoBehaviour
     GameObject PlayerCamera;
     GameObject CPUCamera;
     GameObject inGameMenu;
+
     
 
 
@@ -72,13 +76,22 @@ public class G_GameManager : MonoBehaviour
         CPUCamera.SetActive(false);
         WinLoseText.text = "";
         inGameMenu = GameObject.Find("CanvasMenu");
+
+        InstanceCPUCharacter.transform.GetChild(0).tag = "CPU";        
+        InstancePlayerCharacter.transform.GetChild(0).tag = "Player";
+        InstanceCPUCharacter.transform.GetChild(0).GetComponent<colliderupdate>().opponent = "Player";
+        InstancePlayerCharacter.transform.GetChild(0).GetComponent<colliderupdate>().opponent = "CPU";
     }
 
     // Update is called once per frame
     void Update()
     {
+        
         PlayerHealth.fillAmount = InstancePlayerCharacter.GetComponent<Player>().health;
         CPUHealth.fillAmount = InstanceCPUCharacter.GetComponent<CPU>().health;
+        PlayerStamina.fillAmount = InstancePlayerCharacter.GetComponent<Player>().stamina;
+        CPUStamina.fillAmount = InstanceCPUCharacter.GetComponent<CPU>().stamina;
+        playerishurt = InstancePlayerCharacter.GetComponent<Player>().playergothurt;
         PlayerDistanceCheck();
         PlayerSendDamage = InstancePlayerCharacter.GetComponent<Player>().SendDamage; 
         CPUSendDamage = InstanceCPUCharacter.GetComponent<CPU>().SendDamage;      

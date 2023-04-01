@@ -425,6 +425,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1710507281943163223}
   - component: {fileID: 1286278255118300852}
+  - component: {fileID: 8603277827533085727}
+  - component: {fileID: 7486421925270768750}
   m_Layer: 0
   m_Name: Ganfaul
   m_TagString: Untagged
@@ -599,6 +601,34 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.04213369, y: -0.1972574, z: 0.012541175}
     m_Extent: {x: 1.0540994, y: 1.136037, z: 0.29936785}
   m_DirtyAABB: 0
+--- !u!64 &8603277827533085727
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1119376847241841547}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: -1
+  m_Mesh: {fileID: -3343255787550126517, guid: 1163ad5e355c74a40919ac54b005b841, type: 3}
+--- !u!114 &7486421925270768750
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1119376847241841547}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00529e45953be154bb4d8e405fbfaaaa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meshRenderer: {fileID: 1286278255118300852}
+  colliderofObj: {fileID: 8603277827533085727}
 --- !u!1 &1137333535402575312
 GameObject:
   m_ObjectHideFlags: 0
@@ -3226,10 +3256,12 @@ MonoBehaviour:
   health: 1
   PlayermaxDistanceReached: 0
   PlayerReady: 0
+  playergothurt: 0
   SendDamage: 0
   PlayerMaterial: {fileID: 0}
   lose: 0
   win: 0
+  stamina: 0
 --- !u!114 &8946128279475818559
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3247,8 +3279,10 @@ MonoBehaviour:
   CPUReady: 0
   SendDamage: 0
   CPUMaterial: {fileID: 0}
+  AttackPause: 0
   lose: 0
   win: 0
+  stamina: 0
 --- !u!65 &7596481863079964673
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3258,7 +3292,7 @@ BoxCollider:
   m_GameObject: {fileID: 8191061254282518107}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 0.79898965, y: 2.1342628, z: 0.58112645}
   m_Center: {x: 0.009416461, y: 1.0779575, z: 0.08100864}

@@ -22,6 +22,7 @@ public class Player : MonoBehaviour
     public bool PlayerReady;   //KeepPublic
     bool damageonce;
     float damagedelay;
+    public bool playergothurt;
     float KeyPressTimeCheck;
     float KeyPressDelayInterval;
     public float SendDamage;   //KeepPublic   
@@ -31,6 +32,7 @@ public class Player : MonoBehaviour
     float HitTimeCheck;
     GameObject Effect1; //KeepPublic   
     GameObject Effect2; //KeepPublic   
+    GameObject Effect3; //KeepPublic   
     public Material PlayerMaterial; //Keep this public
     Color DamageColor = new Color(0.3584906f, 0.0253649f, 0.0253649f);
     public bool lose; //KeepPublic   
@@ -39,11 +41,18 @@ public class Player : MonoBehaviour
     bool JumpAttackinProgress;
 
 
+    //BlockandStaminaControls
+    bool block;
+    public float stamina;
+    float refilldelay;
+    float damagemultiplier;
+
     //Audio Controls
     AudioSource PlayerAudioController;
     AudioClip GS_Punch;
     AudioClip GS_Kick;
     AudioClip GS_Damage;
+    AudioClip GS_Block;
     AudioClip GS_Die;
     AudioClip GS_Jump;
     AudioClip GS_Win;
@@ -55,6 +64,9 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        refilldelay = 0;
+        damagemultiplier = 3f;
+        block = false;
         JumpAttackAllowed = false;
         PlayerAudioController = GetComponent<AudioSource>();
         lose = false;
@@ -69,6 +81,7 @@ public class Player : MonoBehaviour
         MovementAllowed = true;
         runActive = false;
         health = 1f;
+        stamina = 1f;
         walkSpeed = 1f;
         runSpeed = 4f;
         PlayerSpeed = walkSpeed;
@@ -88,11 +101,13 @@ public class Player : MonoBehaviour
         KeyPressTimeCheck = Time.time;
         Effect1 = (GameObject)AssetDatabase.LoadAssetAtPath(("Assets/Prefabs/Effects/Effect1.prefab"), typeof(GameObject));
         Effect2 = (GameObject)AssetDatabase.LoadAssetAtPath(("Assets/Prefabs/Effects/Effect2.prefab"), typeof(GameObject));
+        Effect3 = (GameObject)AssetDatabase.LoadAssetAtPath(("Assets/Prefabs/Effects/Effect3.prefab"), typeof(GameObject));
         PlayerMaterial.color = Color.white;
 
         GS_Punch = (AudioClip)AssetDatabase.LoadAssetAtPath(("Assets/Audio/Punch.mp3"), typeof(AudioClip));
         GS_Kick = (AudioClip)AssetDatabase.LoadAssetAtPath(("Assets/Audio/Kick.mp3"), typeof(AudioClip));
         GS_Damage = (AudioClip)AssetDatabase.LoadAssetAtPath(("Assets/Audio/Damage.mp3"), typeof(AudioClip));
+        GS_Block = (AudioClip)AssetDatabase.LoadAssetAtPath(("Assets/Audio/Block.mp3"), typeof(AudioClip));
         GS_Jump = (AudioClip)AssetDatabase.LoadAssetAtPath(("Assets/Audio/Jump.mp3"), typeof(AudioClip));
         GS_Die = (AudioClip)AssetDatabase.LoadAssetAtPath(("Assets/Audio/Die.mp3"), typeof(AudioClip));
         GS_Win = (AudioClip)AssetDatabase.LoadAssetAtPath(("Assets/Audio/Win.mp3"), typeof(AudioClip));
@@ -111,7 +126,7 @@ public class Player : MonoBehaviour
         }
         if (PlayerReady&&!lose &&!win)
         {
-            InputsPlayer();
+            InputsPlayer();           
         }
 
         if (win)
@@ -119,6 +134,16 @@ public class Player : MonoBehaviour
             Win();
         }
 
+        if (Time.time > HitTimeCheck + 1f)
+        {
+            StartCoroutine(HitsTextReset(0.2f));
+        }
+
+        while (stamina < 1 && Time.time > refilldelay)
+        {
+            stamina += 0.2f;
+            refilldelay = Time.time + 3f;
+        }
     }
 
 
@@ -165,8 +190,9 @@ public class Player : MonoBehaviour
         {
             Movement("Left");
             PlayerAnimator.SetBool("WalkBack", true);
-            if (!JumpAttackinProgress)
+            if (!JumpAttackinProgress && stamina>0)
             {
+                block = true;
                 PlayerAnimator.SetLayerWeight(1, 1f);
             }
             else if (JumpAttackinProgress)
@@ -175,18 +201,25 @@ public class Player : MonoBehaviour
             }
 
         }
-        if (Input.GetKeyUp(KeyCode.LeftArrow) || PlayermaxDistanceReached)
+        
+        if (Input.GetKeyUp(KeyCode.LeftArrow) ||stamina<=0)
         {
-            PlayerAnimator.SetBool("WalkBack", false);
+            block = false;
             PlayerAnimator.SetLayerWeight(1, 0f);
+            PlayerAnimator.SetBool("WalkBack", false);
+        }
+        if (PlayermaxDistanceReached)
+        {
+            PlayerAnimator.SetBool("WalkBack", false);            
         }
 
-        if(Input.GetKeyDown(KeyCode.Space) && MovementAllowed)
+        if (Input.GetKeyDown(KeyCode.Space) && MovementAllowed &&stamina>0)
         {
             JumpAttackAllowed = true;
             PlayerAnimator.SetLayerWeight(1, 0f);
             PlayerAnimator.SetTrigger("Jump");
-            PlayerAudioController.PlayOneShot(GS_Jump);            
+            PlayerAudioController.PlayOneShot(GS_Jump);
+            stamina = stamina-0.35f;
             StartCoroutine(PlayerJumpAttackReset());
         }
 
@@ -278,36 +311,77 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "CPU_Foot" && G_GameManager.CPUSendDamage != 0f && !damageonce)
+        colliderupdate hitcheck = transform.GetChild(0).GetComponent<colliderupdate>();
+
+
+        if (!block)
         {
-            
+            if (other.tag == "CPU_Foot" && G_GameManager.CPUSendDamage != 0f && !damageonce && !playergothurt)
+            {
+
                 damageonce = true;
                 PlayerAnimator.SetTrigger("HitMiddle");
                 health = health - G_GameManager.CPUSendDamage;
                 Instantiate(Effect1, other.transform.position, Effect1.transform.rotation);
-            
-        }
-        if (other.tag == "CPU_Hand" && G_GameManager.CPUSendDamage != 0f && !damageonce && Time.time > damagedelay)
-        {
-            
+
+            }
+            if (other.tag == "CPU_Hand" && G_GameManager.CPUSendDamage != 0f && !damageonce && Time.time > damagedelay && !playergothurt)
+            {
+
                 damageonce = true;
                 PlayerAnimator.SetTrigger("HitTop");
                 health = health - G_GameManager.CPUSendDamage;
                 damagedelay = Time.time + 1f;
                 Instantiate(Effect2, other.transform.position, Effect2.transform.rotation);
-            
+
+            }
+            if (damageonce)
+            {
+                playergothurt = true;
+                StartCoroutine(hurtreset());
+                PlayerAudioController.PlayOneShot(GS_Damage);
+                StartCoroutine(PlayerDamageColorChange());
+                hits++;
+                HitsText.text = hits + " Hits";
+                HitTimeCheck = Time.time + 1f;
+            }
         }
-        if (damageonce)
+        else if (block)
         {
-            PlayerAudioController.PlayOneShot(GS_Damage);
-            StartCoroutine(PlayerDamageColorChange());
-            hits++;
-            HitsText.text = hits + " Hits";
-            HitTimeCheck = Time.time + 1f;
+            if (other.tag == "CPU_Foot" && G_GameManager.CPUSendDamage != 0f && !playergothurt)
+            {
+                stamina = stamina - G_GameManager.CPUSendDamage* damagemultiplier;
+                Instantiate(Effect3, other.transform.position, Effect3.transform.rotation);
+                playergothurt = true;
+                StartCoroutine(hurtreset());
+                PlayerAudioController.PlayOneShot(GS_Block);
+            }
+            if (other.tag == "CPU_Hand" && G_GameManager.CPUSendDamage != 0f && Time.time > damagedelay && !playergothurt)
+            {
+                stamina = stamina - G_GameManager.CPUSendDamage * damagemultiplier;
+                damagedelay = Time.time + 1f;
+                Instantiate(Effect3, other.transform.position, Effect3.transform.rotation);
+                playergothurt = true;
+                StartCoroutine(hurtreset());
+                PlayerAudioController.PlayOneShot(GS_Block);
+            }
         }
-       
+    }
+
+    
+
+
+    IEnumerator hurtreset()
+    {
+        int[] differentTimes = { 2, 3, 4 };
+        int selectTime = Random.Range(0, 3);
+        //Debug.Log("SelectedTime = " + differentTimes[selectTime]+"s "+Time.time);        
+        yield return new WaitForSeconds(differentTimes[selectTime]);
+        playergothurt = false;
+        //Debug.Log("Reset at "+Time.time);
 
     }
+
     private void OnTriggerExit(Collider other)
     {
         if (other.tag == "CPU_Foot" || other.tag == "CPU_Hand")

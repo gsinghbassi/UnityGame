@@ -21,16 +21,16 @@ public class CPU : MonoBehaviour
     public bool CPUReady;
     bool damageonce;
     float damagedelay;
-
     float KeyPressTimeCheck;
     
     public float SendDamage;    
     G_GameManager GameManagerReference;
     TextMeshProUGUI HitsText;
-    int hits;
+    int hits;    
     float HitTimeCheck;
     GameObject Effect1;
     GameObject Effect2;
+    GameObject Effect3;
     public Material CPUMaterial; //Keep this public
     
 
@@ -56,13 +56,21 @@ public class CPU : MonoBehaviour
     int AttackCount;
     int KicksCount;
     int PunchCount;
-    bool AttackAllowed;   
+    bool AttackAllowed;
+    public bool AttackPause;
     bool stopretreating;
     public bool lose; //KeepPublic   
     public bool win; //KeepPublic   
     bool JumpAttackAllowed;
     bool JumpAttackinProgress;
+    int JumpRandom;
 
+    //BlockandStaminaControls
+    bool block;
+    public float stamina;
+    float refilldelay;
+    float damagemultiplier;
+    
 
 
     //Audio Controls
@@ -70,6 +78,7 @@ public class CPU : MonoBehaviour
     AudioClip GS_Punch;
     AudioClip GS_Kick;
     AudioClip GS_Damage;
+    AudioClip GS_Block;
     AudioClip GS_Jump;
     AudioClip GS_Die;   
     AudioClip GS_Lose;   
@@ -80,6 +89,11 @@ public class CPU : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        refilldelay = 0;
+        damagemultiplier = 3f;
+        block = false;
+        JumpRandom = 0;
+        AttackPause = false;
         JumpAttackAllowed = false;
         CPUAudioController = GetComponent<AudioSource>();
         lose = false;
@@ -105,6 +119,7 @@ public class CPU : MonoBehaviour
         MovementAllowed = true;
         runActive = false;
         health = 1f;
+        stamina = 1f;
         walkSpeed = 1f;
         runSpeed = 4f;
         CPUSpeed = walkSpeed;
@@ -124,10 +139,12 @@ public class CPU : MonoBehaviour
         KeyPressTimeCheck = Time.time;
         Effect1 = (GameObject)AssetDatabase.LoadAssetAtPath(("Assets/Prefabs/Effects/Effect1.prefab"), typeof(GameObject));
         Effect2 = (GameObject)AssetDatabase.LoadAssetAtPath(("Assets/Prefabs/Effects/Effect2.prefab"), typeof(GameObject));
+        Effect3 = (GameObject)AssetDatabase.LoadAssetAtPath(("Assets/Prefabs/Effects/Effect3.prefab"), typeof(GameObject));
         CPUMaterial.color = Color.white;
         GS_Punch = (AudioClip)AssetDatabase.LoadAssetAtPath(("Assets/Audio/Punch.mp3"), typeof(AudioClip));
         GS_Kick = (AudioClip)AssetDatabase.LoadAssetAtPath(("Assets/Audio/Kick.mp3"), typeof(AudioClip));
         GS_Damage = (AudioClip)AssetDatabase.LoadAssetAtPath(("Assets/Audio/Damage.mp3"), typeof(AudioClip));
+        GS_Block = (AudioClip)AssetDatabase.LoadAssetAtPath(("Assets/Audio/Block.mp3"), typeof(AudioClip));
         GS_Jump = (AudioClip)AssetDatabase.LoadAssetAtPath(("Assets/Audio/Jump.mp3"), typeof(AudioClip));
         GS_Die = (AudioClip)AssetDatabase.LoadAssetAtPath(("Assets/Audio/Die.mp3"), typeof(AudioClip));
         GS_Lose = (AudioClip)AssetDatabase.LoadAssetAtPath(("Assets/Audio/Lose.mp3"), typeof(AudioClip));
@@ -154,7 +171,19 @@ public class CPU : MonoBehaviour
         {
             Win();
         }
-       
+
+        CheckPlayerHurt();
+        
+        if(Time.time>HitTimeCheck+1f)
+        {
+            StartCoroutine(HitsTextReset(0.2f));
+        }
+        while (stamina < 1 && Time.time > refilldelay)
+        {
+            stamina += 0.2f;
+            refilldelay = Time.time + 3f;
+        }
+
     }
 
     void CPUAI()
@@ -191,7 +220,8 @@ public class CPU : MonoBehaviour
             CPUWaitUpdated = true;
         }
 
-        if (health < 0.5f && !stopretreating)
+
+        if (health < 0.5f && !stopretreating ||hits>=2)
         {
             gotoPlayer = false;
             CPURight = true;
@@ -211,7 +241,10 @@ public class CPU : MonoBehaviour
             
         }
 
-        if (isPlayerinRange &&AttackAllowed)
+
+        
+
+        if (isPlayerinRange &&AttackAllowed && !AttackPause)
         {
            if(AttackCount>2)
             {
@@ -235,13 +268,33 @@ public class CPU : MonoBehaviour
             
             if (AttackSelector == 1)
             {
+                JumpRandom = Random.Range(0, 2);
+                if (JumpRandom == 1)
+                {
+                    CPUJump = true;
+                }
+                else if (JumpRandom != 1)
+                {
+                    CPUJump = false;
+                }
                 CPUPunch = true;
                 PunchCount++;
+                StartCoroutine(CPUJumpReset());
             }
             else if (AttackSelector == 2)
             {
+                JumpRandom = Random.Range(0, 2);
+                if (JumpRandom == 1)
+                {
+                    CPUJump = true;
+                }
+                else if (JumpRandom != 1)
+                {
+                    CPUJump = false;
+                }
                 CPUKick = true;
                 KicksCount++;
+                StartCoroutine(CPUJumpReset());
             }
             AttackCount++;
             
@@ -321,25 +374,69 @@ public class CPU : MonoBehaviour
         }
 
 
-        if(CPUJump)
-        { //Write jump ai here
-          }
+        if(CPUJump && MovementAllowed && stamina > 0)
+        {
+            JumpAttackAllowed = true;
+            CPUAnimator.SetLayerWeight(1, 0f);
+            CPUAnimator.SetTrigger("Jump");
+            CPUAudioController.PlayOneShot(GS_Jump);
+            stamina = stamina - 0.35f;            
+            StartCoroutine(CPUJumpAttackReset());
+
+
+        }
+
+        if (CPUPunch && JumpAttackAllowed)
+        {
+            JumpAttackAllowed = false;
+            JumpAttackinProgress = true;
+            CPUAnimator.SetLayerWeight(1, 0f);
+            CPUAnimator.SetTrigger("JumpPunch");
+            CPUAudioController.PlayOneShot(GS_Punch);
+            SendDamage = 0.12f;
+            StartCoroutine(CPUJumpinProgressReset(CPUAnimator.GetCurrentAnimatorClipInfo(0).Length));
+            StartCoroutine(SendDamageReset(CPUAnimator.GetCurrentAnimatorClipInfo(0).Length));
+        }
+        if (CPUKick && JumpAttackAllowed)
+        {
+            JumpAttackAllowed = false;
+            JumpAttackinProgress = true;
+            CPUAnimator.SetTrigger("JumpKick");
+            CPUAudioController.PlayOneShot(GS_Kick);
+            SendDamage = 0.18f;
+            StartCoroutine(CPUJumpinProgressReset(CPUAnimator.GetCurrentAnimatorClipInfo(0).Length));
+            StartCoroutine(SendDamageReset(CPUAnimator.GetCurrentAnimatorClipInfo(0).Length));
+        }
 
 
         if (CPURight && !CPUmaxDistanceReached && MovementAllowed)
         {
             Movement("Right");
             CPUAnimator.SetBool("WalkBack", true);
-            CPUAnimator.SetLayerWeight(1, 1f);
+            if (!JumpAttackinProgress && stamina > 0)
+            {
+                block = true;
+                CPUAnimator.SetLayerWeight(1, 1f);
+            }
+            else if (JumpAttackinProgress)
+            {
+                CPUAnimator.SetLayerWeight(1, 0f);
+            }
 
         }
-        if (!CPURight || CPUmaxDistanceReached)
+        if (!CPURight || stamina <= 0)
         {
-            CPUAnimator.SetBool("WalkBack", false);
+            block = false;            
             CPUAnimator.SetLayerWeight(1, 0f);
+            CPUAnimator.SetBool("WalkBack", false);
         }
 
-        if (CPUPunch && MovementAllowed) 
+        if (CPUmaxDistanceReached)
+        {
+            CPUAnimator.SetBool("WalkBack", false);           
+        }
+
+        if (CPUPunch && MovementAllowed ) 
         {
             MovementAllowed = false;
             AttackAllowed = false;
@@ -352,7 +449,7 @@ public class CPU : MonoBehaviour
         
         }
 
-        if (CPUKick && MovementAllowed) 
+        if (CPUKick && MovementAllowed ) 
         {
 
             MovementAllowed = false;
@@ -415,29 +512,48 @@ public class CPU : MonoBehaviour
     {
         if (!win)
         {
-            if (other.tag == "P_Foot" && G_GameManager.PlayerSendDamage != 0f && !damageonce)
+            if (!block)
             {
-                damageonce = true;
-                CPUAnimator.SetTrigger("HitMiddle");
-                health = health - G_GameManager.PlayerSendDamage;
-                Instantiate(Effect1, other.transform.position, Effect1.transform.rotation);
+                if (other.tag == "P_Foot" && G_GameManager.PlayerSendDamage != 0f && !damageonce)
+                {
+                    damageonce = true;
+                    CPUAnimator.SetTrigger("HitMiddle");
+                    health = health - G_GameManager.PlayerSendDamage;
+                    Instantiate(Effect1, other.transform.position, Effect1.transform.rotation);
 
+                }
+                if (other.tag == "P_Hand" && G_GameManager.PlayerSendDamage != 0f && !damageonce && Time.time > damagedelay)
+                {
+                    damageonce = true;
+                    CPUAnimator.SetTrigger("HitTop");
+                    health = health - G_GameManager.PlayerSendDamage;
+                    damagedelay = Time.time + 1f;
+                    Instantiate(Effect2, other.transform.position, Effect2.transform.rotation);
+                }
+                if (damageonce)
+                {
+                    CPUAudioController.PlayOneShot(GS_Damage);
+                    StartCoroutine(CPUDamageColorChange());
+                    hits++;
+                    HitsText.text = hits + " Hits";
+                    HitTimeCheck = Time.time + 1f;
+                }
             }
-            if (other.tag == "P_Hand" && G_GameManager.PlayerSendDamage != 0f && !damageonce && Time.time > damagedelay)
+            else if (block)
             {
-                damageonce = true;
-                CPUAnimator.SetTrigger("HitTop");
-                health = health - G_GameManager.PlayerSendDamage;
-                damagedelay = Time.time + 1f;
-                Instantiate(Effect2, other.transform.position, Effect2.transform.rotation);
-            }
-            if (damageonce)
-            {
-                CPUAudioController.PlayOneShot(GS_Damage);
-                StartCoroutine(CPUDamageColorChange());
-                hits++;
-                HitsText.text = hits + " Hits";
-                HitTimeCheck = Time.time + 1f;
+                if (other.tag == "P_Foot" && G_GameManager.PlayerSendDamage != 0f)
+                {
+                    stamina = stamina - G_GameManager.PlayerSendDamage * damagemultiplier;
+                    Instantiate(Effect3, other.transform.position, Effect3.transform.rotation);
+                    CPUAudioController.PlayOneShot(GS_Block);
+                }
+                if (other.tag == "P_Hand" && G_GameManager.PlayerSendDamage != 0f && Time.time > damagedelay)
+                {
+                    stamina = stamina - G_GameManager.PlayerSendDamage * damagemultiplier;
+                    damagedelay = Time.time + 1f;
+                    Instantiate(Effect3, other.transform.position, Effect3.transform.rotation);
+                    CPUAudioController.PlayOneShot(GS_Block);
+                }
             }
         }
 
@@ -454,7 +570,11 @@ public class CPU : MonoBehaviour
         }
     }
 
-        public void Die()
+    
+
+
+
+    public void Die()
     {
         StartCoroutine(HitsTextReset(0f));
         CPUAnimator.SetLayerWeight(1, 0f);
@@ -468,7 +588,8 @@ public class CPU : MonoBehaviour
 
         ClearTriggers();
         PlayVictorySound();      
-        CPUAnimator.SetTrigger("Win");        
+        CPUAnimator.SetTrigger("Win");
+        CPUAnimator.SetLayerWeight(1, 0f);
         StartCoroutine(HitsTextReset(0f));
     }
 
@@ -481,6 +602,15 @@ public class CPU : MonoBehaviour
             WinSoundActivated = true;
         }
     }
+
+    void CheckPlayerHurt()
+    {
+        if (G_GameManager.playerishurt)
+            AttackPause = true;
+        else if (!G_GameManager.playerishurt)
+            AttackPause = false;
+    }
+
 
 
     void ClearTriggers()
@@ -557,6 +687,25 @@ public class CPU : MonoBehaviour
         HitsText.text = "";
         hits = 0;
     }
+
+    IEnumerator CPUJumpReset()
+    {
+        yield return new WaitForSeconds(0.5f);
+        CPUJump = false;
+    }
+    IEnumerator CPUJumpAttackReset()
+    {
+        yield return new WaitForSeconds(0.5f);
+        JumpAttackAllowed = false;
+    }
+    IEnumerator CPUJumpinProgressReset(float G_Time)
+    {
+
+        yield return new WaitForSeconds(G_Time + 1f);
+        JumpAttackinProgress = false;
+    }
+
+
     IEnumerator CPUDamageColorChange()
     {
         CPUMaterial.color = Color.red;

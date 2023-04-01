@@ -120,6 +120,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7594909809110410866}
   - component: {fileID: 1509107918469056062}
+  - component: {fileID: 327828348115709139}
+  - component: {fileID: 1455688417271341900}
   m_Layer: 0
   m_Name: Paladin_J_Nordstrom_Helmet
   m_TagString: Untagged
@@ -140,7 +142,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1637255236205580706}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &1509107918469056062
 SkinnedMeshRenderer:
@@ -262,6 +264,34 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.000433743, y: -0.17275205, z: -0.013539068}
     m_Extent: {x: 1.022023, y: 1.0944861, z: 0.21511176}
   m_DirtyAABB: 0
+--- !u!64 &327828348115709139
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 363934042621454638}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 0}
+--- !u!114 &1455688417271341900
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 363934042621454638}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00529e45953be154bb4d8e405fbfaaaa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meshRenderer: {fileID: 0}
+  colliderofObj: {fileID: 0}
 --- !u!1 &500593763162916546
 GameObject:
   m_ObjectHideFlags: 0
@@ -520,9 +550,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
-  - {fileID: 6550732201001021750}
-  - {fileID: 966036012950742631}
   - {fileID: 7594909809110410866}
+  - {fileID: 966036012950742631}
+  - {fileID: 6550732201001021750}
   - {fileID: 8432735020851261029}
   - {fileID: 106504371031375463}
   m_Father: {fileID: 0}
@@ -583,8 +613,10 @@ MonoBehaviour:
   CPUReady: 0
   SendDamage: 0
   CPUMaterial: {fileID: 0}
+  AttackPause: 0
   lose: 0
   win: 0
+  stamina: 0
 --- !u!114 &338053866084631137
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -600,10 +632,12 @@ MonoBehaviour:
   health: 0
   PlayermaxDistanceReached: 0
   PlayerReady: 0
+  playergothurt: 0
   SendDamage: 0
   PlayerMaterial: {fileID: 0}
   lose: 0
   win: 0
+  stamina: 0
 --- !u!65 &4631315894989467438
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -613,7 +647,7 @@ BoxCollider:
   m_GameObject: {fileID: 2158176788920847128}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 0.6444361, y: 2.101304, z: 0.38641667}
   m_Center: {x: 0.020452857, y: 1.044666, z: -0.01415956}
@@ -745,7 +779,7 @@ Transform:
   - {fileID: 6948335026702599689}
   - {fileID: 6809471145954935461}
   m_Father: {fileID: 1637255236205580706}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2259792656226574140
 GameObject:
@@ -803,7 +837,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2280481093456824205}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
