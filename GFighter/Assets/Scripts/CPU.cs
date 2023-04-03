@@ -19,7 +19,7 @@ public class CPU : MonoBehaviour
     Vector3 MovementDirection;
     public bool CPUmaxDistanceReached;    
     public bool CPUReady;
-    bool damageonce;
+    public bool damageonce;
     float damagedelay;
     float KeyPressTimeCheck;
     
@@ -510,6 +510,7 @@ public class CPU : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        
         if (!win)
         {
             if (!block)
@@ -520,14 +521,13 @@ public class CPU : MonoBehaviour
                     CPUAnimator.SetTrigger("HitMiddle");
                     health = health - G_GameManager.PlayerSendDamage;
                     Instantiate(Effect1, other.transform.position, Effect1.transform.rotation);
-
                 }
                 if (other.tag == "P_Hand" && G_GameManager.PlayerSendDamage != 0f && !damageonce && Time.time > damagedelay)
                 {
                     damageonce = true;
                     CPUAnimator.SetTrigger("HitTop");
                     health = health - G_GameManager.PlayerSendDamage;
-                    damagedelay = Time.time + 1f;
+                    damagedelay = Time.time + 0.3f;
                     Instantiate(Effect2, other.transform.position, Effect2.transform.rotation);
                 }
                 if (damageonce)
@@ -562,6 +562,7 @@ public class CPU : MonoBehaviour
     {
         if (other.tag == "P_Foot" || other.tag == "P_Hand")
         {
+            
             damageonce = false;
             if (Time.time > HitTimeCheck)
             {
@@ -626,24 +627,20 @@ public class CPU : MonoBehaviour
 
     void GetAllChildrenRecursive(GameObject parent)
     {
-        // Loop through all the children of the parent object
+        
         foreach (Transform child in parent.transform)
         {
-            // Do something with the child (add it to a list, for example)
-            Debug.Log(child.name);
+                     
             if (child.tag == "P_Hand")
             {
-                Debug.Log("Changed tag of " + child.name + " from " + child.tag + " to CPHand");
-                child.tag = "CPU_Hand";
+                 child.tag = "CPU_Hand";
                 
             }
             else if (child.tag == "P_Foot")
             {
-                Debug.Log("Changed tag of " + child.name + " from " + child.tag + " to CPFoot");
-                child.tag = "CPU_Foot";
+                 child.tag = "CPU_Foot";
             }
-
-            // Call the function recursively to get all children of the child object
+                        
             GetAllChildrenRecursive(child.gameObject);
         }
     }

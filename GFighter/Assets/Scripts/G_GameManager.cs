@@ -81,6 +81,8 @@ public class G_GameManager : MonoBehaviour
         InstancePlayerCharacter.transform.GetChild(0).tag = "Player";
         InstanceCPUCharacter.transform.GetChild(0).GetComponent<colliderupdate>().opponent = "Player";
         InstancePlayerCharacter.transform.GetChild(0).GetComponent<colliderupdate>().opponent = "CPU";
+        InstanceCPUCharacter.transform.GetChild(0).GetComponent<colliderupdate>().ParentObject = InstanceCPUCharacter;
+        InstancePlayerCharacter.transform.GetChild(0).GetComponent<colliderupdate>().ParentObject = InstancePlayerCharacter;
     }
 
     // Update is called once per frame

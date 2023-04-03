@@ -39,6 +39,8 @@ public class Player : MonoBehaviour
     public bool win; //KeepPublic   
     bool JumpAttackAllowed;
     bool JumpAttackinProgress;
+    public bool combo;
+    public bool combocontinue;
 
 
     //BlockandStaminaControls
@@ -64,6 +66,8 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        combo = false;
+        combocontinue = false;
         refilldelay = 0;
         damagemultiplier = 3f;
         block = false;
@@ -241,7 +245,7 @@ public class Player : MonoBehaviour
             JumpAttackinProgress = true;
             PlayerAnimator.SetTrigger("JumpKick");
             PlayerAudioController.PlayOneShot(GS_Kick);
-            SendDamage = 0.18f;
+            SendDamage = 0.065f;
             StartCoroutine(PlayerJumpinProgressReset(PlayerAnimator.GetCurrentAnimatorClipInfo(0).Length));
             StartCoroutine(SendDamageReset(PlayerAnimator.GetCurrentAnimatorClipInfo(0).Length));
         }
@@ -249,15 +253,43 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown("z") && MovementAllowed &&!JumpAttackinProgress)  //punch
         {
             MovementAllowed = false;
+            combo = true;
             PlayerAnimator.SetLayerWeight(1, 0f);
             PlayerAnimator.SetTrigger("Punch");
             PlayerAudioController.PlayOneShot(GS_Punch);
             SendDamage = 0.08f;
+            StartCoroutine(ComboReset(PlayerAnimator.GetCurrentAnimatorClipInfo(0).Length));
             StartCoroutine(MovementAllowReset(PlayerAnimator.GetCurrentAnimatorClipInfo(0).Length));
             StartCoroutine(SendDamageReset(PlayerAnimator.GetCurrentAnimatorClipInfo(0).Length));
+            
         }
-        
-         if (Input.GetKeyDown("x") && MovementAllowed && !JumpAttackinProgress)  //kick
+        else if (Input.GetKeyDown("z") && combo)
+        {
+            combocontinue = true;
+            PlayerAnimator.SetLayerWeight(1, 0f);
+            PlayerAnimator.SetTrigger("combopunch");
+            PlayerAudioController.PlayOneShot(GS_Punch);
+            SendDamage = 0.06f;
+            combo = false;
+            StartCoroutine(ComboReset(PlayerAnimator.GetCurrentAnimatorClipInfo(0).Length));
+        }
+        if (Input.GetKeyDown("x") && combocontinue)
+        {
+            PlayerAnimator.SetLayerWeight(1, 0f);
+            PlayerAnimator.SetTrigger("combokick");
+            PlayerAudioController.PlayOneShot(GS_Kick);
+            SendDamage = 0.05f;
+            StartCoroutine(ComboReset(0f));
+        }
+        if (Input.GetKeyDown("x") && combo) 
+        {
+            StartCoroutine(ComboReset(0f));
+            PlayerAnimator.ResetTrigger("combopunch");
+            PlayerAnimator.ResetTrigger("combokick");
+        }
+
+
+            if (Input.GetKeyDown("x") && MovementAllowed && !JumpAttackinProgress)  //kick
         {
 
             MovementAllowed = false;
@@ -277,7 +309,13 @@ public class Player : MonoBehaviour
 
     }
 
-
+    IEnumerator ComboReset(float G_Time)
+    {
+        yield return new WaitForSeconds(G_Time);
+        combocontinue = false;
+        combo = false;
+        
+    }
 
 
     void Movement(string G_Input)
@@ -311,8 +349,8 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        colliderupdate hitcheck = transform.GetChild(0).GetComponent<colliderupdate>();
-
+        //colliderupdate hitcheck = transform.GetChild(0).GetComponent<colliderupdate>();
+        
 
         if (!block)
         {
@@ -381,6 +419,22 @@ public class Player : MonoBehaviour
         //Debug.Log("Reset at "+Time.time);
 
     }
+
+    
+    /*
+      public  void ChildOnTriggerExit()
+    {
+        damageonce = false;
+        if (Time.time > HitTimeCheck)
+        {
+            StartCoroutine(HitsTextReset(0.5f));
+        }
+        Debug.Log("Access Complete");
+    }
+    */
+
+
+
 
     private void OnTriggerExit(Collider other)
     {

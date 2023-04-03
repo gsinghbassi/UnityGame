@@ -273,7 +273,7 @@ MeshCollider:
   m_GameObject: {fileID: 363934042621454638}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   m_Convex: 1
   m_CookingOptions: 30
@@ -285,13 +285,16 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 363934042621454638}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 00529e45953be154bb4d8e405fbfaaaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   meshRenderer: {fileID: 0}
   colliderofObj: {fileID: 0}
+  gothit: 0
+  opponent: 
+  ParentObject: {fileID: 0}
 --- !u!1 &500593763162916546
 GameObject:
   m_ObjectHideFlags: 0
@@ -590,7 +593,7 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 2
   m_Height: 2
-  m_Radius: 0.15
+  m_Radius: 0.4
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08

@@ -610,7 +610,7 @@ MeshCollider:
   m_GameObject: {fileID: 1119376847241841547}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   m_Convex: 1
   m_CookingOptions: -1
@@ -622,13 +622,16 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1119376847241841547}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 00529e45953be154bb4d8e405fbfaaaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   meshRenderer: {fileID: 1286278255118300852}
   colliderofObj: {fileID: 8603277827533085727}
+  gothit: 0
+  opponent: 
+  ParentObject: {fileID: 0}
 --- !u!1 &1137333535402575312
 GameObject:
   m_ObjectHideFlags: 0
@@ -3160,8 +3163,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.13759555, y: 0.40403157, z: 0.13202946}
-  m_Center: {x: -0.007426189, y: -0.08702315, z: 0.046158206}
+  m_Size: {x: 0.21685213, y: 0.4383438, z: 0.19226892}
+  m_Center: {x: -0.0028430629, y: -0.06986704, z: 0.033960156}
 --- !u!1 &8191061254282518107
 GameObject:
   m_ObjectHideFlags: 0
@@ -3235,7 +3238,7 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 2
   m_Height: 2
-  m_Radius: 0.15
+  m_Radius: 0.4
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
@@ -3261,6 +3264,8 @@ MonoBehaviour:
   PlayerMaterial: {fileID: 0}
   lose: 0
   win: 0
+  combo: 0
+  combocontinue: 0
   stamina: 0
 --- !u!114 &8946128279475818559
 MonoBehaviour:

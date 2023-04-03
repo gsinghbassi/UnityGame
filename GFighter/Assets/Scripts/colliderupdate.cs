@@ -4,15 +4,17 @@ using UnityEngine;
 
 public class colliderupdate : MonoBehaviour
 {
-    public  SkinnedMeshRenderer meshRenderer;
-    public  MeshCollider colliderofObj;
+    public SkinnedMeshRenderer meshRenderer;
+    public MeshCollider colliderofObj;
     float timetoRefresh;
     public bool gothit;
     public string opponent;
+    public GameObject ParentObject;
 
     // Start is called before the first frame update
     void Start()
     {
+
         meshRenderer = GetComponent<SkinnedMeshRenderer>();
         colliderofObj = GetComponent<MeshCollider>();
         timetoRefresh = 0;
@@ -21,14 +23,14 @@ public class colliderupdate : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Time.time>timetoRefresh)
-        { 
+        if (Time.time > timetoRefresh)
+        {
 
             UpdateCollider();
             timetoRefresh = Time.time + 0.1f;
         }
     }
-    
+
 
     public void UpdateCollider()
     {
@@ -38,15 +40,38 @@ public class colliderupdate : MonoBehaviour
         colliderofObj.sharedMesh = colliderMesh;
     }
 
- 
+
 
     private void OnTriggerEnter(Collider other)
     {
+        if (other.name != ParentObject.name)
+        {
+            Debug.Log(other.name);
+        }
+
         if (other.tag == opponent)
         {
             gothit = true;
+            Debug.Log("Got Hitttt");
         }
+        if (other.tag == "CPU_Foot" || other.tag == "CPU_Hand")
+        {
+            Debug.Log("Got Hitttt22");
+        }
+
     }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "CPU_Foot" || other.tag == "CPU_Hand")
+        {
+           // ParentObject.GetComponent<Player>().ChildOnTriggerExit();
+            Debug.Log("Trying to accessPlayer");
+        }
+        if (other.tag == "P_Foot" || other.tag == "P_Hand")
+        {
+            Debug.Log("Trying to accessCPU");
+        }
 
 
+    }
 }
