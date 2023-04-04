@@ -12,6 +12,7 @@ public class Menu : MonoBehaviour
     GameObject MenuMain;
     GameObject MenuOptions;
     GameObject MenuCredits;
+    GameObject MenuHowTo;
     AudioSource AudioPlayer;    
     Toggle MusicToggle;
 
@@ -27,9 +28,11 @@ public class Menu : MonoBehaviour
         MenuMain = transform.Find("MenuMain").gameObject;
         MenuOptions = transform.Find("MenuOptions").gameObject;
         MenuCredits = transform.Find("MenuCredits").gameObject;
+        MenuHowTo = transform.Find("MenuHowTo").gameObject;
         MenuMain.SetActive(true);
         MenuOptions.SetActive(false);
         MenuCredits.SetActive(false);
+        MenuHowTo.SetActive(false);
         MusicToggle = MenuOptions.transform.Find("MusicToggle").GetComponent<Toggle>();        
         LoadSettings();     
     }
@@ -52,6 +55,7 @@ public class Menu : MonoBehaviour
         MenuMain.SetActive(false);
         MenuOptions.SetActive(true);
         MenuCredits.SetActive(false);
+        MenuHowTo.SetActive(false);
     }
     public void Credits()
     {
@@ -59,13 +63,26 @@ public class Menu : MonoBehaviour
         MenuMain.SetActive(false);
         MenuOptions.SetActive(false);
         MenuCredits.SetActive(true);
+        MenuHowTo.SetActive(false);
     }
-    public void Back()
+    public void HOWTO()
+    {
+        AudioPlayer.PlayOneShot(ClickSound, 1f);
+        MenuMain.SetActive(false);
+        MenuOptions.SetActive(false);
+        MenuCredits.SetActive(false);
+        MenuHowTo.SetActive(true);
+
+    }
+
+
+        public void Back()
     {
         AudioPlayer.PlayOneShot(ClickSound, 1f);
         MenuMain.SetActive(true);
         MenuOptions.SetActive(false);
         MenuCredits.SetActive(false);
+        MenuHowTo.SetActive(false);
     }
     public void BackOptions()
     {
@@ -73,7 +90,8 @@ public class Menu : MonoBehaviour
         MenuMain.SetActive(true);
         MenuOptions.SetActive(false);
         MenuCredits.SetActive(false);
-       
+        MenuHowTo.SetActive(false);
+
     }
 
     public void CheckUncheckOptions()

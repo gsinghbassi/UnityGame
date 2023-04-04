@@ -13,7 +13,8 @@ public class InGameMenu : MonoBehaviour
     AudioSource AudioPlayer;
     public AudioClip ClickSound;
     public bool menuallowed;
-    
+    GameObject MenuHowTo;
+
 
 
     // Start is called before the first frame update
@@ -22,8 +23,10 @@ public class InGameMenu : MonoBehaviour
         menuallowed = true;
         Time.timeScale = 1f;
         MenuButtons = transform.Find("MenuButtons").gameObject;
+        MenuHowTo = transform.Find("MenuHowTo").gameObject;
         AudioPlayer = GetComponent<AudioSource>();
         MenuButtons.SetActive(false);
+        MenuHowTo.SetActive(false);
 
 
     }
@@ -39,7 +42,7 @@ public class InGameMenu : MonoBehaviour
     }
     public void MenuActiveDeactive()
     {
-        if(MenuButtons.activeSelf &&menuallowed)
+        if((MenuButtons.activeSelf || MenuHowTo.activeSelf) &&menuallowed)
         {
             Resume();
 
@@ -50,6 +53,22 @@ public class InGameMenu : MonoBehaviour
             Pause();
         }
     }
+
+    public void HOWTO()
+    {
+        AudioPlayer.PlayOneShot(ClickSound, 1f);
+        MenuButtons.SetActive(false);        
+        MenuHowTo.SetActive(true);
+
+    }
+    public void Back()
+    {
+        AudioPlayer.PlayOneShot(ClickSound, 1f);
+        MenuButtons.SetActive(true);
+        MenuHowTo.SetActive(false);
+    }
+
+
     public void QuitGame()
     {
         AudioPlayer.PlayOneShot(ClickSound, 1f);
@@ -70,6 +89,7 @@ public class InGameMenu : MonoBehaviour
     {
         AudioPlayer.PlayOneShot(ClickSound, 1f);
         MenuButtons.SetActive(false);
+        MenuHowTo.SetActive(false);
         UnPause();
     }
     void Pause()

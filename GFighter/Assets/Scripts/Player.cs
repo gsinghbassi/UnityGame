@@ -75,8 +75,7 @@ public class Player : MonoBehaviour
         PlayerAudioController = GetComponent<AudioSource>();
         lose = false;
         win = false;
-        HitsText = transform.Find("Hits").transform.Find("HitsText").GetComponent<TextMeshProUGUI>();
-        StartCoroutine(HitsTextReset(0f));
+        
         damagedelay = 0f;
         damageonce = false;
         runningkick = false;
@@ -94,6 +93,8 @@ public class Player : MonoBehaviour
         if (SceneManager.GetActiveScene().name != "2-CharacterSelect")
         {
             PlayerAnimator.SetBool("GameMode", true);
+            HitsText = transform.Find("Hits").transform.Find("HitsText").GetComponent<TextMeshProUGUI>();
+            StartCoroutine(HitsTextReset(0f));
         }
         else if (SceneManager.GetActiveScene().name == "2-CharacterSelect")
         {
@@ -250,35 +251,37 @@ public class Player : MonoBehaviour
             StartCoroutine(SendDamageReset(PlayerAnimator.GetCurrentAnimatorClipInfo(0).Length));
         }
 
-        if (Input.GetKeyDown("z") && MovementAllowed &&!JumpAttackinProgress)  //punch
+        if (Input.GetKeyDown("z") && MovementAllowed &&!JumpAttackinProgress &&!combo)  //punch
         {
             MovementAllowed = false;
             combo = true;
             PlayerAnimator.SetLayerWeight(1, 0f);
             PlayerAnimator.SetTrigger("Punch");
             PlayerAudioController.PlayOneShot(GS_Punch);
-            SendDamage = 0.08f;
+            SendDamage = 0.06f;
             StartCoroutine(ComboReset(PlayerAnimator.GetCurrentAnimatorClipInfo(0).Length));
             StartCoroutine(MovementAllowReset(PlayerAnimator.GetCurrentAnimatorClipInfo(0).Length));
-            StartCoroutine(SendDamageReset(PlayerAnimator.GetCurrentAnimatorClipInfo(0).Length));
+            //StartCoroutine(SendDamageReset(PlayerAnimator.GetCurrentAnimatorClipInfo(0).Length));
+            
             
         }
         else if (Input.GetKeyDown("z") && combo)
         {
+            
             combocontinue = true;
             PlayerAnimator.SetLayerWeight(1, 0f);
+            SendDamage = 0.065f;
             PlayerAnimator.SetTrigger("combopunch");
-            PlayerAudioController.PlayOneShot(GS_Punch);
-            SendDamage = 0.06f;
+            PlayerAudioController.PlayOneShot(GS_Punch);          
             combo = false;
             StartCoroutine(ComboReset(PlayerAnimator.GetCurrentAnimatorClipInfo(0).Length));
         }
         if (Input.GetKeyDown("x") && combocontinue)
         {
             PlayerAnimator.SetLayerWeight(1, 0f);
-            PlayerAnimator.SetTrigger("combokick");
-            PlayerAudioController.PlayOneShot(GS_Kick);
             SendDamage = 0.05f;
+            PlayerAnimator.SetTrigger("combokick");
+            PlayerAudioController.PlayOneShot(GS_Kick);           
             StartCoroutine(ComboReset(0f));
         }
         if (Input.GetKeyDown("x") && combo) 
@@ -307,6 +310,11 @@ public class Player : MonoBehaviour
             StartCoroutine(SendDamageReset(PlayerAnimator.GetCurrentAnimatorClipInfo(0).Length));
         }
 
+    }
+
+    public void ResetSendDamage()
+    {
+        SendDamage = 0f;
     }
 
     IEnumerator ComboReset(float G_Time)
@@ -349,7 +357,7 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        //colliderupdate hitcheck = transform.GetChild(0).GetComponent<colliderupdate>();
+        Debug.Log(other.name);
         
 
         if (!block)
@@ -375,7 +383,10 @@ public class Player : MonoBehaviour
             }
             if (damageonce)
             {
-                playergothurt = true;
+                if (!G_GameManager.CPUComboinProcess)
+                {
+                    playergothurt = true;
+                }
                 StartCoroutine(hurtreset());
                 PlayerAudioController.PlayOneShot(GS_Damage);
                 StartCoroutine(PlayerDamageColorChange());
@@ -390,7 +401,10 @@ public class Player : MonoBehaviour
             {
                 stamina = stamina - G_GameManager.CPUSendDamage* damagemultiplier;
                 Instantiate(Effect3, other.transform.position, Effect3.transform.rotation);
-                playergothurt = true;
+                if (!G_GameManager.CPUComboinProcess)
+                {
+                    playergothurt = true;
+                }
                 StartCoroutine(hurtreset());
                 PlayerAudioController.PlayOneShot(GS_Block);
             }
@@ -399,7 +413,10 @@ public class Player : MonoBehaviour
                 stamina = stamina - G_GameManager.CPUSendDamage * damagemultiplier;
                 damagedelay = Time.time + 1f;
                 Instantiate(Effect3, other.transform.position, Effect3.transform.rotation);
-                playergothurt = true;
+                if (!G_GameManager.CPUComboinProcess)
+                {
+                    playergothurt = true;
+                }
                 StartCoroutine(hurtreset());
                 PlayerAudioController.PlayOneShot(GS_Block);
             }
@@ -488,6 +505,8 @@ public class Player : MonoBehaviour
         PlayerAnimator.ResetTrigger("Kick");
         PlayerAnimator.ResetTrigger("Punch");
         PlayerAnimator.ResetTrigger("Jump");
+        PlayerAnimator.ResetTrigger("combopunch");
+        PlayerAnimator.ResetTrigger("combokick");
 
     }
 
@@ -499,15 +518,21 @@ public class Player : MonoBehaviour
 
     IEnumerator SendDamageReset(float G_Time)
     {
-        yield return new WaitForSeconds(G_Time);
-        SendDamage = 0f;
+        yield return new WaitForSeconds(G_Time);         
+            Debug.Log("Senddamga rest");
+            SendDamage = 0f;
+        
+
     }
 
     IEnumerator HitsTextReset(float G_Time)
     {
-        yield return new WaitForSeconds(G_Time);
-        HitsText.text = "";
-        hits = 0;
+        if (SceneManager.GetActiveScene().name != "2-CharacterSelect")
+        {
+            yield return new WaitForSeconds(G_Time);
+            HitsText.text = "";
+            hits = 0;
+        }
     }
     IEnumerator PlayerDamageColorChange()
     {

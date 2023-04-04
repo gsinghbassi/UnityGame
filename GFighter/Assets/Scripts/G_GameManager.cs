@@ -26,6 +26,7 @@ public class G_GameManager : MonoBehaviour
     public static float PlayerSendDamage;
     public static float CPUSendDamage;
     public static bool playerishurt;
+    public static bool CPUComboinProcess;
     public TextMeshProUGUI WinLoseText;
 
     CameraControls CameraController;
@@ -94,6 +95,7 @@ public class G_GameManager : MonoBehaviour
         PlayerStamina.fillAmount = InstancePlayerCharacter.GetComponent<Player>().stamina;
         CPUStamina.fillAmount = InstanceCPUCharacter.GetComponent<CPU>().stamina;
         playerishurt = InstancePlayerCharacter.GetComponent<Player>().playergothurt;
+        CPUComboinProcess = InstanceCPUCharacter.GetComponent<CPU>().CPUCombo;
         PlayerDistanceCheck();
         PlayerSendDamage = InstancePlayerCharacter.GetComponent<Player>().SendDamage; 
         CPUSendDamage = InstanceCPUCharacter.GetComponent<CPU>().SendDamage;      
@@ -105,6 +107,7 @@ public class G_GameManager : MonoBehaviour
             CPUCamera.SetActive(true);
             WinLoseText.text = "YOU LOSE";
             inGameMenu.transform.Find("MenuButtons").transform.Find("RESUME").gameObject.SetActive(false);
+            inGameMenu.transform.Find("MenuButtons").transform.Find("howtoplay").gameObject.SetActive(false);
             inGameMenu.GetComponent<InGameMenu>().MenuActiveDeactive();
             inGameMenu.GetComponent<InGameMenu>().menuallowed = false;
             Time.timeScale = 1f;
@@ -118,6 +121,7 @@ public class G_GameManager : MonoBehaviour
             PlayerCamera.SetActive(true);
             WinLoseText.text = "YOU WIN";
             inGameMenu.transform.Find("MenuButtons").transform.Find("RESUME").gameObject.SetActive(false);
+            inGameMenu.transform.Find("MenuButtons").transform.Find("howtoplay").gameObject.SetActive(false);
             inGameMenu.GetComponent<InGameMenu>().MenuActiveDeactive();
             inGameMenu.GetComponent<InGameMenu>().menuallowed = false;
             Time.timeScale = 1f;

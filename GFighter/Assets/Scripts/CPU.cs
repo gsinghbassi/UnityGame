@@ -44,6 +44,7 @@ public class CPU : MonoBehaviour
     bool CPUPunch;
     bool CPURun;
     bool CPUJump;
+    public bool CPUCombo;
     int runORwalkCheck;
     bool keepwalking;
     bool runORwalk;
@@ -65,6 +66,8 @@ public class CPU : MonoBehaviour
     bool JumpAttackinProgress;
     int JumpRandom;
 
+    
+
     //BlockandStaminaControls
     bool block;
     public float stamina;
@@ -85,10 +88,15 @@ public class CPU : MonoBehaviour
     AudioClip GS_YouLose;   
     AudioClip GS_Footsteps;
     bool WinSoundActivated;
+    float combosounddelay;
+    float combosounddelay2;
 
     // Start is called before the first frame update
     void Start()
     {
+        combosounddelay = 0;
+        combosounddelay2 = 0;
+        CPUCombo = false;
         refilldelay = 0;
         damagemultiplier = 3f;
         block = false;
@@ -98,9 +106,7 @@ public class CPU : MonoBehaviour
         CPUAudioController = GetComponent<AudioSource>();
         lose = false;
         win = false;
-        HitsText = transform.Find("Hits").transform.Find("HitsText").GetComponent<TextMeshProUGUI>();
-        StartCoroutine(HitsTextReset(0f));
-        transform.Find("Hits").transform.Find("HitsText").Rotate(0, 180, 0);
+        
         gotoPlayer = false;
         stopretreating = false;
         AttackAllowed =true;
@@ -128,6 +134,9 @@ public class CPU : MonoBehaviour
         if (SceneManager.GetActiveScene().name != "2-CharacterSelect")
         {
             CPUAnimator.SetBool("GameMode", true);
+            HitsText = transform.Find("Hits").transform.Find("HitsText").GetComponent<TextMeshProUGUI>();
+            StartCoroutine(HitsTextReset(0f));
+            transform.Find("Hits").transform.Find("HitsText").Rotate(0, 180, 0);
         }
         else if (SceneManager.GetActiveScene().name == "2-CharacterSelect")
         {
@@ -262,7 +271,8 @@ public class CPU : MonoBehaviour
             }
             else
             {
-                AttackSelector = Random.Range(1, 3);
+                AttackSelector = Random.Range(1, 4);
+                //AttackSelector = 3; //Keep Disabled. its to test  a specific move only
             }
   
             
@@ -281,7 +291,7 @@ public class CPU : MonoBehaviour
                 PunchCount++;
                 StartCoroutine(CPUJumpReset());
             }
-            else if (AttackSelector == 2)
+             if (AttackSelector == 2)
             {
                 JumpRandom = Random.Range(0, 2);
                 if (JumpRandom == 1)
@@ -296,7 +306,11 @@ public class CPU : MonoBehaviour
                 KicksCount++;
                 StartCoroutine(CPUJumpReset());
             }
-            AttackCount++;
+            else if (AttackSelector == 3)
+            {
+                CPUCombo = true;
+            }
+                AttackCount++;
             
         }
 
@@ -436,7 +450,7 @@ public class CPU : MonoBehaviour
             CPUAnimator.SetBool("WalkBack", false);           
         }
 
-        if (CPUPunch && MovementAllowed ) 
+        if (CPUPunch && MovementAllowed) 
         {
             MovementAllowed = false;
             AttackAllowed = false;
@@ -445,7 +459,7 @@ public class CPU : MonoBehaviour
             CPUAudioController.PlayOneShot(GS_Punch);
             SendDamage = 0.08f;
             StartCoroutine(AttackReset("CPUPunch",CPUAnimator.GetCurrentAnimatorClipInfo(0).Length));
-            StartCoroutine(SendDamageReset(CPUAnimator.GetCurrentAnimatorClipInfo(0).Length));
+            //StartCoroutine(SendDamageReset(CPUAnimator.GetCurrentAnimatorClipInfo(0).Length));
         
         }
 
@@ -461,6 +475,29 @@ public class CPU : MonoBehaviour
             StartCoroutine(AttackReset("CPUKick", CPUAnimator.GetCurrentAnimatorClipInfo(0).Length));
             StartCoroutine(SendDamageReset(CPUAnimator.GetCurrentAnimatorClipInfo(0).Length));
         }
+
+        if (CPUCombo)
+        {
+            SendDamage = 0.05f;
+            CPUAnimator.SetTrigger("Punch");
+            combosounddelay = Time.time + CPUAnimator.GetCurrentAnimatorClipInfo(0).Length;
+            CPUAudioController.PlayOneShot(GS_Punch); 
+            CPUAnimator.SetTrigger("combopunch");
+            if (Time.time > combosounddelay)
+            {
+                CPUAudioController.PlayOneShot(GS_Punch);
+                combosounddelay2 = Time.time + CPUAnimator.GetCurrentAnimatorClipInfo(0).Length;
+            }
+            CPUAnimator.SetTrigger("combokick");
+            if (Time.time > combosounddelay2)
+            {
+                CPUAudioController.PlayOneShot(GS_Kick);
+                
+            }
+
+        }
+
+
        if(CPURunKick)
         {
             AttackAllowed = false;
@@ -473,14 +510,25 @@ public class CPU : MonoBehaviour
         }
 
 
+
     }
 
-    
+    public void ResetSendDamage()
+    {
+        SendDamage = 0f;
+        if (CPUCombo)
+        {
+            StartCoroutine(AttackReset("CPUCombo", 0f));
+
+
+        }
+
+    }
 
 
 
 
-        void Movement(string G_Input)
+    void Movement(string G_Input)
     {
         if (G_Input == "Right")
         {
@@ -508,9 +556,13 @@ public class CPU : MonoBehaviour
         //CPUController.Move((new Vector3(0.0f,verticalVelocity,0.0f)*Time.deltaTime));
     }
 
+
+    
+
     private void OnTriggerEnter(Collider other)
     {
         
+
         if (!win)
         {
             if (!block)
@@ -532,7 +584,10 @@ public class CPU : MonoBehaviour
                 }
                 if (damageonce)
                 {
-                    CPUAudioController.PlayOneShot(GS_Damage);
+                    if (!CPUAudioController.isPlaying)
+                    {
+                        CPUAudioController.PlayOneShot(GS_Damage);
+                    }
                     StartCoroutine(CPUDamageColorChange());
                     hits++;
                     HitsText.text = hits + " Hits";
@@ -630,6 +685,7 @@ public class CPU : MonoBehaviour
         
         foreach (Transform child in parent.transform)
         {
+            
                      
             if (child.tag == "P_Hand")
             {
@@ -660,6 +716,10 @@ public class CPU : MonoBehaviour
         {
             CPURunKick = false;
         }
+        if(G_String=="CPUCombo")
+        {
+            CPUCombo = false;
+        }
         AttackAllowed = true;
         MovementAllowed = true;
     }
@@ -668,6 +728,8 @@ public class CPU : MonoBehaviour
     {
         yield return new WaitForSeconds(G_Time);
         SendDamage = 0f;
+        CPUAnimator.ResetTrigger("combopunch");
+        CPUAnimator.ResetTrigger("combokick");
     }
 
     IEnumerator Stopretreat()
@@ -680,9 +742,12 @@ public class CPU : MonoBehaviour
     }
     IEnumerator HitsTextReset(float G_Time)
     {
-        yield return new WaitForSeconds(G_Time);
-        HitsText.text = "";
-        hits = 0;
+        if (SceneManager.GetActiveScene().name != "2-CharacterSelect")
+        {
+            yield return new WaitForSeconds(G_Time);
+            HitsText.text = "";
+            hits = 0;
+        }
     }
 
     IEnumerator CPUJumpReset()
