@@ -9,6 +9,8 @@ TagManager:
   - CPU_Foot
   - CPU_Hand
   - CPU
+  - P_Weapon
+  - CPU_Weapon
   layers:
   - Default
   - TransparentFX

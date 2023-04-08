@@ -22,7 +22,10 @@ public class CPU : MonoBehaviour
     public bool damageonce;
     float damagedelay;
     float KeyPressTimeCheck;
-    
+    public bool SpecialHithurt;
+
+
+
     public float SendDamage;    
     G_GameManager GameManagerReference;
     TextMeshProUGUI HitsText;
@@ -32,7 +35,9 @@ public class CPU : MonoBehaviour
     GameObject Effect2;
     GameObject Effect3;
     public Material CPUMaterial; //Keep this public
-    
+    public GameObject Weapon;
+    bool specialattack;
+    bool SpecialAttackActive;
 
 
     //CPU AI
@@ -44,6 +49,7 @@ public class CPU : MonoBehaviour
     bool CPUPunch;
     bool CPURun;
     bool CPUJump;
+    bool CPUSpecial;
     public bool CPUCombo;
     int runORwalkCheck;
     bool keepwalking;
@@ -66,7 +72,6 @@ public class CPU : MonoBehaviour
     bool JumpAttackinProgress;
     int JumpRandom;
 
-    
 
     //BlockandStaminaControls
     bool block;
@@ -94,6 +99,10 @@ public class CPU : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        specialattack = false;
+        SpecialAttackActive = false;
+        Weapon.tag = "CPU_Weapon";
+        Weapon.SetActive(false);
         combosounddelay = 0;
         combosounddelay2 = 0;
         CPUCombo = false;
@@ -192,6 +201,11 @@ public class CPU : MonoBehaviour
             stamina += 0.2f;
             refilldelay = Time.time + 3f;
         }
+        if (health < 0.35f && !specialattack)
+        {
+            SpecialAttackActive = true;
+            G_GameManager.CPUSpecialAttackReady = true;
+        }
 
     }
 
@@ -251,11 +265,17 @@ public class CPU : MonoBehaviour
         }
 
 
-        
+       
 
         if (isPlayerinRange &&AttackAllowed && !AttackPause)
         {
-           if(AttackCount>2)
+            if (SpecialAttackActive)
+            {
+                CPUSpecial = true;
+                ClearTriggers();
+            }
+
+           if (AttackCount>2)
             {
                 if (KicksCount>=2)
                 {
@@ -497,8 +517,14 @@ public class CPU : MonoBehaviour
 
         }
 
+        if (CPUSpecial && SpecialAttackActive)
+        {
+            CPUAnimator.SetTrigger("Special");
+            
+        }
 
-       if(CPURunKick)
+
+        if (CPURunKick)
         {
             AttackAllowed = false;
             CPUAnimator.SetLayerWeight(1, 0f);
@@ -567,6 +593,25 @@ public class CPU : MonoBehaviour
         {
             if (!block)
             {
+
+                if (other.tag == "P_Weapon" && !SpecialHithurt)
+                {
+                    Debug.Log("weapon hit");
+                    SpecialHithurt = true;
+                    CPUAnimator.SetTrigger("HitMiddle");
+                    health = health - 0.3f;
+                    damagedelay = Time.time + 3f;                    
+                    StartCoroutine(SpecialHitreset());
+                    Instantiate(Effect1, other.transform.position, Effect1.transform.rotation);
+                    Instantiate(Effect2, other.transform.position, Effect2.transform.rotation);
+                    CPUAudioController.PlayOneShot(GS_Damage);
+                    StartCoroutine(CPUDamageColorChange());
+                    hits++;
+                    HitsText.text = hits + " Hits";
+                    HitTimeCheck = Time.time + 1f;
+                }
+
+
                 if (other.tag == "P_Foot" && G_GameManager.PlayerSendDamage != 0f && !damageonce)
                 {
                     damageonce = true;
@@ -667,6 +712,22 @@ public class CPU : MonoBehaviour
             AttackPause = false;
     }
 
+    public void WeaponOn()
+    {
+        Weapon.SetActive(true);
+        CameraControls.CameraShakeActivate = true;
+
+    }
+
+    public void WeaponOff()
+    {
+        Weapon.SetActive(false);
+        G_GameManager.CPUSpecialAttackReady = false;
+        specialattack = true;
+        SpecialAttackActive = false;
+    }
+
+
 
 
     void ClearTriggers()
@@ -679,6 +740,11 @@ public class CPU : MonoBehaviour
         CPUAnimator.ResetTrigger("Jump");
 
     }
+
+
+
+
+
 
     void GetAllChildrenRecursive(GameObject parent)
     {
@@ -774,5 +840,11 @@ public class CPU : MonoBehaviour
         yield return new WaitForSeconds(0.3f);
         CPUMaterial.color = Color.white;
     }
-    
+    IEnumerator SpecialHitreset()
+    {
+        yield return new WaitForSeconds(3f);
+        SpecialHithurt = false;
+
+    }
+
 }

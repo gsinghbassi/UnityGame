@@ -27,7 +27,13 @@ public class G_GameManager : MonoBehaviour
     public static float CPUSendDamage;
     public static bool playerishurt;
     public static bool CPUComboinProcess;
+    public static bool PlayerSpecialAttackReady;
+    public GameObject PlayerSpecialAttackText;
+    public static bool CPUSpecialAttackReady;
+    public GameObject CPUSpecialAttackText;
     public TextMeshProUGUI WinLoseText;
+    bool gameover;
+
 
     CameraControls CameraController;
     float PlayerPositionZ;
@@ -38,6 +44,7 @@ public class G_GameManager : MonoBehaviour
     GameObject PlayerCamera;
     GameObject CPUCamera;
     GameObject inGameMenu;
+   
 
     
 
@@ -46,6 +53,11 @@ public class G_GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        gameover = false;
+        PlayerSpecialAttackReady = false;
+        PlayerSpecialAttackText.SetActive(false);
+        CPUSpecialAttackReady = false;
+        CPUSpecialAttackText.SetActive(false);
         MainCamera = GameObject.Find("Camera");
         MainCamera.SetActive(true);
         
@@ -111,6 +123,9 @@ public class G_GameManager : MonoBehaviour
             inGameMenu.GetComponent<InGameMenu>().MenuActiveDeactive();
             inGameMenu.GetComponent<InGameMenu>().menuallowed = false;
             Time.timeScale = 1f;
+            gameover = true;
+            CPUSpecialAttackText.SetActive(false);
+            PlayerSpecialAttackText.SetActive(false);
             
         }
         else if (InstanceCPUCharacter.GetComponent<CPU>().lose)
@@ -125,7 +140,26 @@ public class G_GameManager : MonoBehaviour
             inGameMenu.GetComponent<InGameMenu>().MenuActiveDeactive();
             inGameMenu.GetComponent<InGameMenu>().menuallowed = false;
             Time.timeScale = 1f;
+            gameover = true;
+            CPUSpecialAttackText.SetActive(false);
+            PlayerSpecialAttackText.SetActive(false);
         }
+
+        if (!gameover)
+        {
+            if (PlayerSpecialAttackReady)
+            { PlayerSpecialAttackText.SetActive(true); }
+            else if (!PlayerSpecialAttackReady)
+            { PlayerSpecialAttackText.SetActive(false); }
+
+            if (CPUSpecialAttackReady)
+            { CPUSpecialAttackText.SetActive(true); }
+            else if (!CPUSpecialAttackReady)
+            { CPUSpecialAttackText.SetActive(false); }
+        }
+
+        
+
     }
 
     void PlayerDistanceCheck()
@@ -144,6 +178,8 @@ public class G_GameManager : MonoBehaviour
             InstanceCPUCharacter.GetComponent<CPU>().CPUmaxDistanceReached = true;
         }
     }
+
+    
 
 
     IEnumerator PlayerandCPUReady()

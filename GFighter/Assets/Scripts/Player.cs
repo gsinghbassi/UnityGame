@@ -23,6 +23,7 @@ public class Player : MonoBehaviour
     bool damageonce;
     float damagedelay;
     public bool playergothurt;
+    public bool SpecialHithurt;
     float KeyPressTimeCheck;
     float KeyPressDelayInterval;
     public float SendDamage;   //KeepPublic   
@@ -41,6 +42,9 @@ public class Player : MonoBehaviour
     bool JumpAttackinProgress;
     public bool combo;
     public bool combocontinue;
+    public GameObject Weapon;
+    bool specialattack;
+    bool SpecialAttackActive;
 
 
     //BlockandStaminaControls
@@ -66,6 +70,9 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        specialattack = false;
+        SpecialAttackActive = false;
+        Weapon.SetActive(false);
         combo = false;
         combocontinue = false;
         refilldelay = 0;
@@ -75,7 +82,7 @@ public class Player : MonoBehaviour
         PlayerAudioController = GetComponent<AudioSource>();
         lose = false;
         win = false;
-        
+        SpecialHithurt = false;
         damagedelay = 0f;
         damageonce = false;
         runningkick = false;
@@ -129,9 +136,9 @@ public class Player : MonoBehaviour
         {
             Die();
         }
-        if (PlayerReady&&!lose &&!win)
+        if (PlayerReady && !lose && !win)
         {
-            InputsPlayer();           
+            InputsPlayer();
         }
 
         if (win)
@@ -148,6 +155,13 @@ public class Player : MonoBehaviour
         {
             stamina += 0.2f;
             refilldelay = Time.time + 3f;
+        }
+
+
+        if (health < 0.35f && !specialattack)
+        {
+            SpecialAttackActive = true;
+            G_GameManager.PlayerSpecialAttackReady = true;
         }
     }
 
@@ -195,7 +209,7 @@ public class Player : MonoBehaviour
         {
             Movement("Left");
             PlayerAnimator.SetBool("WalkBack", true);
-            if (!JumpAttackinProgress && stamina>0)
+            if (!JumpAttackinProgress && stamina > 0)
             {
                 block = true;
                 PlayerAnimator.SetLayerWeight(1, 1f);
@@ -206,8 +220,8 @@ public class Player : MonoBehaviour
             }
 
         }
-        
-        if (Input.GetKeyUp(KeyCode.LeftArrow) ||stamina<=0)
+
+        if (Input.GetKeyUp(KeyCode.LeftArrow) || stamina <= 0)
         {
             block = false;
             PlayerAnimator.SetLayerWeight(1, 0f);
@@ -215,26 +229,26 @@ public class Player : MonoBehaviour
         }
         if (PlayermaxDistanceReached)
         {
-            PlayerAnimator.SetBool("WalkBack", false);            
+            PlayerAnimator.SetBool("WalkBack", false);
         }
 
-        if (Input.GetKeyDown(KeyCode.Space) && MovementAllowed &&stamina>0)
+        if (Input.GetKeyDown(KeyCode.Space) && MovementAllowed && stamina > 0)
         {
             JumpAttackAllowed = true;
             PlayerAnimator.SetLayerWeight(1, 0f);
             PlayerAnimator.SetTrigger("Jump");
             PlayerAudioController.PlayOneShot(GS_Jump);
-            stamina = stamina-0.35f;
+            stamina = stamina - 0.35f;
             StartCoroutine(PlayerJumpAttackReset());
         }
 
-        
+
         if (Input.GetKeyDown("z") && JumpAttackAllowed)
         {
             JumpAttackAllowed = false;
             JumpAttackinProgress = true;
             PlayerAnimator.SetLayerWeight(1, 0f);
-            PlayerAnimator.SetTrigger("JumpPunch"); 
+            PlayerAnimator.SetTrigger("JumpPunch");
             PlayerAudioController.PlayOneShot(GS_Punch);
             SendDamage = 0.12f;
             StartCoroutine(PlayerJumpinProgressReset(PlayerAnimator.GetCurrentAnimatorClipInfo(0).Length));
@@ -251,7 +265,7 @@ public class Player : MonoBehaviour
             StartCoroutine(SendDamageReset(PlayerAnimator.GetCurrentAnimatorClipInfo(0).Length));
         }
 
-        if (Input.GetKeyDown("z") && MovementAllowed &&!JumpAttackinProgress &&!combo)  //punch
+        if (Input.GetKeyDown("z") && MovementAllowed && !JumpAttackinProgress && !combo)  //punch
         {
             MovementAllowed = false;
             combo = true;
@@ -262,29 +276,37 @@ public class Player : MonoBehaviour
             StartCoroutine(ComboReset(PlayerAnimator.GetCurrentAnimatorClipInfo(0).Length));
             StartCoroutine(MovementAllowReset(PlayerAnimator.GetCurrentAnimatorClipInfo(0).Length));
             //StartCoroutine(SendDamageReset(PlayerAnimator.GetCurrentAnimatorClipInfo(0).Length));
-            
-            
+
+
         }
         else if (Input.GetKeyDown("z") && combo)
         {
-            
+
             combocontinue = true;
             PlayerAnimator.SetLayerWeight(1, 0f);
             SendDamage = 0.065f;
             PlayerAnimator.SetTrigger("combopunch");
-            PlayerAudioController.PlayOneShot(GS_Punch);          
+            PlayerAudioController.PlayOneShot(GS_Punch);
             combo = false;
             StartCoroutine(ComboReset(PlayerAnimator.GetCurrentAnimatorClipInfo(0).Length));
         }
+        if (Input.GetKeyDown("c")&& SpecialAttackActive)
+        {
+            PlayerAnimator.SetTrigger("Special");
+            G_GameManager.PlayerSpecialAttackReady=false;
+            specialattack = true;
+            SpecialAttackActive = false;
+        }
+
         if (Input.GetKeyDown("x") && combocontinue)
         {
             PlayerAnimator.SetLayerWeight(1, 0f);
             SendDamage = 0.05f;
             PlayerAnimator.SetTrigger("combokick");
-            PlayerAudioController.PlayOneShot(GS_Kick);           
+            PlayerAudioController.PlayOneShot(GS_Kick);
             StartCoroutine(ComboReset(0f));
         }
-        if (Input.GetKeyDown("x") && combo) 
+        if (Input.GetKeyDown("x") && combo)
         {
             StartCoroutine(ComboReset(0f));
             PlayerAnimator.ResetTrigger("combopunch");
@@ -292,7 +314,7 @@ public class Player : MonoBehaviour
         }
 
 
-            if (Input.GetKeyDown("x") && MovementAllowed && !JumpAttackinProgress)  //kick
+        if (Input.GetKeyDown("x") && MovementAllowed && !JumpAttackinProgress)  //kick
         {
 
             MovementAllowed = false;
@@ -322,7 +344,7 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(G_Time);
         combocontinue = false;
         combo = false;
-        
+
     }
 
 
@@ -357,11 +379,30 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other.name);
-        
+
+
 
         if (!block)
         {
+            if (other.tag == "CPU_Weapon" && !SpecialHithurt)
+            {
+                Debug.Log("weapon hit");
+                SpecialHithurt = true;
+                PlayerAnimator.SetTrigger("HitMiddle");
+                health = health - 0.3f;
+                damagedelay = Time.time + 3f;
+                playergothurt = true;
+                StartCoroutine(hurtreset());
+                StartCoroutine(SpecialHitreset());
+                Instantiate(Effect1, other.transform.position, Effect1.transform.rotation);
+                Instantiate(Effect2, other.transform.position, Effect2.transform.rotation);
+                PlayerAudioController.PlayOneShot(GS_Damage);
+                StartCoroutine(PlayerDamageColorChange());
+                hits++;
+                HitsText.text = hits + " Hits";
+                HitTimeCheck = Time.time + 1f;
+            }
+
             if (other.tag == "CPU_Foot" && G_GameManager.CPUSendDamage != 0f && !damageonce && !playergothurt)
             {
 
@@ -399,7 +440,7 @@ public class Player : MonoBehaviour
         {
             if (other.tag == "CPU_Foot" && G_GameManager.CPUSendDamage != 0f && !playergothurt)
             {
-                stamina = stamina - G_GameManager.CPUSendDamage* damagemultiplier;
+                stamina = stamina - G_GameManager.CPUSendDamage * damagemultiplier;
                 Instantiate(Effect3, other.transform.position, Effect3.transform.rotation);
                 if (!G_GameManager.CPUComboinProcess)
                 {
@@ -423,7 +464,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    
+
 
 
     IEnumerator hurtreset()
@@ -434,21 +475,16 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(differentTimes[selectTime]);
         playergothurt = false;
         //Debug.Log("Reset at "+Time.time);
-
     }
-
-    
-    /*
-      public  void ChildOnTriggerExit()
+    IEnumerator SpecialHitreset()
     {
-        damageonce = false;
-        if (Time.time > HitTimeCheck)
-        {
-            StartCoroutine(HitsTextReset(0.5f));
-        }
-        Debug.Log("Access Complete");
+        yield return new WaitForSeconds(3f);
+        SpecialHithurt = false;
+
     }
-    */
+    
+    
+
 
 
 
@@ -496,6 +532,19 @@ public class Player : MonoBehaviour
             WinSoundActivated = true;
         }
     }
+
+    public void WeaponOn()
+    {
+        Weapon.SetActive(true);
+        CameraControls.CameraShakeActivate = true;
+    }
+
+    public void WeaponOff()
+    {
+        Weapon.SetActive(false);
+       
+    }
+
 
     void ClearTriggers()
     {
