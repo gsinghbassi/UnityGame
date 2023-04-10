@@ -64,7 +64,7 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.9191011
+      - time: 0.5424777
         functionName: WeaponOff
         data: 
         objectReferenceParameter: {instanceID: 0}

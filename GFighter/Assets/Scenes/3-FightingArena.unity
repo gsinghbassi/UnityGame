@@ -5424,7 +5424,6 @@ MonoBehaviour:
   PlayerCharacter: {fileID: 0}
   CPUCharacter: {fileID: 0}
   maxshake: 0.4
-  finishshake: 2
 --- !u!82 &943610958
 AudioSource:
   m_ObjectHideFlags: 0
@@ -7205,6 +7204,7 @@ MonoBehaviour:
   Characters:
   - {fileID: 8191061254282518107, guid: 780342519912f09489c78069730d0257, type: 3}
   - {fileID: 2158176788920847128, guid: 69ad52650acbbff46a93d466b0eadd77, type: 3}
+  - {fileID: 1202262034332045194, guid: 5eaa06159825db448b79e56c283d2a4c, type: 3}
   PlayerStartPosition: {fileID: 545118063}
   CPUStartPosition: {fileID: 1108827854}
   PlayerPicture: {fileID: 1187992642}

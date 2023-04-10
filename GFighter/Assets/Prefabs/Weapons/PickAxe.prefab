@@ -9,9 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8806922403291669688}
+  - component: {fileID: 5246222071726242269}
   m_Layer: 0
   m_Name: PickAxe
-  m_TagString: Untagged
+  m_TagString: P_Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -32,6 +33,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &5246222071726242269
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4504568455997832297}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.862185, y: 1.2747962, z: 1.6731688}
+  m_Center: {x: -0.0060224533, y: 0.38911998, z: 0.046914518}
 --- !u!1001 &1951167118033108425
 PrefabInstance:
   m_ObjectHideFlags: 0

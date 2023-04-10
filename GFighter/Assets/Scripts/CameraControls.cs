@@ -29,7 +29,7 @@ public class CameraControls : MonoBehaviour
     Vector3 shakeposition;
     float shakefrequency = 20;
     public float maxshake;
-    public float finishshake;
+    float finishshake;
 
 
     
@@ -38,7 +38,7 @@ public class CameraControls : MonoBehaviour
     void Start()
     {
         CameraShakeActivate = false;
-        CameraShakeDuration = 5f;
+        CameraShakeDuration = 1f;
         NormalCameraPositionY=transform.position.y;
         CameraXmin = -3.5f;
         CameraXmax = CameraXmin - 2.5f;
@@ -76,11 +76,13 @@ public class CameraControls : MonoBehaviour
         }
         transform.position = new Vector3(CameraX, NormalCameraPositionY, CameraCenterPosition);
 
-        if(Input.GetKeyDown("m")|| CameraShakeActivate)
+        if(CameraShakeActivate)
         {
             CurrentCameraPosition = transform.position;
             CameraShake = true;
-            finishshake = 2;
+            CameraShakeDuration = 1f;
+            finishshake = 1f;
+            
         }
         
         if (CameraShake)
@@ -98,7 +100,7 @@ public class CameraControls : MonoBehaviour
         
         shakeposition = new Vector3(Mathf.PerlinNoise(Random.value, Time.time * shakefrequency) * 2 - 1, Mathf.PerlinNoise(Random.value+1, Time.time * shakefrequency) * 2 - 1, Mathf.PerlinNoise(Random.value+2, Time.time * shakefrequency) * 2 - 1) * maxshake*finishshake;
         transform.localPosition = CurrentCameraPosition+shakeposition;
-        finishshake = Mathf.Clamp01(finishshake-CameraShakeDuration * Time.deltaTime);
+        finishshake = Mathf.Clamp01(finishshake- G_Duration * Time.deltaTime);        
         StartCoroutine(ResetCamera());
 
     }

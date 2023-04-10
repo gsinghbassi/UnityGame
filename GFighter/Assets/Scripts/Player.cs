@@ -537,12 +537,13 @@ public class Player : MonoBehaviour
     {
         Weapon.SetActive(true);
         CameraControls.CameraShakeActivate = true;
+        Time.timeScale = 0.35f;
     }
 
     public void WeaponOff()
     {
         Weapon.SetActive(false);
-       
+        Time.timeScale = 1f;
     }
 
 

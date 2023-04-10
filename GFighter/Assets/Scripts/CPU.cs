@@ -271,11 +271,13 @@ public class CPU : MonoBehaviour
         {
             if (SpecialAttackActive)
             {
-                CPUSpecial = true;
+                CPUSpecial = true;                
                 ClearTriggers();
             }
+            else if (!SpecialAttackActive) { 
 
-           if (AttackCount>2)
+            
+                if (AttackCount>2)
             {
                 if (KicksCount>=2)
                 {
@@ -332,6 +334,7 @@ public class CPU : MonoBehaviour
             }
                 AttackCount++;
             
+        }
         }
 
         else if (!isPlayerinRange)
@@ -716,7 +719,7 @@ public class CPU : MonoBehaviour
     {
         Weapon.SetActive(true);
         CameraControls.CameraShakeActivate = true;
-
+        Time.timeScale = 0.35f;
     }
 
     public void WeaponOff()
@@ -725,6 +728,7 @@ public class CPU : MonoBehaviour
         G_GameManager.CPUSpecialAttackReady = false;
         specialattack = true;
         SpecialAttackActive = false;
+        Time.timeScale = 1f;
     }
 
 
