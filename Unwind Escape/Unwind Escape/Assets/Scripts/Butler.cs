@@ -50,6 +50,15 @@ public class Butler : MonoBehaviour
             {
                 InteractionObject.GetComponent<LightSwitch>().LightsSwitch();
             }
+            if (InteractionObject.name == "CodeYellow")
+            {
+                InteractionObject.GetComponent<Animator>().SetTrigger("CodeMove");
+                InteractionObject.name = "CodeYellowOutside";
+            }
+            if (InteractionObject.name == "CodeYellowOutside")
+            {
+                G_Camera.GetComponent<CameraController>().CameraZoomObject("CodeYellowOutside",InteractionObject.transform);              
+            }
             if (InteractionObject.name == "DoorMain")
             {
                 if (InventoryKey)
@@ -82,6 +91,14 @@ public class Butler : MonoBehaviour
         {
             InformationTextController("Press E to Open the Door");            
         }
+        if(other.name== "CodeYellow")
+        {
+            InformationTextController("Press E to Check whats under the Rug.");
+        }
+        if (other.name == "CodeYellowOutside")
+        {
+            InformationTextController("Press E to Check the Code.");
+        }
 
     }
 
@@ -95,11 +112,19 @@ public class Butler : MonoBehaviour
         {
             InteractionObject = other.gameObject;
         }
+        if (other.name == "CodeYellow")
+        {
+            InteractionObject = other.gameObject;
+        }
+        if (other.name == "CodeYellowOutside")
+        {
+            InteractionObject = other.gameObject;
+        }
 
     }
     private void OnTriggerExit(Collider other)
     {
-        if (other.name == "LightSwitchVintage" || other.name == "DoorMain")
+        if (other.name == "LightSwitchVintage" || other.name == "DoorMain"|| other.name == "CodeYellow"|| other.name == "CodeYellowOutside")
         {
             InformationText.text = "";
             InteractionObject = null;

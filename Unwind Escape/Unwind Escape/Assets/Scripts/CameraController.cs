@@ -12,6 +12,8 @@ public class CameraController : MonoBehaviour
     Quaternion Rot3 = Quaternion.Euler(45f, 315f, 0f);
     Vector3 Pos4 = new Vector3(-10f, 16f, -10f);
     Quaternion Rot4 = Quaternion.Euler(45f, 405f, 0f);
+    Vector3 PosCodeYellow = new Vector3(-2.078956f, 1.034713f, -2.056693f);
+    Quaternion RotCodeYellow = Quaternion.Euler(86.39f, 125.822f, 0f);
     public GameObject Set1;
     public GameObject Set2;
     public GameObject Set3;
@@ -20,6 +22,8 @@ public class CameraController : MonoBehaviour
     public float cameraspeed;
     Vector3 CameraTargetPosition;
     Quaternion CameraTargetRotation;
+    Transform CameraTargetForRoomAxo;
+    Transform CameraTarget;
     
     
 
@@ -37,12 +41,17 @@ public class CameraController : MonoBehaviour
         Set2.SetActive(true);
         Set3.SetActive(false);
         Set4.SetActive(false);
+        CameraTargetForRoomAxo = GameObject.Find("CameraTarget-Center").transform;
+        CameraTarget = CameraTargetForRoomAxo;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (transform.position != CameraTargetPosition) { transform.LookAt(GameObject.Find("CameraTarget-Center").transform); }
+        if (transform.position != CameraTargetPosition) 
+        { 
+            transform.LookAt(CameraTarget); 
+        } 
         transform.position=Vector3.MoveTowards(transform.position,CameraTargetPosition,cameraspeed);
         transform.rotation = Quaternion.RotateTowards(transform.rotation, CameraTargetRotation, cameraspeed* 5f);
         
@@ -51,12 +60,26 @@ public class CameraController : MonoBehaviour
     }
 
     
-    
+    public void CameraZoomObject(string G_Value,Transform G_Object)
+    {
+        if(G_Value=="CodeYellowOutside")
+        {
+            GetComponent<Camera>().orthographicSize = 0.6f;
+            CameraTarget = G_Object;
+            CameraTargetPosition = PosCodeYellow;
+            CameraTargetRotation = RotCodeYellow;
+            
+            
+        }
+    }
 
 
     public void CameraControls(string G_Value)
     {
-        if (G_Value == "right") {
+        if (G_Value == "right") 
+        {
+            CameraTarget = CameraTargetForRoomAxo;
+            GetComponent<Camera>().orthographicSize = 5.51f;
             if (updatecamera < 4)
             {
                 updatecamera++;
@@ -68,6 +91,8 @@ public class CameraController : MonoBehaviour
         }
         if (G_Value == "left")
         {
+            CameraTarget = CameraTargetForRoomAxo;
+            GetComponent<Camera>().orthographicSize = 5.51f;
             if (updatecamera > 1)
             {
                 updatecamera--;
@@ -81,7 +106,7 @@ public class CameraController : MonoBehaviour
         if (updatecamera==1)
         {
             CameraTargetPosition = Pos1;
-            CameraTargetRotation = Rot1;
+            CameraTargetRotation = Rot1;            
             Set1.SetActive(true);
             Set2.SetActive(true);
             Set3.SetActive(false);
