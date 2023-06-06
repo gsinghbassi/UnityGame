@@ -57,7 +57,25 @@ public class Butler : MonoBehaviour
             }
             if (InteractionObject.name == "CodeYellowOutside")
             {
-                G_Camera.GetComponent<CameraController>().CameraZoomObject("CodeYellowOutside",InteractionObject.transform);              
+                G_Camera.GetComponent<CameraController>().CameraZoomObject("CodeYellowOutside",InteractionObject.transform);
+                InformationText.text = "";
+            }
+            if (InteractionObject.name == "CodeOrange")
+            {
+                G_Camera.GetComponent<CameraController>().CameraZoomObject("CodeOrange", InteractionObject.transform);
+                InformationText.text = "";
+            }
+            if (InteractionObject.name == "Painting")
+            {
+                GameObject.Find("PaintingPivot").GetComponent<Animator>().SetTrigger("Rotate");                
+                G_Camera.GetComponent<CameraController>().CameraZoomObject("CodeRed", InteractionObject.transform);
+                InformationText.text = "";
+                InteractionObject.name = "CodeRed";
+            }
+            if (InteractionObject.name == "CodeRed")
+            {
+                G_Camera.GetComponent<CameraController>().CameraZoomObject("CodeRed", InteractionObject.transform);
+                InformationText.text = "";
             }
             if (InteractionObject.name == "DoorMain")
             {
@@ -97,7 +115,23 @@ public class Butler : MonoBehaviour
         }
         if (other.name == "CodeYellowOutside")
         {
-            InformationTextController("Press E to Check the Code.");
+            InformationTextController("Press E to Check the Code on the Floor.");
+        }
+        if (other.name == "CodeOrange")
+        {
+            InformationTextController("Press E to Check whats on top of the table.");
+        }
+        if (other.name == "WallHint")
+        {
+            InformationTextController("This wall has no furniture. Looks mysterious!");
+        }
+        if (other.name == "Painting")
+        {
+            InformationTextController("Press E to inspect the Painting");
+        }
+        if (other.name == "CodeRed")
+        {
+            InformationTextController("Press E to check the Code");
         }
 
     }
@@ -120,11 +154,23 @@ public class Butler : MonoBehaviour
         {
             InteractionObject = other.gameObject;
         }
+        if (other.name == "CodeOrange")
+        {
+            InteractionObject = other.gameObject;
+        }
+        if (other.name == "Painting")
+        {
+            InteractionObject = other.gameObject;
+        }
+        if (other.name == "CodeRed")
+        {
+            InteractionObject = other.gameObject;
+        }
 
     }
     private void OnTriggerExit(Collider other)
     {
-        if (other.name == "LightSwitchVintage" || other.name == "DoorMain"|| other.name == "CodeYellow"|| other.name == "CodeYellowOutside")
+        if (other.name == "LightSwitchVintage" || other.name == "DoorMain"|| other.name == "CodeYellow"|| other.name == "CodeYellowOutside" || other.name == "CodeOrange"|| other.name == "WallHint" || other.name == "Painting" || other.name == "CodeRed")
         {
             InformationText.text = "";
             InteractionObject = null;

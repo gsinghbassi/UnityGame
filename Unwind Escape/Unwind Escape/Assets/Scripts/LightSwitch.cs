@@ -9,6 +9,8 @@ public class LightSwitch : MonoBehaviour
     Animator LightsAnimator;
     public GameObject HiddenObj1;
     public GameObject HiddenObj2;
+    public GameObject HiddenObj3Collider;
+    public Material LampShade;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,6 +20,9 @@ public class LightSwitch : MonoBehaviour
         LightsAnimator.SetBool("On", true);
         HiddenObj1.SetActive(false);
         HiddenObj2.SetActive(false);
+        HiddenObj3Collider.SetActive(true);
+        LampShade.SetColor("_EmissionColor", Color.white);
+        
     }
 
     // Update is called once per frame
@@ -32,17 +37,21 @@ public class LightSwitch : MonoBehaviour
         {
             LightsOn = false;
             LightsAnimator.SetBool("On", false);
+            LampShade.SetColor("_EmissionColor", Color.grey);
             LightSwitchControls(0);
             HiddenObj1.SetActive(true);
             HiddenObj2.SetActive(true);
+            HiddenObj3Collider.SetActive(false);
         }
         else if(!LightsOn)
         {
             LightsOn = true;
             LightsAnimator.SetBool("On", true);
+            LampShade.SetColor("_EmissionColor", Color.white);
             LightSwitchControls(1);
             HiddenObj1.SetActive(false);
             HiddenObj2.SetActive(false);
+            HiddenObj3Collider.SetActive(true);
         }
     }
 

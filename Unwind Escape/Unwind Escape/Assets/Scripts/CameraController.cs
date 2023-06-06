@@ -14,6 +14,10 @@ public class CameraController : MonoBehaviour
     Quaternion Rot4 = Quaternion.Euler(45f, 405f, 0f);
     Vector3 PosCodeYellow = new Vector3(-2.078956f, 1.034713f, -2.056693f);
     Quaternion RotCodeYellow = Quaternion.Euler(86.39f, 125.822f, 0f);
+    Vector3 PosCodeOrange = new Vector3(0.1060199f, 1.854301f, -3.629745f);    
+    Quaternion RotCodeOrange = Quaternion.Euler(85.875f, 181.172f, 0f);
+    Vector3 PosCodeRed = new Vector3(0.05355277f, 1.806422f, 2.460785f);
+    Quaternion RotCodeRed = Quaternion.Euler(2.922f, -0.136f, 0f);
     public GameObject Set1;
     public GameObject Set2;
     public GameObject Set3;
@@ -23,7 +27,13 @@ public class CameraController : MonoBehaviour
     Vector3 CameraTargetPosition;
     Quaternion CameraTargetRotation;
     Transform CameraTargetForRoomAxo;
+    Transform CameraTargetSet1;
+    Transform CameraTargetSet2;
+    Transform CameraTargetSet3;
+    Transform CameraTargetSet4;
     Transform CameraTarget;
+    public LayerMask PlayerMask;
+    public LayerMask EverythingMask;
     
     
 
@@ -42,7 +52,11 @@ public class CameraController : MonoBehaviour
         Set3.SetActive(false);
         Set4.SetActive(false);
         CameraTargetForRoomAxo = GameObject.Find("CameraTarget-Center").transform;
-        CameraTarget = CameraTargetForRoomAxo;
+        CameraTargetSet1 = GameObject.Find("CameraTarget-Set1").transform;
+        CameraTargetSet2 = GameObject.Find("CameraTarget-Set2").transform;
+        CameraTargetSet3 = GameObject.Find("CameraTarget-Set3").transform;
+        CameraTargetSet4 = GameObject.Find("CameraTarget-Set4").transform;
+        CameraTarget = CameraTargetSet1;
     }
 
     // Update is called once per frame
@@ -68,8 +82,23 @@ public class CameraController : MonoBehaviour
             CameraTarget = G_Object;
             CameraTargetPosition = PosCodeYellow;
             CameraTargetRotation = RotCodeYellow;
-            
-            
+            GetComponent<Camera>().cullingMask = PlayerMask;
+        }
+        if (G_Value == "CodeOrange")
+        {
+            GetComponent<Camera>().orthographicSize = 0.21f;
+            CameraTarget = G_Object;
+            CameraTargetPosition = PosCodeOrange;
+            CameraTargetRotation = RotCodeOrange;
+            GetComponent<Camera>().cullingMask = PlayerMask;
+        }
+        if (G_Value == "CodeRed")
+        {
+            GetComponent<Camera>().orthographicSize = 0.8f;
+            CameraTarget = G_Object;
+            CameraTargetPosition = PosCodeRed;
+            CameraTargetRotation = RotCodeRed;
+            GetComponent<Camera>().cullingMask = PlayerMask;
         }
     }
 
@@ -80,6 +109,7 @@ public class CameraController : MonoBehaviour
         {
             CameraTarget = CameraTargetForRoomAxo;
             GetComponent<Camera>().orthographicSize = 5.51f;
+            GetComponent<Camera>().cullingMask = EverythingMask;
             if (updatecamera < 4)
             {
                 updatecamera++;
@@ -93,6 +123,7 @@ public class CameraController : MonoBehaviour
         {
             CameraTarget = CameraTargetForRoomAxo;
             GetComponent<Camera>().orthographicSize = 5.51f;
+            GetComponent<Camera>().cullingMask = EverythingMask;
             if (updatecamera > 1)
             {
                 updatecamera--;
@@ -105,6 +136,7 @@ public class CameraController : MonoBehaviour
 
         if (updatecamera==1)
         {
+            CameraTarget = CameraTargetSet1;
             CameraTargetPosition = Pos1;
             CameraTargetRotation = Rot1;            
             Set1.SetActive(true);
@@ -115,7 +147,7 @@ public class CameraController : MonoBehaviour
         }
         if (updatecamera == 2)
         {
-            
+            CameraTarget = CameraTargetSet2;
             CameraTargetPosition = Pos2;
             CameraTargetRotation = Rot2;
             Set1.SetActive(false);
@@ -125,6 +157,7 @@ public class CameraController : MonoBehaviour
         }
         if (updatecamera == 3)
         {
+            CameraTarget = CameraTargetSet3;
             CameraTargetPosition = Pos3;
             CameraTargetRotation = Rot3;
             Set1.SetActive(false);
@@ -134,6 +167,7 @@ public class CameraController : MonoBehaviour
         }
         if (updatecamera == 4)
         {
+            CameraTarget = CameraTargetSet4;
             CameraTargetPosition = Pos4;
             CameraTargetRotation = Rot4;
             Set1.SetActive(true);
