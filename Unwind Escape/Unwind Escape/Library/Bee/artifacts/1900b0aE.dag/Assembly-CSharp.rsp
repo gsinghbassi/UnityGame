@@ -352,6 +352,8 @@
 "Assets/Scripts/ArrowClicks.cs"
 "Assets/Scripts/Butler.cs"
 "Assets/Scripts/CameraController.cs"
+"Assets/Scripts/CombinationLock.cs"
+"Assets/Scripts/Cupboards.cs"
 "Assets/Scripts/LightSwitch.cs"
 "Assets/Scripts/test.cs"
 -langversion:9.0

@@ -18,6 +18,8 @@ public class CameraController : MonoBehaviour
     Quaternion RotCodeOrange = Quaternion.Euler(85.875f, 181.172f, 0f);
     Vector3 PosCodeRed = new Vector3(0.05355277f, 1.806422f, 2.460785f);
     Quaternion RotCodeRed = Quaternion.Euler(2.922f, -0.136f, 0f);
+    Vector3 PosChest = new Vector3(1.628471f, 1.822493f, 2.730999f);
+    Quaternion RotChest = Quaternion.Euler(0.688f, -0.376f, 0f);
     public GameObject Set1;
     public GameObject Set2;
     public GameObject Set3;
@@ -100,7 +102,16 @@ public class CameraController : MonoBehaviour
             CameraTargetRotation = RotCodeRed;
             GetComponent<Camera>().cullingMask = PlayerMask;
         }
-    }
+        if (G_Value == "Chest")
+        {
+            GetComponent<Camera>().orthographicSize = 0.5f;
+            CameraTarget = G_Object;
+            CameraTargetPosition = PosChest;
+            CameraTargetRotation = RotChest;
+            GetComponent<Camera>().cullingMask = PlayerMask;
+        }
+
+        }
 
 
     public void CameraControls(string G_Value)

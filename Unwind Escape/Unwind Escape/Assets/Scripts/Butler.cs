@@ -11,6 +11,7 @@ public class Butler : MonoBehaviour
     public TextMeshProUGUI InformationText;
     public GameObject InteractionObject;
     public bool InventoryKey;
+    public GameObject ChestwithKey;
    
     Camera G_Camera;
     // Start is called before the first frame update
@@ -88,6 +89,39 @@ public class Butler : MonoBehaviour
                     InformationTextController("I need to find the key first.");
                 }
             }
+            if (InteractionObject.name == "Cupboard1" || InteractionObject.name == "Cupboard2"  || InteractionObject.name == "Cupboard4")
+            {
+                
+                if (InteractionObject.GetComponent<Animator>().GetBool("COpen")==true)
+                {
+                    InteractionObject.GetComponent<Animator>().SetBool("COpen", false);
+                    InteractionObject.GetComponent<Cupboards>().DoorOpen = false;
+                    InformationTextController("Press E to open the cupboard door.");
+                }
+                else if (InteractionObject.GetComponent<Animator>().GetBool("COpen") == false)
+                {
+                    InteractionObject.GetComponent<Animator>().SetBool("COpen", true);
+                    InteractionObject.GetComponent<Cupboards>().DoorOpen = true;
+                    InformationTextController("Press E to close the cupboard door.");
+                }
+
+            }
+            if(InteractionObject.name == "CupboardWithChest")
+            {
+                InformationText.text = "";
+                InteractionObject.GetComponent<Animator>().SetBool("COpen", true);
+                InteractionObject.GetComponent<BoxCollider>().enabled = false;
+                InteractionObject.GetComponent<Cupboards>().DoorOpen = true;
+                ChestwithKey.GetComponent<BoxCollider>().enabled = true;
+                G_Camera.GetComponent<CameraController>().CameraZoomObject("Chest", ChestwithKey.transform);
+
+            }
+
+            if (InteractionObject.name == "Chest")
+            {
+                G_Camera.GetComponent<CameraController>().CameraZoomObject("Chest", InteractionObject.transform);
+
+            }
 
         }
 
@@ -133,6 +167,21 @@ public class Butler : MonoBehaviour
         {
             InformationTextController("Press E to check the Code");
         }
+        if (other.name == "Cupboard1"|| other.name == "Cupboard2"||other.name == "CupboardWithChest" || other.name == "Cupboard4")
+        {
+            if (other.GetComponent<Animator>().GetBool("COpen") == false)
+            {
+                InformationTextController("Press E to open the cupboard door.");
+            }
+            else if (other.GetComponent<Animator>().GetBool("COpen") == true)
+            {
+                InformationTextController("Press E to close the cupboard door.");
+            }
+        }
+        if (other.name == "Chest")
+        {
+            InformationTextController("Press E to Open the Chest.");
+        }
 
     }
 
@@ -163,6 +212,14 @@ public class Butler : MonoBehaviour
             InteractionObject = other.gameObject;
         }
         if (other.name == "CodeRed")
+        {
+            InteractionObject = other.gameObject;
+        }
+        if (other.name == "Cupboard1" || other.name == "Cupboard2" || other.name == "CupboardWithChest" || other.name == "Cupboard4")
+        {
+            InteractionObject = other.gameObject;
+        }
+        if(other.name=="Chest")
         {
             InteractionObject = other.gameObject;
         }
