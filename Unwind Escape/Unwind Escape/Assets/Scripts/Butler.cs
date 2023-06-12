@@ -12,8 +12,10 @@ public class Butler : MonoBehaviour
     public GameObject InteractionObject;
     public bool InventoryKey;
     public GameObject ChestwithKey;
-   
     Camera G_Camera;
+    
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -119,8 +121,15 @@ public class Butler : MonoBehaviour
 
             if (InteractionObject.name == "Chest")
             {
+                InformationText.text = "";
                 G_Camera.GetComponent<CameraController>().CameraZoomObject("Chest", InteractionObject.transform);
 
+            }
+            if (InteractionObject.name == "Key")
+            {
+                InformationText.text = "";
+                Destroy(InteractionObject);
+                G_Camera.GetComponent<CameraController>().Back();
             }
 
         }
@@ -182,6 +191,10 @@ public class Butler : MonoBehaviour
         {
             InformationTextController("Press E to Open the Chest.");
         }
+        if (other.name == "Key")
+        {
+            InformationTextController("Press E to Take the Key.");
+        }
 
     }
 
@@ -220,6 +233,10 @@ public class Butler : MonoBehaviour
             InteractionObject = other.gameObject;
         }
         if(other.name=="Chest")
+        {
+            InteractionObject = other.gameObject;
+        }
+        if (other.name == "Key")
         {
             InteractionObject = other.gameObject;
         }

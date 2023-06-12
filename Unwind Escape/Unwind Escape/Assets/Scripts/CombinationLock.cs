@@ -18,11 +18,19 @@ public class CombinationLock : MonoBehaviour
     Quaternion AnglePink;
     Quaternion AngleBlue;
     Quaternion AngleOrange;
-    
+    bool Checklockyellow;
+    bool Checklockpink;
+    bool Checklockblue;
+    bool Checklockorange;
+    public bool CodeMatched;
+    public GameObject Chest;
+    public GameObject ChestArrows;
+    public GameObject Key;
 
     // Start is called before the first frame update
     void Start()
     {
+        CodeMatched = false;
         lockyellow = transform.Find("Lock-Yellow").gameObject;
         lockpink = transform.Find("Lock-Pink").gameObject;
         lockblue = transform.Find("Lock-Blue").gameObject;
@@ -36,7 +44,7 @@ public class CombinationLock : MonoBehaviour
         AnglePink = Quaternion.Euler(0, -90, currentanglevaluepink);
         AngleBlue = Quaternion.Euler(0, -90, currentanglevalueblue);
         AngleOrange = Quaternion.Euler(0, -90, currentanglevalueorange);
-
+        Key.SetActive(false);
     }
 
     // Update is called once per frame
@@ -48,6 +56,27 @@ public class CombinationLock : MonoBehaviour
        lockblue.transform.rotation= Quaternion.Slerp(lockblue.transform.rotation, AngleBlue, Time.deltaTime * turningspeed);
        lockorange.transform.rotation= Quaternion.Slerp(lockorange.transform.rotation, AngleOrange, Time.deltaTime * turningspeed);
 
+        Checklockyellow = transform.Find("CheckYellow").gameObject.GetComponent<CombinationLockCheck>().CodeTrue;
+        Checklockpink = transform.Find("CheckPink").gameObject.GetComponent<CombinationLockCheck>().CodeTrue;
+        Checklockblue = transform.Find("CheckBlue").gameObject.GetComponent<CombinationLockCheck>().CodeTrue;
+        Checklockorange = transform.Find("CheckOrange").gameObject.GetComponent<CombinationLockCheck>().CodeTrue;
+
+        if (Checklockyellow&&Checklockpink&&Checklockblue&&Checklockorange)
+        {
+            CodeMatched = true;
+            Chest.GetComponent<Animator>().SetBool("ChestOpen",true);
+            Chest.name = "ChestOpened";
+            ChestArrows.SetActive(false);
+            if (Key!=null)
+            {
+                Key.SetActive(true);
+            }
+        }
+        if(!Checklockyellow || !Checklockpink ||!Checklockblue || !Checklockorange)
+        {
+            CodeMatched = false; 
+        }
+        
     }
 
     public void RotateLockYellow(int G_Value)        

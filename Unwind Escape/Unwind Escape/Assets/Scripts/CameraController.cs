@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
+    public Vector3 PrevCameraPosition;
+    public Quaternion PrevCameraRotation;
     Vector3 Pos1 = new Vector3(-5f,9f,5f);
     Quaternion Rot1 = Quaternion.Euler(45f,135f,0f);
     Vector3 Pos2 = new Vector3(5f,8.5f,5f);
@@ -18,7 +20,7 @@ public class CameraController : MonoBehaviour
     Quaternion RotCodeOrange = Quaternion.Euler(85.875f, 181.172f, 0f);
     Vector3 PosCodeRed = new Vector3(0.05355277f, 1.806422f, 2.460785f);
     Quaternion RotCodeRed = Quaternion.Euler(2.922f, -0.136f, 0f);
-    Vector3 PosChest = new Vector3(1.628471f, 1.822493f, 2.730999f);
+    Vector3 PosChest = new Vector3(1.69f, 1.82f, 2.730999f);
     Quaternion RotChest = Quaternion.Euler(0.688f, -0.376f, 0f);
     public GameObject Set1;
     public GameObject Set2;
@@ -36,6 +38,8 @@ public class CameraController : MonoBehaviour
     Transform CameraTarget;
     public LayerMask PlayerMask;
     public LayerMask EverythingMask;
+    public GameObject ChestArrows;
+    public GameObject BackButton;
     
     
 
@@ -59,6 +63,10 @@ public class CameraController : MonoBehaviour
         CameraTargetSet3 = GameObject.Find("CameraTarget-Set3").transform;
         CameraTargetSet4 = GameObject.Find("CameraTarget-Set4").transform;
         CameraTarget = CameraTargetSet1;
+        ChestArrows.SetActive(false);
+        BackButton.SetActive(false);
+        PrevCameraPosition = CameraTargetPosition;
+        PrevCameraRotation = CameraTargetRotation;
     }
 
     // Update is called once per frame
@@ -78,13 +86,15 @@ public class CameraController : MonoBehaviour
     
     public void CameraZoomObject(string G_Value,Transform G_Object)
     {
-        if(G_Value=="CodeYellowOutside")
+       
+        if (G_Value=="CodeYellowOutside")
         {
             GetComponent<Camera>().orthographicSize = 0.6f;
             CameraTarget = G_Object;
             CameraTargetPosition = PosCodeYellow;
             CameraTargetRotation = RotCodeYellow;
             GetComponent<Camera>().cullingMask = PlayerMask;
+            BackButton.SetActive(true);
         }
         if (G_Value == "CodeOrange")
         {
@@ -93,6 +103,7 @@ public class CameraController : MonoBehaviour
             CameraTargetPosition = PosCodeOrange;
             CameraTargetRotation = RotCodeOrange;
             GetComponent<Camera>().cullingMask = PlayerMask;
+            BackButton.SetActive(true);
         }
         if (G_Value == "CodeRed")
         {
@@ -101,14 +112,17 @@ public class CameraController : MonoBehaviour
             CameraTargetPosition = PosCodeRed;
             CameraTargetRotation = RotCodeRed;
             GetComponent<Camera>().cullingMask = PlayerMask;
+            BackButton.SetActive(true);
         }
         if (G_Value == "Chest")
         {
-            GetComponent<Camera>().orthographicSize = 0.5f;
+            GetComponent<Camera>().orthographicSize = 0.2f;
             CameraTarget = G_Object;
             CameraTargetPosition = PosChest;
             CameraTargetRotation = RotChest;
             GetComponent<Camera>().cullingMask = PlayerMask;
+            BackButton.SetActive(true);
+            ChestArrows.SetActive(true);
         }
 
         }
@@ -121,6 +135,8 @@ public class CameraController : MonoBehaviour
             CameraTarget = CameraTargetForRoomAxo;
             GetComponent<Camera>().orthographicSize = 5.51f;
             GetComponent<Camera>().cullingMask = EverythingMask;
+            BackButton.SetActive(false);
+            ChestArrows.SetActive(false);
             if (updatecamera < 4)
             {
                 updatecamera++;
@@ -135,6 +151,8 @@ public class CameraController : MonoBehaviour
             CameraTarget = CameraTargetForRoomAxo;
             GetComponent<Camera>().orthographicSize = 5.51f;
             GetComponent<Camera>().cullingMask = EverythingMask;
+            BackButton.SetActive(false);
+            ChestArrows.SetActive(false);
             if (updatecamera > 1)
             {
                 updatecamera--;
@@ -154,6 +172,8 @@ public class CameraController : MonoBehaviour
             Set2.SetActive(true);
             Set3.SetActive(false);
             Set4.SetActive(false);
+            PrevCameraPosition = CameraTargetPosition;
+            PrevCameraRotation = CameraTargetRotation;
 
         }
         if (updatecamera == 2)
@@ -165,6 +185,8 @@ public class CameraController : MonoBehaviour
             Set2.SetActive(true);
             Set3.SetActive(true);
             Set4.SetActive(false);
+            PrevCameraPosition = CameraTargetPosition;
+            PrevCameraRotation = CameraTargetRotation;
         }
         if (updatecamera == 3)
         {
@@ -175,6 +197,8 @@ public class CameraController : MonoBehaviour
             Set2.SetActive(false);
             Set3.SetActive(true);
             Set4.SetActive(true);
+            PrevCameraPosition = CameraTargetPosition;
+            PrevCameraRotation = CameraTargetRotation;
         }
         if (updatecamera == 4)
         {
@@ -185,8 +209,20 @@ public class CameraController : MonoBehaviour
             Set2.SetActive(false);
             Set3.SetActive(false);
             Set4.SetActive(true);
+            PrevCameraPosition = CameraTargetPosition;
+            PrevCameraRotation = CameraTargetRotation;
         }
 
     }
 
+    public void Back()
+    {
+        GetComponent<Camera>().orthographicSize = 5.51f;
+        GetComponent<Camera>().cullingMask = EverythingMask;
+        BackButton.SetActive(false);
+        CameraTargetPosition = PrevCameraPosition;
+        CameraTargetRotation = PrevCameraRotation;
+        CameraTarget = CameraTargetForRoomAxo;
+        ChestArrows.SetActive(false);
+    }
 }

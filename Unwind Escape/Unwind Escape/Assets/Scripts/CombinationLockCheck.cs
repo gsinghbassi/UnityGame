@@ -7,9 +7,11 @@ public class CombinationLockCheck : MonoBehaviour
     public string CheckCode;
     public bool CodeTrue;
 
+    
+
     private void OnTriggerStay(Collider other)
     {
-        Debug.Log(other.name);
+       
         if(other.name== CheckCode)
         {
             CodeTrue = true;
