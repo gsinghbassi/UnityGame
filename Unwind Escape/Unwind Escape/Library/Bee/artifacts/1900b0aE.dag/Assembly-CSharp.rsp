@@ -356,6 +356,7 @@
 "Assets/Scripts/CombinationLockCheck.cs"
 "Assets/Scripts/Cupboards.cs"
 "Assets/Scripts/LightSwitch.cs"
+"Assets/Scripts/MainDoor.cs"
 "Assets/Scripts/test.cs"
 -langversion:9.0
 

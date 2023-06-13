@@ -22,6 +22,10 @@ public class CameraController : MonoBehaviour
     Quaternion RotCodeRed = Quaternion.Euler(2.922f, -0.136f, 0f);
     Vector3 PosChest = new Vector3(1.69f, 1.82f, 2.730999f);
     Quaternion RotChest = Quaternion.Euler(0.688f, -0.376f, 0f);
+    Vector3 PosKeyInsert = new Vector3(3.718723f, 1.420202f, 1.439942f);
+    Quaternion RotKeyInsert = Quaternion.Euler(33.038f, 44.862f, 0f);
+    Vector3 PosDoor = new Vector3(3.718723f, 1.420202f, 1.439942f);
+    Quaternion RotDoor = Quaternion.Euler(33.038f, 44.862f, 0f);
     public GameObject Set1;
     public GameObject Set2;
     public GameObject Set3;
@@ -122,7 +126,29 @@ public class CameraController : MonoBehaviour
             CameraTargetRotation = RotChest;
             GetComponent<Camera>().cullingMask = PlayerMask;
             BackButton.SetActive(true);
-            ChestArrows.SetActive(true);
+            StartCoroutine(ArrowsDelay());
+        }
+        if (G_Value == "KeyInsert")
+        {
+            GetComponent<Camera>().orthographicSize = 0.2f;     
+            CameraTarget = G_Object;
+            CameraTargetPosition = PosKeyInsert;
+            CameraTargetRotation = RotKeyInsert;
+            GetComponent<Camera>().cullingMask = PlayerMask;        
+            
+        }
+        if (G_Value == "DoorZoom")
+        {
+            GetComponent<Camera>().orthographicSize = 2f;
+            CameraTarget = G_Object;
+            CameraTargetPosition = PosDoor;
+            CameraTargetRotation = RotDoor;
+            GetComponent<Camera>().cullingMask = EverythingMask;            
+            Set1.SetActive(true);
+            Set2.SetActive(false);
+            Set3.SetActive(false);
+            Set4.SetActive(true);
+            StartCoroutine(DoorZoomOut());
         }
 
         }
@@ -132,6 +158,7 @@ public class CameraController : MonoBehaviour
     {
         if (G_Value == "right") 
         {
+            Butler.clearinteractionobjects = true;
             CameraTarget = CameraTargetForRoomAxo;
             GetComponent<Camera>().orthographicSize = 5.51f;
             GetComponent<Camera>().cullingMask = EverythingMask;
@@ -148,6 +175,7 @@ public class CameraController : MonoBehaviour
         }
         if (G_Value == "left")
         {
+            Butler.clearinteractionobjects = true;
             CameraTarget = CameraTargetForRoomAxo;
             GetComponent<Camera>().orthographicSize = 5.51f;
             GetComponent<Camera>().cullingMask = EverythingMask;
@@ -224,5 +252,25 @@ public class CameraController : MonoBehaviour
         CameraTargetRotation = PrevCameraRotation;
         CameraTarget = CameraTargetForRoomAxo;
         ChestArrows.SetActive(false);
+    }
+
+
+    IEnumerator ArrowsDelay()
+    {
+        yield return new WaitForSeconds(1.5f);
+        ChestArrows.SetActive(true);
+    }
+    IEnumerator DoorZoomOut()
+    {
+        yield return new WaitForSeconds(2.2f);        
+        GetComponent<Camera>().orthographicSize = 5.51f;
+        CameraTargetPosition = Pos4;
+        CameraTargetRotation = Rot4;
+        Set1.SetActive(true);
+        Set2.SetActive(false);
+        Set3.SetActive(false);
+        Set4.SetActive(true);
+        PrevCameraPosition = CameraTargetPosition;
+        PrevCameraRotation = CameraTargetRotation;
     }
 }

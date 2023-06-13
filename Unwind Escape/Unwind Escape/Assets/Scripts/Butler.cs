@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using TMPro;
+using UnityEngine.UI;
 
 public class Butler : MonoBehaviour
 {
@@ -13,16 +14,25 @@ public class Butler : MonoBehaviour
     public bool InventoryKey;
     public GameObject ChestwithKey;
     Camera G_Camera;
+    public static bool clearinteractionobjects;
+    public GameObject KeyImage;
+    public GameObject InventoryBGImage;
+    public GameObject KeyHole;
+    
+
     
 
 
     // Start is called before the first frame update
     void Start()
     {
+        
         InventoryKey = false;
         ButlerAnimator = GetComponent<Animator>();
         G_Butler = GetComponent<NavMeshAgent>();
         G_Camera = GameObject.Find("Main Camera").GetComponent<Camera>();
+        InventoryBGImage.SetActive(false);
+        KeyImage.SetActive(false);
     }
 
     // Update is called once per frame
@@ -45,6 +55,13 @@ public class Butler : MonoBehaviour
         if (G_Butler.velocity == Vector3.zero)
         {
             ButlerAnimator.SetBool("Walk", false);
+        }
+
+        if(clearinteractionobjects)
+        {
+            clearinteractionobjects = false;
+            InformationText.text = "";
+            InteractionObject = null;
         }
 
         if(InteractionObject!=null&&Input.GetKeyDown("e"))
@@ -82,13 +99,22 @@ public class Butler : MonoBehaviour
             }
             if (InteractionObject.name == "DoorMain")
             {
-                if (InventoryKey)
+                if (InventoryKey && !InteractionObject.GetComponent<MainDoor>().DoorOpen)
                 {
-                    InteractionObject.GetComponent<Animator>().SetBool("DoorOpen", true);
+                    InteractionObject.GetComponent<MainDoor>().DoorOpen=true;
+                    InventoryBGImage.SetActive(false);
+                    KeyImage.SetActive(false);                    
+                    G_Camera.GetComponent<CameraController>().CameraZoomObject("KeyInsert", KeyHole.transform);
+                    InformationTextController("Press E to Leave the Room.");
+                    
                 }
-                else if (!InventoryKey)
+                if (!InventoryKey)
                 {
                     InformationTextController("I need to find the key first.");
+                }
+                if(InteractionObject.GetComponent<MainDoor>().DoorOpen)
+                {
+                    InformationTextController("Press E to Leave the Room.");
                 }
             }
             if (InteractionObject.name == "Cupboard1" || InteractionObject.name == "Cupboard2"  || InteractionObject.name == "Cupboard4")
@@ -127,9 +153,13 @@ public class Butler : MonoBehaviour
             }
             if (InteractionObject.name == "Key")
             {
+                InventoryKey = true;
                 InformationText.text = "";
                 Destroy(InteractionObject);
                 G_Camera.GetComponent<CameraController>().Back();
+                InventoryBGImage.SetActive(true);
+                KeyImage.SetActive(true);
+                
             }
 
         }
@@ -150,7 +180,14 @@ public class Butler : MonoBehaviour
         }
         if (other.name == "DoorMain")
         {
-            InformationTextController("Press E to Open the Door");            
+            if (!other.GetComponent<MainDoor>().DoorOpen)
+            {
+                InformationTextController("Press E to Open the Door");
+            }
+            else if (other.GetComponent<MainDoor>().DoorOpen)
+            {
+                InformationTextController("Press E to Leave the Room");
+            }
         }
         if(other.name== "CodeYellow")
         {
@@ -244,12 +281,14 @@ public class Butler : MonoBehaviour
     }
     private void OnTriggerExit(Collider other)
     {
-        if (other.name == "LightSwitchVintage" || other.name == "DoorMain"|| other.name == "CodeYellow"|| other.name == "CodeYellowOutside" || other.name == "CodeOrange"|| other.name == "WallHint" || other.name == "Painting" || other.name == "CodeRed")
+        if (other.name == "LightSwitchVintage" || other.name == "DoorMain"|| other.name == "CodeYellow"|| other.name == "CodeYellowOutside" || other.name == "CodeOrange"|| other.name == "WallHint" || other.name == "Painting" || other.name == "CodeRed" || other.name == "Chest" || other.name == "Key")
         {
             InformationText.text = "";
             InteractionObject = null;
         }
     }
-
+    
+        
+    
 }
 
