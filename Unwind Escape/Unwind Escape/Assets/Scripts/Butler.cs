@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Butler : MonoBehaviour
 {
@@ -18,6 +19,7 @@ public class Butler : MonoBehaviour
     public GameObject KeyImage;
     public GameObject InventoryBGImage;
     public GameObject KeyHole;
+    float TimerCheck;
     
 
     
@@ -26,7 +28,7 @@ public class Butler : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        TimerCheck = 0;
         InventoryKey = false;
         ButlerAnimator = GetComponent<Animator>();
         G_Butler = GetComponent<NavMeshAgent>();
@@ -106,15 +108,17 @@ public class Butler : MonoBehaviour
                     KeyImage.SetActive(false);                    
                     G_Camera.GetComponent<CameraController>().CameraZoomObject("KeyInsert", KeyHole.transform);
                     InformationTextController("Press E to Leave the Room.");
+                    TimerCheck = Time.time + 6;
                     
                 }
                 if (!InventoryKey)
                 {
                     InformationTextController("I need to find the key first.");
                 }
-                if(InteractionObject.GetComponent<MainDoor>().DoorOpen)
+                if(InteractionObject.GetComponent<MainDoor>().DoorOpen&&Time.time>TimerCheck)
                 {
                     InformationTextController("Press E to Leave the Room.");
+                    SceneManager.LoadScene("Level2_Cutscene");
                 }
             }
             if (InteractionObject.name == "Cupboard1" || InteractionObject.name == "Cupboard2"  || InteractionObject.name == "Cupboard4")

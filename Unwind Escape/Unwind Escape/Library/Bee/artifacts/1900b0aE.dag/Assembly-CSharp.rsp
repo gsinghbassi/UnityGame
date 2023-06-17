@@ -350,14 +350,20 @@
 -r:"Library/Bee/artifacts/1900b0aE.dag/UnityEditor.UI.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aE.dag/UnityEngine.UI.ref.dll"
 "Assets/Scripts/ArrowClicks.cs"
+"Assets/Scripts/ArrowClicksRoom2.cs"
 "Assets/Scripts/Butler.cs"
+"Assets/Scripts/Butler2.cs"
+"Assets/Scripts/ButlerRoom2.cs"
 "Assets/Scripts/CameraController.cs"
+"Assets/Scripts/CameraControllerRoom2.cs"
 "Assets/Scripts/CombinationLock.cs"
 "Assets/Scripts/CombinationLockCheck.cs"
 "Assets/Scripts/Cupboards.cs"
 "Assets/Scripts/LightSwitch.cs"
+"Assets/Scripts/LightSwitchRoom2.cs"
 "Assets/Scripts/MainDoor.cs"
 "Assets/Scripts/test.cs"
+"Assets/Scripts/TextBox.cs"
 -langversion:9.0
 
 /deterministic
