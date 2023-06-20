@@ -14,17 +14,10 @@ public class CameraControllerRoom2 : MonoBehaviour
     Quaternion Rot3 = Quaternion.Euler(45f, 315f, 0f);
     Vector3 Pos4 = new Vector3(-10f, 16f, -10f);
     Quaternion Rot4 = Quaternion.Euler(45f, 405f, 0f);
-    Vector3 PosCodeYellow = new Vector3(-2.078956f, 1.034713f, -2.056693f);
-    Quaternion RotCodeYellow = Quaternion.Euler(86.39f, 125.822f, 0f);
-    Vector3 PosCodeOrange = new Vector3(0.1060199f, 1.854301f, -3.629745f);    
-    Quaternion RotCodeOrange = Quaternion.Euler(85.875f, 181.172f, 0f);
-    Vector3 PosCodeRed = new Vector3(0.05355277f, 1.806422f, 2.460785f);
-    Quaternion RotCodeRed = Quaternion.Euler(2.922f, -0.136f, 0f);
-    
-    Vector3 PosKeyInsert = new Vector3(3.718723f, 1.420202f, 1.439942f);
-    Quaternion RotKeyInsert = Quaternion.Euler(33.038f, 44.862f, 0f);
-    Vector3 PosDoor = new Vector3(3.718723f, 1.420202f, 1.439942f);
-    Quaternion RotDoor = Quaternion.Euler(33.038f, 44.862f, 0f);
+    Vector3 PosPaintingClock = new Vector3(0.1706064f, 2.334346f, -2.132858f);
+    Quaternion RotPaintingClock = Quaternion.Euler(2.681f, 180.997f, 0f);
+    Vector3 PosClock = new Vector3(0.03792413f, 2.083092f, 4f);
+    Quaternion RotClock = Quaternion.Euler(0.791f, 0.55f, 0f);
     public GameObject Set1;
     public GameObject Set2;
     public GameObject Set3;
@@ -89,58 +82,26 @@ public class CameraControllerRoom2 : MonoBehaviour
     public void CameraZoomObject(string G_Value,Transform G_Object)
     {
        
-        if (G_Value=="CodeYellowOutside")
+        if (G_Value== "PaintingClock")
         {
-            GetComponent<Camera>().orthographicSize = 0.6f;
+            GetComponent<Camera>().orthographicSize = 0.9f;
             CameraTarget = G_Object;
-            CameraTargetPosition = PosCodeYellow;
-            CameraTargetRotation = RotCodeYellow;
+            CameraTargetPosition = PosPaintingClock;
+            CameraTargetRotation = RotPaintingClock;
             GetComponent<Camera>().cullingMask = PlayerMask;
             BackButton.SetActive(true);
         }
-        if (G_Value == "CodeOrange")
+        if (G_Value == "Clock")
         {
-            GetComponent<Camera>().orthographicSize = 0.21f;
+            GetComponent<Camera>().orthographicSize = 0.45f;
             CameraTarget = G_Object;
-            CameraTargetPosition = PosCodeOrange;
-            CameraTargetRotation = RotCodeOrange;
+            CameraTargetPosition = PosClock;
+            CameraTargetRotation = RotClock;
             GetComponent<Camera>().cullingMask = PlayerMask;
             BackButton.SetActive(true);
-        }
-        if (G_Value == "CodeRed")
-        {
-            GetComponent<Camera>().orthographicSize = 0.8f;
-            CameraTarget = G_Object;
-            CameraTargetPosition = PosCodeRed;
-            CameraTargetRotation = RotCodeRed;
-            GetComponent<Camera>().cullingMask = PlayerMask;
-            BackButton.SetActive(true);
-        }
-        
-        if (G_Value == "KeyInsert")
-        {
-            GetComponent<Camera>().orthographicSize = 0.2f;     
-            CameraTarget = G_Object;
-            CameraTargetPosition = PosKeyInsert;
-            CameraTargetRotation = RotKeyInsert;
-            GetComponent<Camera>().cullingMask = PlayerMask;        
-            
-        }
-        if (G_Value == "DoorZoom")
-        {
-            GetComponent<Camera>().orthographicSize = 2f;
-            CameraTarget = G_Object;
-            CameraTargetPosition = PosDoor;
-            CameraTargetRotation = RotDoor;
-            GetComponent<Camera>().cullingMask = EverythingMask;            
-            Set1.SetActive(true);
-            Set2.SetActive(false);
-            Set3.SetActive(false);
-            Set4.SetActive(true);
-            StartCoroutine(DoorZoomOut());
         }
 
-        }
+    }
 
 
     public void CameraControls(string G_Value)
@@ -245,17 +206,5 @@ public class CameraControllerRoom2 : MonoBehaviour
 
 
    
-    IEnumerator DoorZoomOut()
-    {
-        yield return new WaitForSeconds(2.2f);        
-        GetComponent<Camera>().orthographicSize = 5.51f;
-        CameraTargetPosition = Pos4;
-        CameraTargetRotation = Rot4;
-        Set1.SetActive(true);
-        Set2.SetActive(false);
-        Set3.SetActive(false);
-        Set4.SetActive(true);
-        PrevCameraPosition = CameraTargetPosition;
-        PrevCameraRotation = CameraTargetRotation;
-    }
+    
 }

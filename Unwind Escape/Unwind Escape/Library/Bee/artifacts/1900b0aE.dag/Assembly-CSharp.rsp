@@ -362,6 +362,8 @@
 "Assets/Scripts/LightSwitch.cs"
 "Assets/Scripts/LightSwitchRoom2.cs"
 "Assets/Scripts/MainDoor.cs"
+"Assets/Scripts/Room2Clock.cs"
+"Assets/Scripts/Room2ClockCheck.cs"
 "Assets/Scripts/test.cs"
 "Assets/Scripts/TextBox.cs"
 -langversion:9.0

@@ -12,10 +12,12 @@ public class ButlerRoom2 : MonoBehaviour
     Animator ButlerAnimator;
     public TextMeshProUGUI InformationText;
     public GameObject InteractionObject;
+    public bool InventoryDocument;    
     public bool InventoryKey;    
     Camera G_Camera;
     public static bool clearinteractionobjects;    
     public GameObject InventoryBGImage;
+    public GameObject DocumentImage;
     public GameObject KeyImage;
 
 
@@ -25,12 +27,12 @@ public class ButlerRoom2 : MonoBehaviour
     void Start()
     {
        
-        InventoryKey = false;
+        InventoryDocument = false;
         ButlerAnimator = GetComponent<Animator>();
         G_Butler = GetComponent<NavMeshAgent>();
         G_Camera = GameObject.Find("Main Camera").GetComponent<Camera>();
         InventoryBGImage.SetActive(false);
-        KeyImage.SetActive(false);
+        DocumentImage.SetActive(false);
     }
 
     // Update is called once per frame
@@ -68,18 +70,18 @@ public class ButlerRoom2 : MonoBehaviour
             
             if (InteractionObject.name == "DoorMain")
             {
-                if (InventoryKey && !InteractionObject.GetComponent<MainDoor>().DoorOpen)
+                if (InventoryDocument && !InteractionObject.GetComponent<MainDoor>().DoorOpen)
                 {
                     InteractionObject.GetComponent<MainDoor>().DoorOpen=true;
                     InventoryBGImage.SetActive(false);
-                    KeyImage.SetActive(false);                    
+                    DocumentImage.SetActive(false);                    
                     InformationTextController("Press E to Leave the Room.");
                     
                     
                 }
-                if (!InventoryKey)
+                if (!InventoryDocument)
                 {
-                    InformationTextController("I need to find the key first.");
+                    InformationTextController("I need to find the Document first.");
                 }
                 if(InteractionObject.GetComponent<MainDoor>().DoorOpen)
                 {
@@ -92,7 +94,28 @@ public class ButlerRoom2 : MonoBehaviour
                 InteractionObject.GetComponent<LightSwitchRoom2>().LightsSwitch();
             }
 
-            if (InteractionObject.name == "Key")
+            if (InteractionObject.name == "Document1")
+            {
+                InventoryDocument = true;
+                InformationText.text = "";
+                Destroy(InteractionObject);
+                G_Camera.GetComponent<CameraControllerRoom2>().Back();
+                InventoryBGImage.SetActive(true);
+                DocumentImage.SetActive(true);
+                
+            }
+            if (InteractionObject.name == "PaintingClock")
+            {
+                G_Camera.GetComponent<CameraControllerRoom2>().CameraZoomObject("PaintingClock", InteractionObject.transform);
+                InformationText.text = "";
+            }
+            
+            if (InteractionObject.name == "Clock")
+            {
+                G_Camera.GetComponent<CameraControllerRoom2>().CameraZoomObject("Clock", InteractionObject.transform);
+                InformationText.text = "";
+            }
+            if (InteractionObject.name == "Key-Cupboard")
             {
                 InventoryKey = true;
                 InformationText.text = "";
@@ -100,7 +123,6 @@ public class ButlerRoom2 : MonoBehaviour
                 G_Camera.GetComponent<CameraControllerRoom2>().Back();
                 InventoryBGImage.SetActive(true);
                 KeyImage.SetActive(true);
-                
             }
 
         }
@@ -129,10 +151,19 @@ public class ButlerRoom2 : MonoBehaviour
             {
                 InformationTextController("Press E to Leave the Room");
             }
-        }        
-        if (other.name == "Key")
+        }
+        if (other.name == "PaintingClock")
         {
-            InformationTextController("Press E to Take the Key.");
+            InformationTextController("Press E to Check the Painting");
+
+        }
+        if (other.name == "Clock")
+        {
+            InformationTextController("Press E to Check the Clock");
+        }
+        if (other.name == "Key-Cupboard")
+        {
+            InformationTextController("Press E to take the Key");
         }
 
     }
@@ -146,8 +177,20 @@ public class ButlerRoom2 : MonoBehaviour
         if (other.name == "DoorMain")
         {
             InteractionObject = other.gameObject;
-        }        
-        if (other.name == "Key")
+        }
+        if (other.name == "Document1")
+        {
+            InteractionObject = other.gameObject;
+        }
+        if (other.name == "PaintingClock")
+        {
+            InteractionObject = other.gameObject;
+        }
+        if (other.name == "Clock")
+        {
+            InteractionObject = other.gameObject;
+        }
+        if (other.name == "Key-Cupboard")
         {
             InteractionObject = other.gameObject;
         }
@@ -155,7 +198,7 @@ public class ButlerRoom2 : MonoBehaviour
     }
     private void OnTriggerExit(Collider other)
     {
-        if (other.name == "LightSwitchVintage" || other.name == "DoorMain"|| other.name == "CodeYellow"|| other.name == "CodeYellowOutside" || other.name == "CodeOrange"|| other.name == "WallHint" || other.name == "Painting" || other.name == "CodeRed" || other.name == "Chest" || other.name == "Key")
+        if (other.name == "LightSwitchVintage" || other.name == "DoorMain" || other.name == "Document1" || other.name == "PaintingClock" || other.name == "Clock" || other.name == "Key-Cupboard")
         {
             InformationText.text = "";
             InteractionObject = null;
