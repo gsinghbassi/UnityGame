@@ -19,6 +19,7 @@ public class ButlerRoom2 : MonoBehaviour
     public GameObject InventoryBGImage;
     public GameObject DocumentImage;
     public GameObject KeyImage;
+    public GameObject CupboardClue;
 
 
 
@@ -124,6 +125,59 @@ public class ButlerRoom2 : MonoBehaviour
                 InventoryBGImage.SetActive(true);
                 KeyImage.SetActive(true);
             }
+            if (InteractionObject.name == "Rug Clue")
+            {
+                InteractionObject.GetComponent<RugCodeMaths>().RugOut = true;
+                InteractionObject.name = "Rug Clue Out";
+            }
+            if (InteractionObject.name == "Rug Clue Out")
+            {
+                G_Camera.GetComponent<CameraControllerRoom2>().CameraZoomObject("RugClue", InteractionObject.transform);
+                InformationText.text = "";
+            }
+            if (InteractionObject.name == "TV Collider Off")
+            {
+                G_Camera.GetComponent<CameraControllerRoom2>().CameraZoomObject("TVClue", InteractionObject.transform);
+                InformationText.text = "";
+            }
+            
+                if (InteractionObject.name == "DiceControl")
+            {
+                G_Camera.GetComponent<CameraControllerRoom2>().CameraZoomObject("Dice", InteractionObject.transform);
+                InformationText.text = "";
+            }
+
+
+            if (InteractionObject.name == "CupboardLocked")
+            {
+
+                if (InventoryKey)
+                {
+                    InteractionObject.GetComponent<Cupboards>().DoorOpen = true;
+                    InventoryBGImage.SetActive(false);
+                    KeyImage.SetActive(false);
+                    G_Camera.GetComponent<CameraController>().CameraZoomObject("CupboardClue", CupboardClue.transform);
+                }
+                
+            }
+
+
+
+            if (InteractionObject.name == "CupboardRight")
+            {
+                if (InteractionObject.GetComponent<Animator>().GetBool("COpen") == true)
+                {
+                    InteractionObject.GetComponent<Animator>().SetBool("COpen", false);
+                    InteractionObject.GetComponent<Cupboards>().DoorOpen = false;
+                    InformationTextController("Press E to open the cupboard door.");
+                }
+                else if (InteractionObject.GetComponent<Animator>().GetBool("COpen") == false)
+                {
+                    InteractionObject.GetComponent<Animator>().SetBool("COpen", true);
+                    InteractionObject.GetComponent<Cupboards>().DoorOpen = true;
+                    InformationTextController("Press E to close the cupboard door.");
+                }
+            }
 
         }
 
@@ -165,6 +219,57 @@ public class ButlerRoom2 : MonoBehaviour
         {
             InformationTextController("Press E to take the Key");
         }
+        
+            if (other.name == "Rug Clue")
+        {
+            InformationTextController("Press E to Check Whats under the Rug");
+        }
+        if (other.name == "Rug Clue Out")
+        {
+            InformationTextController("Press E to Check the Clue");
+        }
+        if (other.name == "TV Collider On")
+        {
+            InformationTextController("I need to find a way to turn ON the TV");
+        }
+        if (other.name == "TV Collider On2")
+        {
+            InformationTextController("I need to Switch the Lights OFF to Turn the TV ON");
+        }
+        if (other.name == "TV Collider Off")
+        {
+            InformationTextController("Press E to Check the Clue");
+        }        
+            if (other.name == "DiceControl")
+        {
+            InformationTextController("Press E to Check Dice");
+        }
+
+        if (other.name == "CupboardLocked")
+        {
+
+            if (InventoryKey)
+            {
+                InformationTextController("Press E to use Key and Open Door Lock");
+            }
+            else if (!InventoryKey)
+            {
+                InformationTextController("I need to find a key to Open the Lock");
+            }
+        }
+
+
+            if (other.name == "CupboardRight")
+        {
+            if (other.GetComponent<Animator>().GetBool("COpen") == false)
+            {
+                InformationTextController("Press E to open the cupboard door.");
+            }
+            else if (other.GetComponent<Animator>().GetBool("COpen") == true)
+            {
+                InformationTextController("Press E to close the cupboard door.");
+            }
+        }
 
     }
 
@@ -194,11 +299,43 @@ public class ButlerRoom2 : MonoBehaviour
         {
             InteractionObject = other.gameObject;
         }
+        
+            if (other.name == "Rug Clue")
+        {
+            InteractionObject = other.gameObject;
+        }
+        if (other.name == "TV Collider On")
+        {
+            InteractionObject = other.gameObject;
+        }
+        if (other.name == "TV Collider On2")
+        {
+            InteractionObject = other.gameObject;
+        }
+        if (other.name == "TV Collider Off")
+        {
+            InteractionObject = other.gameObject;
+        }        
+            if (other.name == "DiceControl")
+        {
+            InteractionObject = other.gameObject;
+        }
+        if (other.name == "CupboardRight")
+        {
+            InteractionObject = other.gameObject;
+        }
+
+        
+        if (other.name == "CupboardLocked")
+        {
+            InteractionObject = other.gameObject;
+        }
+
 
     }
     private void OnTriggerExit(Collider other)
     {
-        if (other.name == "LightSwitchVintage" || other.name == "DoorMain" || other.name == "Document1" || other.name == "PaintingClock" || other.name == "Clock" || other.name == "Key-Cupboard")
+        if (other.name == "LightSwitchVintage" || other.name == "DoorMain" || other.name == "Document1" || other.name == "PaintingClock" || other.name == "Clock" || other.name == "Key-Cupboard" || other.name == "Rug Clue" || other.name == "TV Collider Off" || other.name == "TV Collider On" || other.name == "TV Collider On2" || other.name == "DiceControl" || other.name == "CupboardRight" || other.name == "CupboardLocked")
         {
             InformationText.text = "";
             InteractionObject = null;

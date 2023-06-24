@@ -162,8 +162,7 @@ public class Butler : MonoBehaviour
                 Destroy(InteractionObject);
                 G_Camera.GetComponent<CameraController>().Back();
                 InventoryBGImage.SetActive(true);
-                KeyImage.SetActive(true);
-                
+                KeyImage.SetActive(true);                
             }
 
         }

@@ -18,6 +18,12 @@ public class CameraControllerRoom2 : MonoBehaviour
     Quaternion RotPaintingClock = Quaternion.Euler(2.681f, 180.997f, 0f);
     Vector3 PosClock = new Vector3(0.03792413f, 2.083092f, 4f);
     Quaternion RotClock = Quaternion.Euler(0.791f, 0.55f, 0f);
+    Vector3 PosCodeRug = new Vector3(-3.189539f, 0.8158967f, -1.253579f);
+    Quaternion RotCodeRug = Quaternion.Euler(88.866f, 271.426f, 0f);
+    Vector3 PosCodeTV = new Vector3(9.2f, 1.03f, 4.2f);
+    Quaternion RotCodeTV = Quaternion.Euler(0.962f, 46.238f, 0f);
+    Vector3 PosDice = new Vector3(-2.033061f, 0.8023469f, 0.1387399f);
+    Quaternion RotDice = Quaternion.Euler(11.963f, 273.541f, 0f);
     public GameObject Set1;
     public GameObject Set2;
     public GameObject Set3;
@@ -100,6 +106,43 @@ public class CameraControllerRoom2 : MonoBehaviour
             GetComponent<Camera>().cullingMask = PlayerMask;
             BackButton.SetActive(true);
         }
+        if (G_Value == "RugClue")
+        {
+            GetComponent<Camera>().orthographicSize = 0.25f;
+            CameraTarget = G_Object;
+            CameraTargetPosition = PosCodeRug;
+            CameraTargetRotation = RotCodeRug;
+            GetComponent<Camera>().cullingMask = PlayerMask;
+            BackButton.SetActive(true);
+        }
+        if (G_Value == "TVClue")
+        {
+            cameraspeed = 5f;
+            GetComponent<Camera>().orthographicSize = 0.27f;
+            CameraTarget = G_Object;
+            CameraTargetPosition = PosCodeTV;
+            CameraTargetRotation = RotCodeTV;
+            GetComponent<Camera>().cullingMask = PlayerMask;
+            BackButton.SetActive(true);
+        }
+        if (G_Value == "Dice")
+        {            
+            GetComponent<Camera>().orthographicSize = 0.05f;
+            CameraTarget = G_Object;
+            CameraTargetPosition = PosDice;
+            CameraTargetRotation = RotDice;
+            GetComponent<Camera>().cullingMask = PlayerMask;
+            BackButton.SetActive(true);
+        }
+        if (G_Value == "CupboardClue")
+        {
+            GetComponent<Camera>().orthographicSize = 0.45f;
+            CameraTarget = G_Object;
+            CameraTargetPosition = PosDice;
+            CameraTargetRotation = RotDice;
+            GetComponent<Camera>().cullingMask = PlayerMask;
+            BackButton.SetActive(true);
+        }
 
     }
 
@@ -108,6 +151,7 @@ public class CameraControllerRoom2 : MonoBehaviour
     {
         if (G_Value == "right") 
         {
+            cameraspeed = 0.1f;
             ButlerRoom2.clearinteractionobjects = true;
             CameraTarget = CameraTargetForRoomAxo;
             GetComponent<Camera>().orthographicSize = 5.51f;
@@ -125,6 +169,7 @@ public class CameraControllerRoom2 : MonoBehaviour
         }
         if (G_Value == "left")
         {
+            cameraspeed = 0.1f;
             ButlerRoom2.clearinteractionobjects = true;
             CameraTarget = CameraTargetForRoomAxo;
             GetComponent<Camera>().orthographicSize = 5.51f;
@@ -201,7 +246,7 @@ public class CameraControllerRoom2 : MonoBehaviour
         CameraTargetPosition = PrevCameraPosition;
         CameraTargetRotation = PrevCameraRotation;
         CameraTarget = CameraTargetForRoomAxo;
-       
+        cameraspeed = 0.1f;
     }
 
 

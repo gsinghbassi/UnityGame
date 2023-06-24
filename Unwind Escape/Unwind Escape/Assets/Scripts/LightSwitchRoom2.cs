@@ -8,6 +8,12 @@ public class LightSwitchRoom2 : MonoBehaviour
     bool LightsOn;
     Animator LightsAnimator;    
     public Material LampShade;
+    public GameObject TVLight;
+    public Material TVScreen;
+    public GameObject TVCollider;
+    
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -16,7 +22,11 @@ public class LightSwitchRoom2 : MonoBehaviour
         LightsAnimator = GetComponent<Animator>();
         LightsAnimator.SetBool("On", true);       
         LampShade.SetColor("_EmissionColor", Color.white);
-        
+        TVLight.SetActive(false);
+        TVScreen.SetColor("_EmissionColor", Color.black);
+        TVCollider.name = "TV Collider On";
+
+
     }
 
     // Update is called once per frame
@@ -33,6 +43,9 @@ public class LightSwitchRoom2 : MonoBehaviour
             LightsAnimator.SetBool("On", false);
             LampShade.SetColor("_EmissionColor", Color.grey);
             LightSwitchControls(0);
+            TVLight.SetActive(true);
+            TVScreen.SetColor("_EmissionColor", Color.white);
+            TVCollider.name = "TV Collider Off";
         }
         else if(!LightsOn)
         {
@@ -40,6 +53,9 @@ public class LightSwitchRoom2 : MonoBehaviour
             LightsAnimator.SetBool("On", true);
             LampShade.SetColor("_EmissionColor", Color.white);
             LightSwitchControls(1);
+            TVLight.SetActive(false);
+            TVScreen.SetColor("_EmissionColor", Color.black);
+            TVCollider.name = "TV Collider On2";
         }
     }
 

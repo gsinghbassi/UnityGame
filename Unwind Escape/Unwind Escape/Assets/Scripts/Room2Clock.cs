@@ -4,19 +4,7 @@ using UnityEngine;
 
 public class Room2Clock : MonoBehaviour
 {
-    public Quaternion[] Times;
-    Quaternion One    = Quaternion.Euler(0f, 180f, 30f);
-    Quaternion Two    = Quaternion.Euler(0f, 180f, 60f);
-    Quaternion Three  = Quaternion.Euler(0f, 180f, 90f);
-    Quaternion Four   = Quaternion.Euler(0f, 180f, 120f);
-    Quaternion Five   = Quaternion.Euler(0f, 180f, 150f);
-    Quaternion Six    = Quaternion.Euler(0f, 180f, 180f);
-    Quaternion Seven  = Quaternion.Euler(0f, 180f, 210f);
-    Quaternion Eight  = Quaternion.Euler(0f, 180f, 240f);
-    Quaternion Nine   = Quaternion.Euler(0f, 180f, 270f);
-    Quaternion Ten    = Quaternion.Euler(0f, 180f, 300f);
-    Quaternion Eleven = Quaternion.Euler(0f, 180f, 330f);
-    Quaternion Twelve = Quaternion.Euler(0f, 180f, 360f);
+    public Quaternion[] Times;    
     float needlespeed = 50f;
     Quaternion TargetRotation;
     int nextTime;
