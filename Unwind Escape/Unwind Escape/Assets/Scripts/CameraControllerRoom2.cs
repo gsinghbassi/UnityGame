@@ -24,6 +24,8 @@ public class CameraControllerRoom2 : MonoBehaviour
     Quaternion RotCodeTV = Quaternion.Euler(0.962f, 46.238f, 0f);
     Vector3 PosDice = new Vector3(-2.033061f, 0.8023469f, 0.1387399f);
     Quaternion RotDice = Quaternion.Euler(11.963f, 273.541f, 0f);
+    Vector3 PosCupboardClue = new Vector3(-2.962553f, 1.027805f, -3.135758f);
+    Quaternion RotCupboardClue = Quaternion.Euler(-0.241f, 271.134f, 0f);
     public GameObject Set1;
     public GameObject Set2;
     public GameObject Set3;
@@ -41,6 +43,7 @@ public class CameraControllerRoom2 : MonoBehaviour
     public LayerMask PlayerMask;
     public LayerMask EverythingMask;
     public GameObject BackButton;
+    public float NearPlane;
     
     
 
@@ -63,11 +66,12 @@ public class CameraControllerRoom2 : MonoBehaviour
         CameraTargetSet2 = GameObject.Find("CameraTarget-Set2").transform;
         CameraTargetSet3 = GameObject.Find("CameraTarget-Set3").transform;
         CameraTargetSet4 = GameObject.Find("CameraTarget-Set4").transform;
-        CameraTarget = CameraTargetSet1;
-        
+        CameraTarget = CameraTargetSet1;        
         BackButton.SetActive(false);
         PrevCameraPosition = CameraTargetPosition;
         PrevCameraRotation = CameraTargetRotation;
+        NearPlane = -10f;
+        GetComponent<Camera>().nearClipPlane = NearPlane;
     }
 
     // Update is called once per frame
@@ -136,10 +140,11 @@ public class CameraControllerRoom2 : MonoBehaviour
         }
         if (G_Value == "CupboardClue")
         {
-            GetComponent<Camera>().orthographicSize = 0.45f;
+            GetComponent<Camera>().orthographicSize = 0.3f;
+            GetComponent<Camera>().nearClipPlane = 0f;
             CameraTarget = G_Object;
-            CameraTargetPosition = PosDice;
-            CameraTargetRotation = RotDice;
+            CameraTargetPosition = PosCupboardClue;
+            CameraTargetRotation = RotCupboardClue;
             GetComponent<Camera>().cullingMask = PlayerMask;
             BackButton.SetActive(true);
         }
@@ -151,6 +156,7 @@ public class CameraControllerRoom2 : MonoBehaviour
     {
         if (G_Value == "right") 
         {
+            GetComponent<Camera>().nearClipPlane = NearPlane;
             cameraspeed = 0.1f;
             ButlerRoom2.clearinteractionobjects = true;
             CameraTarget = CameraTargetForRoomAxo;
@@ -169,6 +175,7 @@ public class CameraControllerRoom2 : MonoBehaviour
         }
         if (G_Value == "left")
         {
+            GetComponent<Camera>().nearClipPlane = NearPlane;
             cameraspeed = 0.1f;
             ButlerRoom2.clearinteractionobjects = true;
             CameraTarget = CameraTargetForRoomAxo;
@@ -241,6 +248,7 @@ public class CameraControllerRoom2 : MonoBehaviour
     public void Back()
     {
         GetComponent<Camera>().orthographicSize = 5.51f;
+        GetComponent<Camera>().nearClipPlane = NearPlane;
         GetComponent<Camera>().cullingMask = EverythingMask;
         BackButton.SetActive(false);
         CameraTargetPosition = PrevCameraPosition;

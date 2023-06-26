@@ -9,7 +9,9 @@ public class LightSwitchRoom2 : MonoBehaviour
     Animator LightsAnimator;    
     public Material LampShade;
     public GameObject TVLight;
-    public Material TVScreen;
+    public GameObject TVScreen;
+    public Material TVScreenOn;
+    public Material TVScreenOff;
     public GameObject TVCollider;
     
 
@@ -22,9 +24,9 @@ public class LightSwitchRoom2 : MonoBehaviour
         LightsAnimator = GetComponent<Animator>();
         LightsAnimator.SetBool("On", true);       
         LampShade.SetColor("_EmissionColor", Color.white);
-        TVLight.SetActive(false);
-        TVScreen.SetColor("_EmissionColor", Color.black);
+        TVLight.SetActive(false);        
         TVCollider.name = "TV Collider On";
+        TVScreen.GetComponent<MeshRenderer>().material = TVScreenOff;
 
 
     }
@@ -43,9 +45,9 @@ public class LightSwitchRoom2 : MonoBehaviour
             LightsAnimator.SetBool("On", false);
             LampShade.SetColor("_EmissionColor", Color.grey);
             LightSwitchControls(0);
-            TVLight.SetActive(true);
-            TVScreen.SetColor("_EmissionColor", Color.white);
+            TVLight.SetActive(true);           
             TVCollider.name = "TV Collider Off";
+            TVScreen.GetComponent<MeshRenderer>().material = TVScreenOn;
         }
         else if(!LightsOn)
         {
@@ -53,9 +55,9 @@ public class LightSwitchRoom2 : MonoBehaviour
             LightsAnimator.SetBool("On", true);
             LampShade.SetColor("_EmissionColor", Color.white);
             LightSwitchControls(1);
-            TVLight.SetActive(false);
-            TVScreen.SetColor("_EmissionColor", Color.black);
+            TVLight.SetActive(false);            
             TVCollider.name = "TV Collider On2";
+            TVScreen.GetComponent<MeshRenderer>().material = TVScreenOff;
         }
     }
 
