@@ -168,7 +168,11 @@ public class ButlerRoom2 : MonoBehaviour
               InformationText.text = "";
 
             }
-
+            if (InteractionObject.name == "ChestDrawers")
+            {
+                G_Camera.GetComponent<CameraControllerRoom2>().CameraZoomObject("ChestLock", InteractionObject.transform);
+                InformationText.text = "";
+            }
 
 
             if (InteractionObject.name == "CupboardRight")
@@ -284,8 +288,13 @@ public class ButlerRoom2 : MonoBehaviour
                 InformationTextController("Press E to close the cupboard door.");
             }
         }
+        if (other.name == "ChestDrawers")
+        {
+            InformationTextController("Press E to open the Drawer.");
+        }
 
-    }
+
+        }
 
     private void OnTriggerStay(Collider other)
     {
@@ -348,13 +357,16 @@ public class ButlerRoom2 : MonoBehaviour
         {
             InteractionObject = other.gameObject;
         }
-        
 
+        if (other.name == "ChestDrawers")
+        {
+            InteractionObject = other.gameObject;
+        }
 
     }
     private void OnTriggerExit(Collider other)
     {
-        if (other.name == "LightSwitchVintage" || other.name == "DoorMain" || other.name == "Document1" || other.name == "PaintingClock" || other.name == "Clock" || other.name == "Key-Cupboard" || other.name == "Rug Clue" || other.name == "TV Collider Off" || other.name == "TV Collider On" || other.name == "TV Collider On2" || other.name == "DiceControl" || other.name == "CupboardRight" || other.name == "CupboardLocked" || other.name == "CupboardUnlocked")
+        if (other.name == "LightSwitchVintage" || other.name == "DoorMain" || other.name == "Document1" || other.name == "PaintingClock" || other.name == "Clock" || other.name == "Key-Cupboard" || other.name == "Rug Clue" || other.name == "TV Collider Off" || other.name == "TV Collider On" || other.name == "TV Collider On2" || other.name == "DiceControl" || other.name == "CupboardRight" || other.name == "CupboardLocked" || other.name == "CupboardUnlocked" || other.name == "ChestDrawers") 
         {
             InformationText.text = "";
             InteractionObject = null;
