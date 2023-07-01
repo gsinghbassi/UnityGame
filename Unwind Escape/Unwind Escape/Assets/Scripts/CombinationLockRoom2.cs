@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class CombinationLockRoom2 : MonoBehaviour
 {
@@ -25,15 +26,20 @@ public class CombinationLockRoom2 : MonoBehaviour
     public bool CodeMatched;
     public GameObject ChestDrawers;
     public GameObject ChestArrows;
-    public GameObject Document;
     public float testX=180;
     public float testY =43;
     public int testZ =90;
     public GameObject Shapes;
+    Camera G_Camera;
+    bool lockactivated;
+    public TextMeshProUGUI InformationText;
+
 
     // Start is called before the first frame update
     void Start()
     {
+        lockactivated = false;
+        G_Camera = GameObject.Find("Main Camera").GetComponent<Camera>(); 
         CodeMatched = false;
         lockyellow = transform.Find("Lock-ONE").gameObject;
         lockpink = transform.Find("Lock-TWO").gameObject;
@@ -48,7 +54,7 @@ public class CombinationLockRoom2 : MonoBehaviour
         AnglePink = Quaternion.Euler(testX, testY, currentanglevaluepink);
         AngleBlue = Quaternion.Euler(testX, testY, currentanglevalueblue);
         AngleOrange = Quaternion.Euler(testX, testY, currentanglevalueorange);
-        Document.SetActive(false);
+        
     }
 
     // Update is called once per frame
@@ -69,10 +75,10 @@ public class CombinationLockRoom2 : MonoBehaviour
         Checklockblue = transform.Find("CheckTHREE").gameObject.GetComponent<CombinationLockCheck>().CodeTrue;
         Checklockorange = transform.Find("CheckFOUR").gameObject.GetComponent<CombinationLockCheck>().CodeTrue;
 
-        if (Checklockyellow&&Checklockpink&&Checklockblue&&Checklockorange)
+        if (Checklockyellow&&Checklockpink&&Checklockblue&&Checklockorange&&!lockactivated)
         {
-            CodeMatched = true;
-            ChestDrawers.GetComponent<Animator>().SetBool("DrawerOpen", true);
+            CodeMatched = true;            
+            ChestDrawers.GetComponent<ChestOfDrawers>().DrawersOpen=true;
             ChestDrawers.name = "ChestDrawersOpened";
             ChestArrows.SetActive(false);
             Shapes.SetActive(false);
@@ -80,10 +86,10 @@ public class CombinationLockRoom2 : MonoBehaviour
             lockorange.SetActive(false);
             lockpink.SetActive(false);
             lockyellow.SetActive(false);
-            if (Document!=null)
-            {
-                Document.SetActive(true);
-            }
+            InformationText.text = "Press E to Take the Document";
+            G_Camera.GetComponent<CameraControllerRoom2>().CameraZoomObject("Document", lockyellow.transform);
+            lockactivated = true;
+            
         }
         if(!Checklockyellow || !Checklockpink ||!Checklockblue || !Checklockorange)
         {

@@ -28,6 +28,8 @@ public class CameraControllerRoom2 : MonoBehaviour
     Quaternion RotCupboardClue = Quaternion.Euler(-0.241f, 271.134f, 0f);
     Vector3 PosLock2 = new Vector3(-2.908144f, 1.131081f, 3.244418f);
     Quaternion RotLock2 = Quaternion.Euler(-0.171f, -47.132f, 0f);
+    Vector3 PosDocument = new Vector3(-3.097323f, 1.677244f, 2.87687f);
+    Quaternion RotDocument = Quaternion.Euler(45.035f, -7.433f, 0f);
     public GameObject Set1;
     public GameObject Set2;
     public GameObject Set3;
@@ -47,6 +49,7 @@ public class CameraControllerRoom2 : MonoBehaviour
     public GameObject BackButton;
     public float NearPlane;
     public GameObject ChestArrows;
+
 
 
 
@@ -86,9 +89,7 @@ public class CameraControllerRoom2 : MonoBehaviour
         } 
         transform.position=Vector3.MoveTowards(transform.position,CameraTargetPosition,cameraspeed);
         transform.rotation = Quaternion.RotateTowards(transform.rotation, CameraTargetRotation, cameraspeed* 5f);
-        
-
-        
+       
     }
 
     
@@ -153,13 +154,27 @@ public class CameraControllerRoom2 : MonoBehaviour
         }
         if (G_Value == "ChestLock")
         {
+            cameraspeed = 5f;
             GetComponent<Camera>().orthographicSize = 0.1f;
+            GetComponent<Camera>().nearClipPlane = 0f;
             CameraTarget = G_Object;
             CameraTargetPosition = PosLock2;
             CameraTargetRotation = RotLock2;
             GetComponent<Camera>().cullingMask = PlayerMask;
             BackButton.SetActive(true);
             StartCoroutine(ArrowsDelay());
+        }
+        if (G_Value == "Document")
+        {
+            ChestArrows.SetActive(false);
+            cameraspeed = 5f;
+            GetComponent<Camera>().orthographicSize = 0.45f;
+            GetComponent<Camera>().nearClipPlane = -3f;
+            CameraTarget = G_Object;
+            CameraTargetPosition = PosDocument;
+            CameraTargetRotation = RotDocument;
+            GetComponent<Camera>().cullingMask = PlayerMask;
+            BackButton.SetActive(true);
         }
 
     }
@@ -276,7 +291,7 @@ public class CameraControllerRoom2 : MonoBehaviour
     }
     IEnumerator ArrowsDelay()
     {
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1f);
         ChestArrows.SetActive(true);
     }
 

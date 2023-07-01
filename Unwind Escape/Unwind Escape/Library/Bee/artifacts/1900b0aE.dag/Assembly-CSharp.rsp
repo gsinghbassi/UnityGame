@@ -356,6 +356,7 @@
 "Assets/Scripts/ButlerRoom2.cs"
 "Assets/Scripts/CameraController.cs"
 "Assets/Scripts/CameraControllerRoom2.cs"
+"Assets/Scripts/ChestOfDrawers.cs"
 "Assets/Scripts/CombinationLock.cs"
 "Assets/Scripts/CombinationLockCheck.cs"
 "Assets/Scripts/CombinationLockRoom2.cs"

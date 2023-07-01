@@ -9,6 +9,7 @@ public class Butler2 : MonoBehaviour
     public Transform Point2;
     public float playerspeed;
     float startTime;
+    public string scenename;
 
 
     // Start is called before the first frame update
@@ -35,7 +36,7 @@ public class Butler2 : MonoBehaviour
     {
         if(other.name=="NextScene")
         {
-            SceneManager.LoadScene("Level3_Room2");
+            SceneManager.LoadScene(scenename);
         }
     }
 }

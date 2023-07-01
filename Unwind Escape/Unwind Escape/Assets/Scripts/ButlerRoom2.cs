@@ -20,6 +20,7 @@ public class ButlerRoom2 : MonoBehaviour
     public GameObject DocumentImage;
     public GameObject KeyImage;
     public GameObject CupboardClue;
+    public GameObject Document;
 
 
 
@@ -76,18 +77,17 @@ public class ButlerRoom2 : MonoBehaviour
                     InteractionObject.GetComponent<MainDoor>().DoorOpen=true;
                     InventoryBGImage.SetActive(false);
                     DocumentImage.SetActive(false);                    
-                    InformationTextController("Press E to Leave the Room.");
-                    
+                    InformationTextController("Press E to Leave the Room.");                   
                     
                 }
                 if (!InventoryDocument)
                 {
                     InformationTextController("I need to find the Document first.");
                 }
+                
                 if(InteractionObject.GetComponent<MainDoor>().DoorOpen)
                 {
-                    InformationTextController("Press E to Leave the Room.");
-                    
+                    SceneManager.LoadScene("Level4_Cutscene");                   
                 }
             }
             if (InteractionObject.name == "LightSwitchVintage")
@@ -95,16 +95,7 @@ public class ButlerRoom2 : MonoBehaviour
                 InteractionObject.GetComponent<LightSwitchRoom2>().LightsSwitch();
             }
 
-            if (InteractionObject.name == "Document1")
-            {
-                InventoryDocument = true;
-                InformationText.text = "";
-                Destroy(InteractionObject);
-                G_Camera.GetComponent<CameraControllerRoom2>().Back();
-                InventoryBGImage.SetActive(true);
-                DocumentImage.SetActive(true);
-                
-            }
+            
             if (InteractionObject.name == "PaintingClock")
             {
                 G_Camera.GetComponent<CameraControllerRoom2>().CameraZoomObject("PaintingClock", InteractionObject.transform);
@@ -174,8 +165,20 @@ public class ButlerRoom2 : MonoBehaviour
                 InformationText.text = "";
             }
 
+            if (InteractionObject.name == "ChestDrawersOpened")
+            {
+                Document.SetActive(false);
+                InformationText.text = "I have collected Evidence. Now I can go to the other Room";
+                InteractionObject.name = "ChestDrawerEmpty";
+                KeyImage.SetActive(false);
+                DocumentImage.SetActive(true);
+                InventoryBGImage.SetActive(true);
+                InventoryDocument = true;
+                G_Camera.GetComponent<CameraControllerRoom2>().Back();
 
-            if (InteractionObject.name == "CupboardRight")
+            }
+
+                if (InteractionObject.name == "CupboardRight")
             {
                 if (InteractionObject.GetComponent<Animator>().GetBool("COpen") == true)
                 {
@@ -281,20 +284,24 @@ public class ButlerRoom2 : MonoBehaviour
         {
             if (other.GetComponent<Animator>().GetBool("COpen") == false)
             {
-                InformationTextController("Press E to open the cupboard door.");
+                InformationTextController("Press E to open the cupboard door");
             }
             else if (other.GetComponent<Animator>().GetBool("COpen") == true)
             {
-                InformationTextController("Press E to close the cupboard door.");
+                InformationTextController("Press E to close the cupboard door");
             }
         }
         if (other.name == "ChestDrawers")
         {
-            InformationTextController("Press E to open the Drawer.");
+            InformationTextController("Press E to open the Drawer");
         }
 
-
+        if (other.name == "ChestDrawersOpened")
+        {
+            InformationTextController("Press E to Take the Document");
         }
+
+    }
 
     private void OnTriggerStay(Collider other)
     {
@@ -362,11 +369,15 @@ public class ButlerRoom2 : MonoBehaviour
         {
             InteractionObject = other.gameObject;
         }
+        if (other.name == "ChestDrawersOpened")
+        {
+            InteractionObject = other.gameObject;
+        }
 
     }
     private void OnTriggerExit(Collider other)
     {
-        if (other.name == "LightSwitchVintage" || other.name == "DoorMain" || other.name == "Document1" || other.name == "PaintingClock" || other.name == "Clock" || other.name == "Key-Cupboard" || other.name == "Rug Clue" || other.name == "TV Collider Off" || other.name == "TV Collider On" || other.name == "TV Collider On2" || other.name == "DiceControl" || other.name == "CupboardRight" || other.name == "CupboardLocked" || other.name == "CupboardUnlocked" || other.name == "ChestDrawers") 
+        if (other.name == "LightSwitchVintage" || other.name == "DoorMain" || other.name == "Document1" || other.name == "PaintingClock" || other.name == "Clock" || other.name == "Key-Cupboard" || other.name == "Rug Clue" || other.name == "TV Collider Off" || other.name == "TV Collider On" || other.name == "TV Collider On2" || other.name == "DiceControl" || other.name == "CupboardRight" || other.name == "CupboardLocked" || other.name == "CupboardUnlocked" || other.name == "ChestDrawers" || other.name == "ChestDrawersOpened") 
         {
             InformationText.text = "";
             InteractionObject = null;
