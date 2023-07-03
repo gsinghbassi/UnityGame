@@ -1,0 +1,348 @@
+Using pre-set license
+Built from '2021.3/release' branch; Version is '2021.3.17f1 (3e8111cac19d) revision 4096273'; Using compiler version '192829333'; Build Type 'Release'
+OS: 'Windows 11  (10.0.22621) 64bit Core' Language: 'en' Physical Memory: 16305 MB
+BatchMode: 1, IsHumanControllingUs: 0, StartBugReporterOnCrash: 0, Is64bit: 1, IsPro: 1
+
+COMMAND LINE ARGUMENTS:
+C:\Program Files\Unity 2021.3.17f1\Editor\Unity.exe
+-adb2
+-batchMode
+-noUpm
+-name
+AssetImportWorker6
+-projectPath
+C:/Users/garra/Documents/UnityGame/Unwind Escape/Unwind Escape
+-logFile
+Logs/AssetImportWorker6.log
+-srvPort
+60115
+Successfully changed project path to: C:/Users/garra/Documents/UnityGame/Unwind Escape/Unwind Escape
+C:/Users/garra/Documents/UnityGame/Unwind Escape/Unwind Escape
+[UnityMemory] Configuration Parameters - Can be set up in boot.config
+    "memorysetup-bucket-allocator-granularity=16"
+    "memorysetup-bucket-allocator-bucket-count=8"
+    "memorysetup-bucket-allocator-block-size=33554432"
+    "memorysetup-bucket-allocator-block-count=8"
+    "memorysetup-main-allocator-block-size=16777216"
+    "memorysetup-thread-allocator-block-size=16777216"
+    "memorysetup-gfx-main-allocator-block-size=16777216"
+    "memorysetup-gfx-thread-allocator-block-size=16777216"
+    "memorysetup-cache-allocator-block-size=4194304"
+    "memorysetup-typetree-allocator-block-size=2097152"
+    "memorysetup-profiler-bucket-allocator-granularity=16"
+    "memorysetup-profiler-bucket-allocator-bucket-count=8"
+    "memorysetup-profiler-bucket-allocator-block-size=33554432"
+    "memorysetup-profiler-bucket-allocator-block-count=8"
+    "memorysetup-profiler-allocator-block-size=16777216"
+    "memorysetup-profiler-editor-allocator-block-size=1048576"
+    "memorysetup-temp-allocator-size-main=16777216"
+    "memorysetup-job-temp-allocator-block-size=2097152"
+    "memorysetup-job-temp-allocator-block-size-background=1048576"
+    "memorysetup-job-temp-allocator-reduction-small-platforms=262144"
+    "memorysetup-temp-allocator-size-background-worker=32768"
+    "memorysetup-temp-allocator-size-job-worker=262144"
+    "memorysetup-temp-allocator-size-preload-manager=33554432"
+    "memorysetup-temp-allocator-size-nav-mesh-worker=65536"
+    "memorysetup-temp-allocator-size-audio-worker=65536"
+    "memorysetup-temp-allocator-size-cloud-worker=32768"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gfx=262144"
+Player connection [11948] Host "[IP] 192.168.0.195 [Port] 0 [Flags] 2 [Guid] 2668464515 [EditorId] 2668464515 [Version] 1048832 [Id] WindowsEditor(7,AlienwareR14) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" joined multi-casting on [225.0.0.222:54997]...
+
+Player connection [11948] Host "[IP] 192.168.0.195 [Port] 0 [Flags] 2 [Guid] 2668464515 [EditorId] 2668464515 [Version] 1048832 [Id] WindowsEditor(7,AlienwareR14) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" joined alternative multi-casting on [225.0.0.222:34997]...
+
+Refreshing native plugins compatible for Editor in 101.72 ms, found 3 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Initialize engine version: 2021.3.17f1 (3e8111cac19d)
+[Subsystems] Discovering subsystems at path C:/Program Files/Unity 2021.3.17f1/Editor/Data/Resources/UnitySubsystems
+[Subsystems] Discovering subsystems at path C:/Users/garra/Documents/UnityGame/Unwind Escape/Unwind Escape/Assets
+GfxDevice: creating device client; threaded=0; jobified=0
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.1]
+    Renderer: NVIDIA GeForce RTX 3060 (ID=0x2504)
+    Vendor:   NVIDIA
+    VRAM:     12129 MB
+    Driver:   31.0.15.3640
+Initialize mono
+Mono path[0] = 'C:/Program Files/Unity 2021.3.17f1/Editor/Data/Managed'
+Mono path[1] = 'C:/Program Files/Unity 2021.3.17f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32'
+Mono config path = 'C:/Program Files/Unity 2021.3.17f1/Editor/Data/MonoBleedingEdge/etc'
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56484
+Begin MonoManager ReloadAssembly
+Registering precompiled unity dll's ...
+Register platform support module: C:/Program Files/Unity 2021.3.17f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
+Registered in 0.002824 seconds.
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 67.34 ms, found 3 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  0.486 seconds
+Domain Reload Profiling:
+	ReloadAssembly (486ms)
+		BeginReloadAssembly (57ms)
+			ExecutionOrderSort (0ms)
+			DisableScriptedObjects (0ms)
+			BackupInstance (0ms)
+			ReleaseScriptingObjects (0ms)
+			CreateAndSetChildDomain (1ms)
+		EndReloadAssembly (348ms)
+			LoadAssemblies (55ms)
+			RebuildTransferFunctionScriptingTraits (0ms)
+			SetupTypeCache (73ms)
+			ReleaseScriptCaches (0ms)
+			RebuildScriptCaches (19ms)
+			SetupLoadedEditorAssemblies (216ms)
+				LogAssemblyErrors (0ms)
+				InitializePlatformSupportModulesInManaged (5ms)
+				SetLoadedEditorAssemblies (0ms)
+				RefreshPlugins (67ms)
+				BeforeProcessingInitializeOnLoad (1ms)
+				ProcessInitializeOnLoadAttributes (108ms)
+				ProcessInitializeOnLoadMethodAttributes (34ms)
+				AfterProcessingInitializeOnLoad (0ms)
+				EditorAssembliesLoaded (0ms)
+			ExecutionOrderSort2 (0ms)
+			AwakeInstancesAfterBackupRestoration (0ms)
+Platform modules already initialized, skipping
+Registering precompiled user dll's ...
+Registered in 0.005287 seconds.
+Begin MonoManager ReloadAssembly
+Symbol file LoadedFromMemory doesn't match image C:\Users\garra\Documents\UnityGame\Unwind Escape\Unwind Escape\Library\PackageCache\com.unity.visualscripting@1.8.0\Editor\VisualScripting.Core\Dependencies\YamlDotNet\Unity.VisualScripting.YamlDotNet.dll
+Symbol file LoadedFromMemory doesn't match image C:\Users\garra\Documents\UnityGame\Unwind Escape\Unwind Escape\Library\PackageCache\com.unity.visualscripting@1.8.0\Editor\VisualScripting.Core\Dependencies\DotNetZip\Unity.VisualScripting.IonicZip.dll
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.75 ms, found 3 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  0.938 seconds
+Domain Reload Profiling:
+	ReloadAssembly (938ms)
+		BeginReloadAssembly (85ms)
+			ExecutionOrderSort (0ms)
+			DisableScriptedObjects (5ms)
+			BackupInstance (0ms)
+			ReleaseScriptingObjects (0ms)
+			CreateAndSetChildDomain (18ms)
+		EndReloadAssembly (768ms)
+			LoadAssemblies (64ms)
+			RebuildTransferFunctionScriptingTraits (0ms)
+			SetupTypeCache (321ms)
+			ReleaseScriptCaches (1ms)
+			RebuildScriptCaches (48ms)
+			SetupLoadedEditorAssemblies (289ms)
+				LogAssemblyErrors (0ms)
+				InitializePlatformSupportModulesInManaged (4ms)
+				SetLoadedEditorAssemblies (1ms)
+				RefreshPlugins (1ms)
+				BeforeProcessingInitializeOnLoad (71ms)
+				ProcessInitializeOnLoadAttributes (186ms)
+				ProcessInitializeOnLoadMethodAttributes (20ms)
+				AfterProcessingInitializeOnLoad (6ms)
+				EditorAssembliesLoaded (0ms)
+			ExecutionOrderSort2 (0ms)
+			AwakeInstancesAfterBackupRestoration (5ms)
+Platform modules already initialized, skipping
+========================================================================
+Worker process is ready to serve import requests
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.04 seconds
+Refreshing native plugins compatible for Editor in 0.76 ms, found 3 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 3411 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 27 unused Assets / (114.2 KB). Loaded Objects now: 3871.
+Memory consumption went from 123.7 MB to 123.6 MB.
+Total: 3.237500 ms (FindLiveObjects: 0.257700 ms CreateObjectMapping: 0.087700 ms MarkObjects: 2.766000 ms  DeleteObjects: 0.125000 ms)
+
+AssetImportParameters requested are different than current active one (requested -> active):
+  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
+  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
+  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
+  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
+  custom:video-codec-MediaFoundation-h265: 746d11721c4dcdbdad8f713fa42b33f4 -> 
+  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
+  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
+  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
+  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+========================================================================
+Received Import Request.
+  Time since last request: 240268.178642 seconds.
+  path: Assets/Textures/Textures/Ottoman_01_metallic_2k.exr
+  artifactKey: Guid(2a9037008770a1940a462dc53e34f5b3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Textures/Textures/Ottoman_01_metallic_2k.exr using Guid(2a9037008770a1940a462dc53e34f5b3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '288fdee5feb0e53db59563cd8fd8dac3') in 0.100117 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000041 seconds.
+  path: Assets/Textures/Textures/sofa_02_nor_gl_2k.exr
+  artifactKey: Guid(e661592ec8b16b1489ce73b03b64dc89) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Textures/Textures/sofa_02_nor_gl_2k.exr using Guid(e661592ec8b16b1489ce73b03b64dc89) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '04696866550bf4a667eb6f4228a118bb') in 0.038756 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000035 seconds.
+  path: Assets/Textures/Textures/side_table_tall_01_rough_2k.jpg
+  artifactKey: Guid(fafa09ae3e66641419e4910b0c74565e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Textures/Textures/side_table_tall_01_rough_2k.jpg using Guid(fafa09ae3e66641419e4910b0c74565e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'c9060e7c12359f40ff9780d5205b48f8') in 0.017045 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000016 seconds.
+  path: Assets/Textures/Textures/sofa_02_metallic_2k.exr
+  artifactKey: Guid(ca7d96ea6427db141a083aad6e992444) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Textures/Textures/sofa_02_metallic_2k.exr using Guid(ca7d96ea6427db141a083aad6e992444) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'c242cab7a3c8e6d7d05f591e7d8b45eb') in 0.013727 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000031 seconds.
+  path: Assets/Textures/Textures/tea_set_01_diff_2k.jpg
+  artifactKey: Guid(5d30d21cfb7218b46b72628c8fd49149) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Textures/Textures/tea_set_01_diff_2k.jpg using Guid(5d30d21cfb7218b46b72628c8fd49149) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '43f321683e857f4629a92178fdc49e75') in 0.015072 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000021 seconds.
+  path: Assets/Textures/Textures/throw_pillows_01_rough_2k.jpg
+  artifactKey: Guid(3bab5848e2202f947a01fad46758dbf2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Textures/Textures/throw_pillows_01_rough_2k.jpg using Guid(3bab5848e2202f947a01fad46758dbf2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'bbf6cd5d7f1dbca9f462a063fc67f267') in 0.012242 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000023 seconds.
+  path: Assets/Textures/Textures/round_wooden_table_01_rough_2k.jpg
+  artifactKey: Guid(13b6be4f9e8085a47a97a1dd41809438) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Textures/Textures/round_wooden_table_01_rough_2k.jpg using Guid(13b6be4f9e8085a47a97a1dd41809438) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '56741e4e559752051e860b77fb1eab78') in 0.014098 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000018 seconds.
+  path: Assets/Textures/Textures/treasure_chest_metal_2k.exr
+  artifactKey: Guid(b52dfd81238e96443a1e6dc6f2eff881) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Textures/Textures/treasure_chest_metal_2k.exr using Guid(b52dfd81238e96443a1e6dc6f2eff881) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '5c44347b0bf8dd79b9509450bdc96181') in 0.013527 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000015 seconds.
+  path: Assets/Textures/Textures/sofa_02_roughness_2k.jpg
+  artifactKey: Guid(3c26431b537c81f4fa55991c063c9d45) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Textures/Textures/sofa_02_roughness_2k.jpg using Guid(3c26431b537c81f4fa55991c063c9d45) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '08a6b9598a8d1374e267c7c1e437f541') in 0.014057 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000016 seconds.
+  path: Assets/Textures/Textures/spray_paint_bottles_dirty_rough_2k.png
+  artifactKey: Guid(a3730734b3c06c849b41f573d22b5bcb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Textures/Textures/spray_paint_bottles_dirty_rough_2k.png using Guid(a3730734b3c06c849b41f573d22b5bcb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '0d9b96929ba1266f238ed59f7326001a') in 0.014348 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000014 seconds.
+  path: Assets/Textures/Textures/spray_paint_bottles_nor_gl_2k.exr
+  artifactKey: Guid(cfbc8aa3290d537409f192c4d3ae60ab) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Textures/Textures/spray_paint_bottles_nor_gl_2k.exr using Guid(cfbc8aa3290d537409f192c4d3ae60ab) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'efdc1905ad287f120c1170a6f020cd41') in 0.015870 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000023 seconds.
+  path: Assets/Textures/Textures/throw_pillows_01_diff_2k.jpg
+  artifactKey: Guid(00d5f19f33d4b254cbf39bde70607343) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Textures/Textures/throw_pillows_01_diff_2k.jpg using Guid(00d5f19f33d4b254cbf39bde70607343) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '51b2f33ca209ea51c31f9a3c51a07c7d') in 0.009770 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000017 seconds.
+  path: Assets/Textures/Textures/wooden_hammer_01_nor_gl_2k.exr
+  artifactKey: Guid(2336fbc02b73efa448e3cc709302d95b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Textures/Textures/wooden_hammer_01_nor_gl_2k.exr using Guid(2336fbc02b73efa448e3cc709302d95b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'e84ffb568cda34d29aa193c89fad94f3') in 0.014259 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000028 seconds.
+  path: Assets/Textures/Textures/spray_paint_bottles_diff_2k.jpg
+  artifactKey: Guid(67ff40b3e0d552d409a0ccdf8b0e25cf) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Textures/Textures/spray_paint_bottles_diff_2k.jpg using Guid(67ff40b3e0d552d409a0ccdf8b0e25cf) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a73972797ed0aeadd31475ebc19ca127') in 0.012121 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000019 seconds.
+  path: Assets/Textures/Textures/spray_paint_bottles_dirty_nor_gl_2k.png
+  artifactKey: Guid(fe95d134b6ff8dc4ea9cd54dfd2dcb84) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Textures/Textures/spray_paint_bottles_dirty_nor_gl_2k.png using Guid(fe95d134b6ff8dc4ea9cd54dfd2dcb84) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '9a438e85fdd3f96425053858a9b4ef59') in 0.011456 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000015 seconds.
+  path: Assets/Textures/Textures/wooden_hammer_01_diff_2k.jpg
+  artifactKey: Guid(6f9c2b2731f3e5c4f874c798c7654221) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Textures/Textures/wooden_hammer_01_diff_2k.jpg using Guid(6f9c2b2731f3e5c4f874c798c7654221) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'eb1402ae07423150d41390b0de3d79ee') in 0.014364 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000023 seconds.
+  path: Assets/Textures/Textures/WoodenTable_02_nor_gl_2k.exr
+  artifactKey: Guid(864988f3aa967614798edd9e27f0ae7d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Textures/Textures/WoodenTable_02_nor_gl_2k.exr using Guid(864988f3aa967614798edd9e27f0ae7d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '3eed3add6e6a67934b0260b01bb51067') in 0.013094 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000024 seconds.
+  path: Assets/Textures/Textures/Sofa_01_roughness_2k.jpg
+  artifactKey: Guid(0c17ad82dc67a484ba8ebde0633e4a5b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Textures/Textures/Sofa_01_roughness_2k.jpg using Guid(0c17ad82dc67a484ba8ebde0633e4a5b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f15d911dfe3e5c059444e83b57f65484') in 0.011306 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000022 seconds.
+  path: Assets/Textures/Textures/spray_paint_bottles_dirty_diff_2k.png
+  artifactKey: Guid(1deb322e4eb754d4282d959034e9db05) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Textures/Textures/spray_paint_bottles_dirty_diff_2k.png using Guid(1deb322e4eb754d4282d959034e9db05) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'e7d8312aeb5448b51e779dcacf9f691c') in 0.012523 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000034 seconds.
+  path: Assets/Textures/Textures/WoodenTable_01_metallic_2k.exr
+  artifactKey: Guid(4ef4be854b68cba4f8eccfb732ee5b52) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Textures/Textures/WoodenTable_01_metallic_2k.exr using Guid(4ef4be854b68cba4f8eccfb732ee5b52) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '5376a877727891d65b276d9a16507556') in 0.018326 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000017 seconds.
+  path: Assets/Textures/Textures/wooden_display_shelves_01_rough_2k.jpg
+  artifactKey: Guid(9e735092b2c2d2d4ba02ff782fc4fe8d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Textures/Textures/wooden_display_shelves_01_rough_2k.jpg using Guid(9e735092b2c2d2d4ba02ff782fc4fe8d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '62265aafa1787d869673765336bb9f20') in 0.012237 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000016 seconds.
+  path: Assets/Textures/Textures/tea_set_01_metal_2k.exr
+  artifactKey: Guid(d6056b7556dbfbd49b15b48b2b5b189f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Textures/Textures/tea_set_01_metal_2k.exr using Guid(d6056b7556dbfbd49b15b48b2b5b189f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '980a7778fa9371fc84f7b88e5f419216') in 0.013857 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000020 seconds.
+  path: Assets/Textures/Textures/wooden_crate_01_nor_gl_2k.exr
+  artifactKey: Guid(f25c35f62e0094a4c97818fc53b66f54) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Textures/Textures/wooden_crate_01_nor_gl_2k.exr using Guid(f25c35f62e0094a4c97818fc53b66f54) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b807a9f63253d2cb7d8d5c0753093609') in 0.011710 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000027 seconds.
+  path: Assets/Textures/Textures/wooden_hammer_01_metal_2k.exr
+  artifactKey: Guid(218abc7c7c586864c9178fcd881c023d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Textures/Textures/wooden_hammer_01_metal_2k.exr using Guid(218abc7c7c586864c9178fcd881c023d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '2a3b697202d5f01dbdd88c78adeca47e') in 0.018446 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000021 seconds.
+  path: Assets/Textures/Textures/treasure_chest_diff_2k.jpg
+  artifactKey: Guid(cd7b809595e1af74dbd5fba2f43cd79f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Textures/Textures/treasure_chest_diff_2k.jpg using Guid(cd7b809595e1af74dbd5fba2f43cd79f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f6ba7e7b862047d88d95af2d1a009565') in 0.011589 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000036 seconds.
+  path: Assets/Textures/Textures/treasure_chest_nor_gl_2k.exr
+  artifactKey: Guid(3577d3f498294994890b5bb54d503b7e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Textures/Textures/treasure_chest_nor_gl_2k.exr using Guid(3577d3f498294994890b5bb54d503b7e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '04108d26ab8d8c0cafe6e9aa5dfb08c3') in 0.011656 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000016 seconds.
+  path: Assets/Textures/Textures/treasure_chest_rough_2k.exr
+  artifactKey: Guid(7701cd55b2a22aa4daa46316ef140409) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Textures/Textures/treasure_chest_rough_2k.exr using Guid(7701cd55b2a22aa4daa46316ef140409) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '21259269896617d83a9b3e9e9c6e25c7') in 0.010042 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000016 seconds.
+  path: Assets/Textures/Textures/throw_pillows_01_nor_gl_2k.exr
+  artifactKey: Guid(2062dba6aacc3f045bc14fa824e1a10d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Textures/Textures/throw_pillows_01_nor_gl_2k.exr using Guid(2062dba6aacc3f045bc14fa824e1a10d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '18f8565cd1d9434711afafa2364a5c41') in 0.015149 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000023 seconds.
+  path: Assets/Textures/Textures/spray_paint_bottles_dirty_metal_2k.png
+  artifactKey: Guid(21c1c6c112f71084e8044932d559bfd6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Textures/Textures/spray_paint_bottles_dirty_metal_2k.png using Guid(21c1c6c112f71084e8044932d559bfd6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '032a7ab6532656794e72970802f52080') in 0.012165 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000021 seconds.
+  path: Assets/Textures/Textures/tea_set_01_nor_gl_2k.exr
+  artifactKey: Guid(70c8a95990bc6cf47951ab76ba715953) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Textures/Textures/tea_set_01_nor_gl_2k.exr using Guid(70c8a95990bc6cf47951ab76ba715953) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b8c9f0becc15f03b72fd7e808e18bdf5') in 0.013771 seconds 
+Editor requested this worker to shutdown with reason: Scaling down because of idle timeout
+AssetImportWorker is now disconnected from the server
+Process exiting
+Exiting without the bug reporter. Application will terminate with return code 0
