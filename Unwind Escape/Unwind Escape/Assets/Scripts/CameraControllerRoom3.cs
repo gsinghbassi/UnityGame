@@ -18,8 +18,14 @@ public class CameraControllerRoom3 : MonoBehaviour
     Quaternion RotDocument = Quaternion.Euler(0f, 0f, 0f);
     Vector3 PosChest1 = new Vector3(-2.065588f, 1.62f, -0.6337113f);
     Quaternion RotChest1 = Quaternion.Euler(31.386f, -130.188f, 0f);
+    Vector3 PosChest2 = new Vector3(0.09280766f, 1.490704f, 2.826597f);
+    Quaternion RotChest2 = Quaternion.Euler(56.654f, 33.518f, 0f);
     Vector3 PosDart1  = new Vector3(-2.809783f, 1.466677f, -1.110246f);
     Quaternion RotDart1 = Quaternion.Euler(67.483f, -114.545f, 0f);
+    Vector3 PosCharles = new Vector3(3.32f, 1.93f, -5.01f);
+    Quaternion RotCharles = Quaternion.Euler(-1.272f, -178.139f, 0f);
+    Vector3 PosChest2Lock = new Vector3(0.2705561f, 0.885517f, 2.493895f);
+    Quaternion RotChest2Lock = Quaternion.Euler(4.4f, -0.172f, 0f);
     public GameObject Set1;
     public GameObject Set2;
     public GameObject Set3;
@@ -89,7 +95,7 @@ public class CameraControllerRoom3 : MonoBehaviour
         
         if (G_Value == "Document") //This is not updated for ROOM3. Update it later on
         {
-            ChestArrows.SetActive(false);
+           
             cameraspeed = 5f;
             GetComponent<Camera>().orthographicSize = 0.45f;
             GetComponent<Camera>().nearClipPlane = -3f;
@@ -109,6 +115,28 @@ public class CameraControllerRoom3 : MonoBehaviour
             GetComponent<Camera>().cullingMask = PlayerMask;
             BackButton.SetActive(true);
         }
+        if (G_Value == "Chest2Lock")
+        {
+            cameraspeed = 5f;
+            GetComponent<Camera>().nearClipPlane = -1f;
+            GetComponent<Camera>().orthographicSize = 0.23f;
+            CameraTarget = G_Object;
+            CameraTargetPosition = PosChest2Lock;
+            CameraTargetRotation = RotChest2Lock;
+            GetComponent<Camera>().cullingMask = PlayerMask;
+            BackButton.SetActive(true);
+            ChestArrows.SetActive(true);
+        }
+        if (G_Value == "Chest2")
+        {
+            cameraspeed = 5f;            
+            GetComponent<Camera>().orthographicSize = 0.72f;
+            CameraTarget = G_Object;
+            CameraTargetPosition = PosChest2;
+            CameraTargetRotation = RotChest2;
+            GetComponent<Camera>().cullingMask = PlayerMask;
+            BackButton.SetActive(true);
+        }
         if (G_Value == "Dart1")
         {
             cameraspeed = 0.008f;
@@ -116,6 +144,17 @@ public class CameraControllerRoom3 : MonoBehaviour
             CameraTarget = G_Object;
             CameraTargetPosition = PosDart1;
             CameraTargetRotation = RotDart1;
+            GetComponent<Camera>().cullingMask = PlayerMask;
+            BackButton.SetActive(true);
+        }
+        if (G_Value == "Charles")
+        {
+            cameraspeed = 5.0f;
+            GetComponent<Camera>().orthographicSize = 0.38f;
+            GetComponent<Camera>().nearClipPlane = -3.95f;
+            CameraTarget = G_Object;
+            CameraTargetPosition = PosCharles;
+            CameraTargetRotation = RotCharles;
             GetComponent<Camera>().cullingMask = PlayerMask;
             BackButton.SetActive(true);
         }
@@ -235,7 +274,7 @@ public class CameraControllerRoom3 : MonoBehaviour
     }
     IEnumerator ArrowsDelay()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.5f);
         ChestArrows.SetActive(true);
     }
 

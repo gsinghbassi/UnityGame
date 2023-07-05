@@ -8,9 +8,11 @@ public class ChestHammer : MonoBehaviour
     public Animator ChestController;
     Camera G_Camera;
     public GameObject Dart1;
+    public ButlerRoom3 ButlerObject;
     // Start is called before the first frame update
     void Start()
     {
+        ButlerObject= GameObject.Find("ButlerRoom3").GetComponent<ButlerRoom3>();
         Open = false;
         ChestController = GetComponent<Animator>();
         G_Camera = GameObject.Find("Main Camera").GetComponent<Camera>();
@@ -31,5 +33,6 @@ public class ChestHammer : MonoBehaviour
         Open = true;
         G_Camera.GetComponent<CameraControllerRoom3>().CameraZoomObject("Dart1", this.transform);
         Dart1.name = "Dart1";
+        ButlerObject.InformationText.text = "Press E to take the Dart";
     }
 }
