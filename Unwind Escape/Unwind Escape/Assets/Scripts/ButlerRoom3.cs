@@ -44,7 +44,9 @@ public class ButlerRoom3 : MonoBehaviour
     Vector3 DartRestPosition = new Vector3(-4,0,-3);
     public GameObject DartinPlaceCheck8;
     public GameObject DartinPlaceCheck7;
-    
+    public GameObject DocumentCupboard;
+    bool CupboardActivated;
+    public GameObject Document2;
 
 
 
@@ -53,6 +55,8 @@ public class ButlerRoom3 : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Document2.name = "Document2NotReady";
+        CupboardActivated = false;
         x = 0;
         DartTargetRing.transform.position = DartTargets[x].transform.position;
         HighlightedPosition = DartTargets[x].transform.position;
@@ -83,10 +87,17 @@ public class ButlerRoom3 : MonoBehaviour
     {
 
        
-       if(DartinPlaceCheck7.GetComponent<CheckDart>().DartChecker&&DartinPlaceCheck8.GetComponent<CheckDart>().DartChecker)
-        { Debug.Log("Document Ready"); }
+       if(DartinPlaceCheck7.GetComponent<CheckDart>().DartChecker&&DartinPlaceCheck8.GetComponent<CheckDart>().DartChecker&&!CupboardActivated)
+        {
+            InteractionObject.name = "Dartboard Deactivated";
+            DocumentCupboard.GetComponent<Cupboards>().DoorOpen = true;
+            G_Camera.GetComponent<CameraControllerRoom3>().CameraZoomObject("DocumentCupboard", DocumentCupboard.transform);
+            CupboardActivated = true;
+            Document2.name = "Document2";
+            InformationText.text = "I think thats the last evidence I need to collect. Let's quickly get it";
+        }
 
-        if(InventoryItemNumber==0)
+        if (InventoryItemNumber==0)
         {
             InventoryBGImage.SetActive(false);
          }
@@ -217,6 +228,13 @@ public class ButlerRoom3 : MonoBehaviour
             if (InteractionObject.name == "Clue")
             {
                 G_Camera.GetComponent<CameraControllerRoom3>().CameraZoomObject("Clue", InteractionObject.transform);
+            }
+            if (InteractionObject.name == "Document2")
+            {
+                Document2.SetActive(false);
+                InventoryDocument = true;
+                InventoryManager(InteractionObject.name, true);
+                InformationText.text = "I got what I needed. Lets Leave this Building Now";
             }
             if (InteractionObject.name == "PaintingBack")
             {
@@ -349,6 +367,10 @@ public class ButlerRoom3 : MonoBehaviour
         {
             InformationTextController("Press E to Check the Dartboard");
         }
+        if (other.name == "Document2")
+        {
+            InformationTextController("Press E to take the Document");
+        }
 
     }
 
@@ -417,11 +439,15 @@ public class ButlerRoom3 : MonoBehaviour
         {
             InteractionObject = other.gameObject;
         }
+        if (other.name == "Document2")
+        {
+            InteractionObject = other.gameObject;
+        }
 
     }
     private void OnTriggerExit(Collider other)
     {
-        if (other.name == "LightSwitchVintage" || other.name == "DoorMain" || other.name == "Document2" || other.name== "Chest1" || other.name== "Dart1" || other.name == "Dart2" || other.name == "Hammer" || other.name == "Spray" || other.name == "Chest2" || other.name == "DeskLamp" || other.name == "Charles" || other.name == "Painting1" ||other.name == "Clue" || other.name == "PaintingBack" || other.name == "Dartboard") 
+        if (other.name == "LightSwitchVintage" || other.name == "DoorMain" || other.name == "Document2" || other.name== "Chest1" || other.name== "Dart1" || other.name == "Dart2" || other.name == "Hammer" || other.name == "Spray" || other.name == "Chest2" || other.name == "DeskLamp" || other.name == "Charles" || other.name == "Painting1" ||other.name == "Clue" || other.name == "PaintingBack" || other.name == "Dartboard" || other.name == "Document2") 
         {
             InformationText.text = "";
             InteractionObject = null;
@@ -442,7 +468,7 @@ public class ButlerRoom3 : MonoBehaviour
             case "Dart2":
                 ChosenInventoryImage = Dart2Image;
                 break;
-            case "Document":
+            case "Document2":
                 ChosenInventoryImage = DocumentImage;
                 break;
             case "Spray":

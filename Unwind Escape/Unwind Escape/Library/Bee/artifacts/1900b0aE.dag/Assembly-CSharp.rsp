@@ -370,6 +370,7 @@
 "Assets/Scripts/Cupboards.cs"
 "Assets/Scripts/DeskLamp.cs"
 "Assets/Scripts/DIceChange.cs"
+"Assets/Scripts/FollowPath.cs"
 "Assets/Scripts/LightSwitch.cs"
 "Assets/Scripts/LightSwitchRoom2.cs"
 "Assets/Scripts/LightSwitchRoom3.cs"

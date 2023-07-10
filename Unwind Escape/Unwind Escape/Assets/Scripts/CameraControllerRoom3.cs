@@ -34,11 +34,13 @@ public class CameraControllerRoom3 : MonoBehaviour
     Quaternion RotPaintingBack = Quaternion.Euler(-11.688f, 47.339f, 0f);
     Vector3 PosDartboard = new Vector3(0.07671839f, 2.287288f, -3.109254f);
     Quaternion RotDartboard = Quaternion.Euler(0.688f,-179.792f, 0f);
+    Vector3 PosDocumentCupboard = new Vector3(2.167909f, 2.49116f, 0.06677608f);
+    Quaternion RotDocumentCupboard = Quaternion.Euler(16.158f, 90.275f, 0f);
     public GameObject Set1;
     public GameObject Set2;
     public GameObject Set3;
     public GameObject Set4;
-    int updatecamera;
+    public int updatecamera;
     public float cameraspeed;
     Vector3 CameraTargetPosition;
     Quaternion CameraTargetRotation;
@@ -234,6 +236,25 @@ public class CameraControllerRoom3 : MonoBehaviour
             GetComponent<Camera>().cullingMask = PlayerMask;
             BackButton.SetActive(true);
             
+        }
+        if (G_Value == "DocumentCupboard")
+        {
+            if(updatecamera==2)
+            { 
+                CameraControls("left");
+            }
+            DartArrowLeft.SetActive(false);
+            DartArrowRight.SetActive(false);
+            Dart1Button.SetActive(false);
+            Dart2Button.SetActive(false);
+            cameraspeed = 0.5f;
+            GetComponent<Camera>().orthographicSize = 0.66f;
+            CameraTarget = G_Object;
+            CameraTargetPosition = PosDocumentCupboard;
+            CameraTargetRotation = RotDocumentCupboard;
+            GetComponent<Camera>().cullingMask = PlayerMask;
+            BackButton.SetActive(true);
+
         }
 
 
