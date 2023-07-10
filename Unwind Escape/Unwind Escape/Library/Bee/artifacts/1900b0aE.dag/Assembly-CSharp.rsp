@@ -359,6 +359,7 @@
 "Assets/Scripts/CameraController.cs"
 "Assets/Scripts/CameraControllerRoom2.cs"
 "Assets/Scripts/CameraControllerRoom3.cs"
+"Assets/Scripts/CheckDart.cs"
 "Assets/Scripts/ChestHammer.cs"
 "Assets/Scripts/ChestOfDrawers.cs"
 "Assets/Scripts/ChestSimple.cs"

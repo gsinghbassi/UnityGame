@@ -13,10 +13,13 @@ public class DeskLamp : MonoBehaviour
     public float[] SpotAngle;
     public float[] SpotIntensity;
     int indexNumber;
+    public GameObject PaintingBack;
+ 
 
     // Start is called before the first frame update
     void Start()
     {
+        PaintingBack.SetActive( false);        
         SpotLightController = transform.Find("SpotLight").GetComponent<Light>();
         indexNumber = 1;
         UpdateLight();
@@ -41,6 +44,16 @@ public class DeskLamp : MonoBehaviour
         SpotLightController.range= SpotRange[indexNumber];
         SpotLightController.spotAngle=SpotAngle[indexNumber];
         SpotLightController.intensity=SpotIntensity[indexNumber];
+        if(RotationAngleY[indexNumber]==343)
+        {
+            PaintingBack.SetActive(true);
+           
+        }
+        else if (RotationAngleY[indexNumber] != 343)
+        {
+            PaintingBack.SetActive(false);
+            
+        }
 
 
     }

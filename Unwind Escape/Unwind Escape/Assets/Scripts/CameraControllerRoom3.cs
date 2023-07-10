@@ -26,6 +26,14 @@ public class CameraControllerRoom3 : MonoBehaviour
     Quaternion RotCharles = Quaternion.Euler(-1.272f, -178.139f, 0f);
     Vector3 PosChest2Lock = new Vector3(0.2705561f, 0.885517f, 2.493895f);
     Quaternion RotChest2Lock = Quaternion.Euler(4.4f, -0.172f, 0f);
+    Vector3 PosPainting1 = new Vector3(0.2810636f, 1.529351f, 0.6642486f);
+    Quaternion RotPainting1 = Quaternion.Euler(6.36f, -134.278f, 0f);
+    Vector3 PosClue = new Vector3(-2.93288f, 1.320254f, 2.831542f);
+    Quaternion RotClue = Quaternion.Euler(88.523f, -31.164f, 0f);
+    Vector3 PosPaintingBack = new Vector3(-1.222806f, 1.231513f, -0.6529889f);
+    Quaternion RotPaintingBack = Quaternion.Euler(-11.688f, 47.339f, 0f);
+    Vector3 PosDartboard = new Vector3(0.07671839f, 2.287288f, -3.109254f);
+    Quaternion RotDartboard = Quaternion.Euler(0.688f,-179.792f, 0f);
     public GameObject Set1;
     public GameObject Set2;
     public GameObject Set3;
@@ -45,13 +53,23 @@ public class CameraControllerRoom3 : MonoBehaviour
     public GameObject BackButton;
     public float NearPlane;
     public GameObject ChestArrows;
-
+    public GameObject PaintingStand;
+    public GameObject DartArrowLeft;
+    public GameObject DartArrowRight;
+    public GameObject Dart1Button;
+    public GameObject Dart2Button;
 
 
 
     // Start is called before the first frame update
     void Start()
     {
+
+        Dart1Button.SetActive(false);
+        Dart2Button.SetActive(false);
+        DartArrowLeft.SetActive(false);
+        DartArrowRight.SetActive(false);
+        PaintingStand.SetActive(true);
         updatecamera = 1;
         transform.position = Pos1;
         transform.rotation = Rot1;
@@ -74,6 +92,7 @@ public class CameraControllerRoom3 : MonoBehaviour
         PrevCameraRotation = CameraTargetRotation;
         NearPlane = -10f;
         GetComponent<Camera>().nearClipPlane = NearPlane;
+
     }
 
     // Update is called once per frame
@@ -158,6 +177,64 @@ public class CameraControllerRoom3 : MonoBehaviour
             GetComponent<Camera>().cullingMask = PlayerMask;
             BackButton.SetActive(true);
         }
+        if (G_Value == "Painting1")
+        {
+            cameraspeed = 1f;
+            GetComponent<Camera>().nearClipPlane = 0.997f;
+            GetComponent<Camera>().orthographicSize = 0.52f;
+            CameraTarget = G_Object;
+            CameraTargetPosition = PosPainting1;
+            CameraTargetRotation = RotPainting1;
+            GetComponent<Camera>().cullingMask = PlayerMask;
+            BackButton.SetActive(true);
+        }
+        if (G_Value == "Clue")
+        {
+            cameraspeed = 0.5f;
+            GetComponent<Camera>().orthographicSize = 0.25f;
+            CameraTarget = G_Object;
+            CameraTargetPosition = PosClue;
+            CameraTargetRotation = RotClue;
+            GetComponent<Camera>().cullingMask = PlayerMask;
+            BackButton.SetActive(true);
+        }
+        if (G_Value == "PaintingBack")
+        {
+            cameraspeed = 0.5f;
+            GetComponent<Camera>().orthographicSize = 0.5f;
+            GetComponent<Camera>().nearClipPlane = -1.5f;
+            CameraTarget = G_Object;
+            CameraTargetPosition = PosPaintingBack;
+            CameraTargetRotation = RotPaintingBack;
+            GetComponent<Camera>().cullingMask = PlayerMask;
+            BackButton.SetActive(true);
+            PaintingStand.SetActive(false);
+        }
+        if (G_Value == "Dartboard")
+        {
+            cameraspeed = 0.5f;
+            GetComponent<Camera>().orthographicSize = 0.5f;
+            CameraTarget = G_Object;
+            CameraTargetPosition = PosDartboard;
+            CameraTargetRotation = RotDartboard;
+            GetComponent<Camera>().cullingMask = PlayerMask;
+            BackButton.SetActive(true);
+            DartArrowLeft.SetActive(true);
+            DartArrowRight.SetActive(true); 
+            Dart1Button.SetActive(true);
+            Dart2Button.SetActive(true);
+        }
+        if (G_Value == "DartboardNotReady")
+        {
+            cameraspeed = 0.5f;
+            GetComponent<Camera>().orthographicSize = 0.5f;
+            CameraTarget = G_Object;
+            CameraTargetPosition = PosDartboard;
+            CameraTargetRotation = RotDartboard;
+            GetComponent<Camera>().cullingMask = PlayerMask;
+            BackButton.SetActive(true);
+            
+        }
 
 
     }
@@ -167,6 +244,11 @@ public class CameraControllerRoom3 : MonoBehaviour
     {
         if (G_Value == "right") 
         {
+            PaintingStand.SetActive(true);
+            DartArrowLeft.SetActive(false);
+            DartArrowRight.SetActive(false);
+            Dart1Button.SetActive(false);
+            Dart2Button.SetActive(false);
             GetComponent<Camera>().nearClipPlane = NearPlane;
             cameraspeed = 0.1f;
             ButlerRoom3.clearinteractionobjects = true;
@@ -188,6 +270,11 @@ public class CameraControllerRoom3 : MonoBehaviour
         }
         if (G_Value == "left")
         {
+            PaintingStand.SetActive(true);
+            DartArrowLeft.SetActive(false);
+            DartArrowRight.SetActive(false);
+            Dart1Button.SetActive(false);
+            Dart2Button.SetActive(false);
             GetComponent<Camera>().nearClipPlane = NearPlane;
             cameraspeed = 0.1f;
             ButlerRoom3.clearinteractionobjects = true;
@@ -271,6 +358,11 @@ public class CameraControllerRoom3 : MonoBehaviour
         CameraTarget = CameraTargetForRoomAxo;
         cameraspeed = 0.1f;
         ChestArrows.SetActive(false);
+        PaintingStand.SetActive(true); 
+        DartArrowLeft.SetActive(false);
+        DartArrowRight.SetActive(false);
+        Dart1Button.SetActive(false);
+        Dart2Button.SetActive(false);
     }
     IEnumerator ArrowsDelay()
     {
