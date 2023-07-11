@@ -13,12 +13,15 @@ public class LightSwitchRoom2 : MonoBehaviour
     public Material TVScreenOn;
     public Material TVScreenOff;
     public GameObject TVCollider;
-    
+    AudioSource Light_AudioController;
+
+
 
 
     // Start is called before the first frame update
     void Start()
     {
+        Light_AudioController = GetComponent<AudioSource>();
         LightsOn = true;
         LightSwitchControls(1);
         LightsAnimator = GetComponent<Animator>();
@@ -27,8 +30,6 @@ public class LightSwitchRoom2 : MonoBehaviour
         TVLight.SetActive(false);        
         TVCollider.name = "TV Collider On";
         TVScreen.GetComponent<MeshRenderer>().material = TVScreenOff;
-
-
     }
 
     // Update is called once per frame
@@ -48,6 +49,7 @@ public class LightSwitchRoom2 : MonoBehaviour
             TVLight.SetActive(true);           
             TVCollider.name = "TV Collider Off";
             TVScreen.GetComponent<MeshRenderer>().material = TVScreenOn;
+            Light_AudioController.Play();
         }
         else if(!LightsOn)
         {
@@ -58,6 +60,7 @@ public class LightSwitchRoom2 : MonoBehaviour
             TVLight.SetActive(false);            
             TVCollider.name = "TV Collider On2";
             TVScreen.GetComponent<MeshRenderer>().material = TVScreenOff;
+            Light_AudioController.Stop();
         }
     }
 

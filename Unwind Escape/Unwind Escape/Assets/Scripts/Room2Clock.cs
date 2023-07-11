@@ -8,10 +8,15 @@ public class Room2Clock : MonoBehaviour
     float needlespeed = 50f;
     Quaternion TargetRotation;
     int nextTime;
+    AudioSource Clock_AudioController;
+    public AudioClip[] Sound_Clock;
+    int SelectedSoundClock;
+
 
     // Start is called before the first frame update
     void Start()
     {
+        Clock_AudioController = GetComponent<AudioSource>();
         if(transform.name== "NeedleHour") 
         { 
         nextTime = 4;
@@ -57,6 +62,7 @@ public class Room2Clock : MonoBehaviour
     
     void OnMouseDown()
     {
+        ClockSound();
         if (nextTime < Times.Length - 1)
         {
             nextTime++;
@@ -67,5 +73,17 @@ public class Room2Clock : MonoBehaviour
             nextTime = 0;
             TargetRotation = Times[nextTime];
         }
+    }
+    public void ClockSound()
+    {
+        if (SelectedSoundClock < Sound_Clock.Length - 1)
+        {
+            SelectedSoundClock++;
+        }
+        else if (SelectedSoundClock == Sound_Clock.Length - 1)
+        {
+            SelectedSoundClock = 0;
+        }
+        Clock_AudioController.PlayOneShot(Sound_Clock[SelectedSoundClock]);
     }
 }

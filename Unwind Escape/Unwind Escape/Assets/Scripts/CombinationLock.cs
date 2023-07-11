@@ -26,10 +26,16 @@ public class CombinationLock : MonoBehaviour
     public GameObject Chest;
     public GameObject ChestArrows;
     public GameObject Key;
+    AudioSource LockAudioController;
+    public AudioClip[] CombinationSounds;
+    public AudioClip   ChestOpen;
+    int SelectedSound;
 
     // Start is called before the first frame update
     void Start()
     {
+        LockAudioController = GetComponent<AudioSource>();
+        SelectedSound = 1;
         CodeMatched = false;
         lockyellow = transform.Find("Lock-Yellow").gameObject;
         lockpink = transform.Find("Lock-Pink").gameObject;
@@ -61,10 +67,11 @@ public class CombinationLock : MonoBehaviour
         Checklockblue = transform.Find("CheckBlue").gameObject.GetComponent<CombinationLockCheck>().CodeTrue;
         Checklockorange = transform.Find("CheckOrange").gameObject.GetComponent<CombinationLockCheck>().CodeTrue;
 
-        if (Checklockyellow&&Checklockpink&&Checklockblue&&Checklockorange)
+        if (Checklockyellow&&Checklockpink&&Checklockblue&&Checklockorange&&!CodeMatched)
         {
             CodeMatched = true;
             Chest.GetComponent<Animator>().SetBool("ChestOpen",true);
+            LockAudioController.PlayOneShot(ChestOpen);
             Chest.name = "ChestOpened";
             ChestArrows.SetActive(false);
             if (Key!=null)
@@ -81,8 +88,8 @@ public class CombinationLock : MonoBehaviour
 
     public void RotateLockYellow(int G_Value)        
     {
-        
-        if(G_Value==-1)
+        PlaySound();
+        if (G_Value==-1)
         {
             currentanglevalueyellow -= incrementangle;
             AngleYellow = Quaternion.Euler(0,-90 , currentanglevalueyellow);
@@ -96,7 +103,7 @@ public class CombinationLock : MonoBehaviour
     }
     public void RotateLockPink(int G_Value)
     {
-
+        PlaySound();
         if (G_Value == -1)
         {
             currentanglevaluepink -= incrementangle;
@@ -111,7 +118,7 @@ public class CombinationLock : MonoBehaviour
     }
     public void RotateLockBlue(int G_Value)
     {
-
+        PlaySound();
         if (G_Value == -1)
         {
             currentanglevalueblue -= incrementangle;
@@ -126,7 +133,7 @@ public class CombinationLock : MonoBehaviour
     }
     public void RotateLockOrange(int G_Value)
     {
-
+        PlaySound();
         if (G_Value == -1)
         {
             currentanglevalueorange -= incrementangle;
@@ -138,6 +145,19 @@ public class CombinationLock : MonoBehaviour
             AngleOrange = Quaternion.Euler(0, -90, currentanglevalueorange);
         }
 
+    }
+
+    void PlaySound()
+    {
+        if(SelectedSound<CombinationSounds.Length-1)
+        { 
+            SelectedSound++;
+        }
+        else if (SelectedSound == CombinationSounds.Length-1)
+        { 
+            SelectedSound=0; 
+        }
+        LockAudioController.PlayOneShot(CombinationSounds[SelectedSound]);
     }
 
    

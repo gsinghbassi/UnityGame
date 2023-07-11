@@ -47,7 +47,10 @@ public class ButlerRoom3 : MonoBehaviour
     public GameObject DocumentCupboard;
     bool CupboardActivated;
     public GameObject Document2;
-
+    //Sound
+    AudioSource ButlerAudioController;
+    public AudioClip[] Sound_Footsteps;
+    int SelectedSoundFootstep;
 
 
 
@@ -55,6 +58,7 @@ public class ButlerRoom3 : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        ButlerAudioController = GetComponent<AudioSource>();
         Document2.name = "Document2NotReady";
         CupboardActivated = false;
         x = 0;
@@ -584,6 +588,19 @@ public class ButlerRoom3 : MonoBehaviour
         }
 
     }
-    
+
+    public void Step()
+    {
+        if (SelectedSoundFootstep < Sound_Footsteps.Length - 1)
+        {
+            SelectedSoundFootstep++;
+        }
+        else if (SelectedSoundFootstep == Sound_Footsteps.Length - 1)
+        {
+            SelectedSoundFootstep = 0;
+        }
+        ButlerAudioController.PlayOneShot(Sound_Footsteps[SelectedSoundFootstep]);
+    }
+
 }
 

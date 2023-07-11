@@ -20,14 +20,26 @@ public class Butler : MonoBehaviour
     public GameObject InventoryBGImage;
     public GameObject KeyHole;
     float TimerCheck;
-    
-
-    
+    AudioSource ButlerAudioController;
+    //Sounds
+    public AudioClip Sound_CupboardDoorOpen;
+    public AudioClip Sound_CupboardDoorOpenwithChest;
+    public AudioClip Sound_CupboardDoorClose;
+    public AudioClip Sound_LigtSwitch;
+    public AudioClip Sound_ClueReveal;
+    public AudioClip Sound_ClueSlide;
+    public AudioClip Sound_ClueSlide2;
+    public AudioClip Sound_Collection;
+    public AudioClip Sound_DoorLocked;
+    public AudioClip[] Sound_Footsteps;
+    int SelectedSoundFootstep;
 
 
     // Start is called before the first frame update
     void Start()
     {
+        SelectedSoundFootstep = 0;
+        ButlerAudioController=GetComponent<AudioSource>();
         TimerCheck = 0;
         InventoryKey = false;
         ButlerAnimator = GetComponent<Animator>();
@@ -71,21 +83,25 @@ public class Butler : MonoBehaviour
             if(InteractionObject.name== "LightSwitchVintage")
             {
                 InteractionObject.GetComponent<LightSwitch>().LightsSwitch();
+                ButlerAudioController.PlayOneShot(Sound_LigtSwitch);
             }
             if (InteractionObject.name == "CodeYellow")
             {
                 InteractionObject.GetComponent<Animator>().SetTrigger("CodeMove");
                 InteractionObject.name = "CodeYellowOutside";
+                ButlerAudioController.PlayOneShot(Sound_ClueSlide);
             }
             if (InteractionObject.name == "CodeYellowOutside")
             {
                 G_Camera.GetComponent<CameraController>().CameraZoomObject("CodeYellowOutside",InteractionObject.transform);
                 InformationText.text = "";
+                ButlerAudioController.PlayOneShot(Sound_ClueReveal);
             }
             if (InteractionObject.name == "CodeOrange")
             {
                 G_Camera.GetComponent<CameraController>().CameraZoomObject("CodeOrange", InteractionObject.transform);
                 InformationText.text = "";
+                ButlerAudioController.PlayOneShot(Sound_ClueReveal);
             }
             if (InteractionObject.name == "Painting")
             {
@@ -93,11 +109,13 @@ public class Butler : MonoBehaviour
                 G_Camera.GetComponent<CameraController>().CameraZoomObject("CodeRed", InteractionObject.transform);
                 InformationText.text = "";
                 InteractionObject.name = "CodeRed";
+                ButlerAudioController.PlayOneShot(Sound_ClueSlide2);
             }
             if (InteractionObject.name == "CodeRed")
             {
                 G_Camera.GetComponent<CameraController>().CameraZoomObject("CodeRed", InteractionObject.transform);
                 InformationText.text = "";
+                ButlerAudioController.PlayOneShot(Sound_ClueReveal);
             }
             if (InteractionObject.name == "DoorMain")
             {
@@ -114,6 +132,7 @@ public class Butler : MonoBehaviour
                 if (!InventoryKey)
                 {
                     InformationTextController("I need to find the key first.");
+                    ButlerAudioController.PlayOneShot(Sound_DoorLocked);
                 }
                 if(InteractionObject.GetComponent<MainDoor>().DoorOpen&&Time.time>TimerCheck)
                 {
@@ -129,12 +148,15 @@ public class Butler : MonoBehaviour
                     InteractionObject.GetComponent<Animator>().SetBool("COpen", false);
                     InteractionObject.GetComponent<Cupboards>().DoorOpen = false;
                     InformationTextController("Press E to open the cupboard door.");
+                    ButlerAudioController.PlayOneShot(Sound_CupboardDoorClose);
+                    
                 }
                 else if (InteractionObject.GetComponent<Animator>().GetBool("COpen") == false)
                 {
                     InteractionObject.GetComponent<Animator>().SetBool("COpen", true);
                     InteractionObject.GetComponent<Cupboards>().DoorOpen = true;
                     InformationTextController("Press E to close the cupboard door.");
+                    ButlerAudioController.PlayOneShot(Sound_CupboardDoorOpen);
                 }
 
             }
@@ -146,7 +168,7 @@ public class Butler : MonoBehaviour
                 InteractionObject.GetComponent<Cupboards>().DoorOpen = true;
                 ChestwithKey.GetComponent<BoxCollider>().enabled = true;
                 G_Camera.GetComponent<CameraController>().CameraZoomObject("Chest", ChestwithKey.transform);
-
+                ButlerAudioController.PlayOneShot(Sound_CupboardDoorOpenwithChest);
             }
 
             if (InteractionObject.name == "Chest")
@@ -162,7 +184,8 @@ public class Butler : MonoBehaviour
                 Destroy(InteractionObject);
                 G_Camera.GetComponent<CameraController>().Back();
                 InventoryBGImage.SetActive(true);
-                KeyImage.SetActive(true);                
+                KeyImage.SetActive(true);
+                ButlerAudioController.PlayOneShot(Sound_Collection);
             }
 
         }
@@ -291,7 +314,18 @@ public class Butler : MonoBehaviour
         }
     }
     
-        
+       public void Step()
+    {
+        if (SelectedSoundFootstep < Sound_Footsteps.Length - 1)
+        {
+            SelectedSoundFootstep++;
+        }
+        else if (SelectedSoundFootstep == Sound_Footsteps.Length - 1)
+        {
+            SelectedSoundFootstep = 0;
+        }
+        ButlerAudioController.PlayOneShot(Sound_Footsteps[SelectedSoundFootstep]);
+    }
     
 }
 

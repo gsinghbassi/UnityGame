@@ -14,11 +14,14 @@ public class FollowPath : MonoBehaviour
     float startTime;
     public string scenename;
     public Vector3 NextPoint;
-
+    AudioSource ButlerAudioController;
+    public AudioClip[] Sound_Footsteps;
+    int SelectedSoundFootstep;
 
     // Start is called before the first frame update
     void Start()
     {
+        ButlerAudioController = GetComponent<AudioSource>();
         transform.position = Point1.position;
         startTime = Time.time + 0.5f;
         NextPoint = Point2.position;
@@ -52,5 +55,18 @@ public class FollowPath : MonoBehaviour
         {
             SceneManager.LoadScene(scenename);
         }
+    }
+
+    public void Step()
+    {
+        if (SelectedSoundFootstep < Sound_Footsteps.Length - 1)
+        {
+            SelectedSoundFootstep++;
+        }
+        else if (SelectedSoundFootstep == Sound_Footsteps.Length - 1)
+        {
+            SelectedSoundFootstep = 0;
+        }
+        ButlerAudioController.PlayOneShot(Sound_Footsteps[SelectedSoundFootstep]);
     }
 }

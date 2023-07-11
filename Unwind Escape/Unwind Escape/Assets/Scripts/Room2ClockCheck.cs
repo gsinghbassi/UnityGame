@@ -11,6 +11,8 @@ public class Room2ClockCheck : MonoBehaviour
     public GameObject NeedleHour;
     public GameObject NeedleMins;
     public GameObject Key;
+    AudioSource ClockAudioController;
+    public AudioClip ClockKeyReveal;
     
     // Start is called before the first frame update
     void Start()
@@ -18,12 +20,13 @@ public class Room2ClockCheck : MonoBehaviour
         Key.SetActive(false);
         ClockController = GetComponent<Animator>();
         dooropened = false;
+        ClockAudioController = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (HourTrue && MinsTrue)
+        if (HourTrue && MinsTrue&& !dooropened)
         {
             if (Key!=null)
             { Key.SetActive(true); }
@@ -32,6 +35,7 @@ public class Room2ClockCheck : MonoBehaviour
             NeedleMins.GetComponent<BoxCollider>().enabled = false;
             GetComponent<BoxCollider>().enabled = false;
             dooropened = true;
+            ClockAudioController.PlayOneShot(ClockKeyReveal);
         }
         if (dooropened == true)
         {

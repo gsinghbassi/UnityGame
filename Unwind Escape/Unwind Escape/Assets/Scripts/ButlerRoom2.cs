@@ -21,14 +21,23 @@ public class ButlerRoom2 : MonoBehaviour
     public GameObject KeyImage;
     public GameObject CupboardClue;
     public GameObject Document;
-
+    //Sound
+    AudioSource ButlerAudioController;
+    public AudioClip[] Sound_Footsteps;
+    int SelectedSoundFootstep;
+    public AudioClip Sound_CupboardDoorOpen;
+    public AudioClip Sound_LigtSwitch;
+    public AudioClip Sound_ClueReveal;
+    public AudioClip Sound_ClueSlide;
+    public AudioClip Sound_ClueSlide2;
+    public AudioClip Sound_Collection;
 
 
 
     // Start is called before the first frame update
     void Start()
     {
-       
+        ButlerAudioController = GetComponent<AudioSource>();
         InventoryDocument = false;
         ButlerAnimator = GetComponent<Animator>();
         G_Butler = GetComponent<NavMeshAgent>();
@@ -93,6 +102,7 @@ public class ButlerRoom2 : MonoBehaviour
             if (InteractionObject.name == "LightSwitchVintage")
             {
                 InteractionObject.GetComponent<LightSwitchRoom2>().LightsSwitch();
+                ButlerAudioController.PlayOneShot(Sound_LigtSwitch);
             }
 
             
@@ -115,21 +125,25 @@ public class ButlerRoom2 : MonoBehaviour
                 G_Camera.GetComponent<CameraControllerRoom2>().Back();
                 InventoryBGImage.SetActive(true);
                 KeyImage.SetActive(true);
+                ButlerAudioController.PlayOneShot(Sound_Collection);
             }
             if (InteractionObject.name == "Rug Clue")
             {
                 InteractionObject.GetComponent<RugCodeMaths>().RugOut = true;
                 InteractionObject.name = "Rug Clue Out";
+                ButlerAudioController.PlayOneShot(Sound_ClueSlide);
             }
             if (InteractionObject.name == "Rug Clue Out")
             {
                 G_Camera.GetComponent<CameraControllerRoom2>().CameraZoomObject("RugClue", InteractionObject.transform);
                 InformationText.text = "";
+                ButlerAudioController.PlayOneShot(Sound_ClueReveal);
             }
             if (InteractionObject.name == "TV Collider Off")
             {
                 G_Camera.GetComponent<CameraControllerRoom2>().CameraZoomObject("TVClue", InteractionObject.transform);
                 InformationText.text = "";
+                ButlerAudioController.PlayOneShot(Sound_ClueReveal);
             }
             
                 if (InteractionObject.name == "DiceControl")
@@ -383,8 +397,19 @@ public class ButlerRoom2 : MonoBehaviour
             InteractionObject = null;
         }
     }
-    
-        
-    
+
+    public void Step()
+    {
+        if (SelectedSoundFootstep < Sound_Footsteps.Length - 1)
+        {
+            SelectedSoundFootstep++;
+        }
+        else if (SelectedSoundFootstep == Sound_Footsteps.Length - 1)
+        {
+            SelectedSoundFootstep = 0;
+        }
+        ButlerAudioController.PlayOneShot(Sound_Footsteps[SelectedSoundFootstep]);
+    }
+
 }
 
