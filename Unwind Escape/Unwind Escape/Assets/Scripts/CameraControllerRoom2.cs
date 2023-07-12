@@ -95,7 +95,7 @@ public class CameraControllerRoom2 : MonoBehaviour
     
     public void CameraZoomObject(string G_Value,Transform G_Object)
     {
-       
+        ButlerRoom2.Interacting = true;
         if (G_Value== "PaintingClock")
         {
             GetComponent<Camera>().orthographicSize = 0.9f;
@@ -184,6 +184,7 @@ public class CameraControllerRoom2 : MonoBehaviour
     {
         if (G_Value == "right") 
         {
+            ButlerRoom2.Interacting = false;
             GetComponent<Camera>().nearClipPlane = NearPlane;
             cameraspeed = 0.1f;
             ButlerRoom2.clearinteractionobjects = true;
@@ -205,6 +206,7 @@ public class CameraControllerRoom2 : MonoBehaviour
         }
         if (G_Value == "left")
         {
+            ButlerRoom2.Interacting = false;
             GetComponent<Camera>().nearClipPlane = NearPlane;
             cameraspeed = 0.1f;
             ButlerRoom2.clearinteractionobjects = true;
@@ -279,6 +281,7 @@ public class CameraControllerRoom2 : MonoBehaviour
 
     public void Back()
     {
+        ButlerRoom2.Interacting = false;
         GetComponent<Camera>().orthographicSize = 5.51f;
         GetComponent<Camera>().nearClipPlane = NearPlane;
         GetComponent<Camera>().cullingMask = EverythingMask;

@@ -33,11 +33,16 @@ public class CombinationLockRoom2 : MonoBehaviour
     Camera G_Camera;
     bool lockactivated;
     public TextMeshProUGUI InformationText;
-
+    AudioSource LockAudioController;
+    public AudioClip[] CombinationSounds;
+    public AudioClip DrawerOpen;
+    int SelectedSound;
 
     // Start is called before the first frame update
     void Start()
     {
+        LockAudioController = GetComponent<AudioSource>();
+        SelectedSound = 1;
         lockactivated = false;
         G_Camera = GameObject.Find("Main Camera").GetComponent<Camera>(); 
         CodeMatched = false;
@@ -80,6 +85,7 @@ public class CombinationLockRoom2 : MonoBehaviour
             CodeMatched = true;            
             ChestDrawers.GetComponent<ChestOfDrawers>().DrawersOpen=true;
             ChestDrawers.name = "ChestDrawersOpened";
+            LockAudioController.PlayOneShot(DrawerOpen);
             ChestArrows.SetActive(false);
             Shapes.SetActive(false);
             lockblue.SetActive(false);
@@ -100,8 +106,8 @@ public class CombinationLockRoom2 : MonoBehaviour
 
     public void RotateLockYellow(int G_Value)        
     {
-        
-        if(G_Value==-1)
+        PlaySound();
+        if (G_Value==-1)
         {
             currentanglevalueyellow -= incrementangle;
             AngleYellow = Quaternion.Euler(testX, -90 , currentanglevalueyellow);
@@ -115,7 +121,7 @@ public class CombinationLockRoom2 : MonoBehaviour
     }
     public void RotateLockPink(int G_Value)
     {
-
+        PlaySound();
         if (G_Value == -1)
         {
             currentanglevaluepink -= incrementangle;
@@ -130,7 +136,7 @@ public class CombinationLockRoom2 : MonoBehaviour
     }
     public void RotateLockBlue(int G_Value)
     {
-
+        PlaySound();
         if (G_Value == -1)
         {
             currentanglevalueblue -= incrementangle;
@@ -145,7 +151,7 @@ public class CombinationLockRoom2 : MonoBehaviour
     }
     public void RotateLockOrange(int G_Value)
     {
-
+        PlaySound();
         if (G_Value == -1)
         {
             currentanglevalueorange -= incrementangle;
@@ -158,6 +164,17 @@ public class CombinationLockRoom2 : MonoBehaviour
         }
 
     }
+    void PlaySound()
+    {
+        if (SelectedSound < CombinationSounds.Length - 1)
+        {
+            SelectedSound++;
+        }
+        else if (SelectedSound == CombinationSounds.Length - 1)
+        {
+            SelectedSound = 0;
+        }
+        LockAudioController.PlayOneShot(CombinationSounds[SelectedSound]);
+    }
 
-   
 }

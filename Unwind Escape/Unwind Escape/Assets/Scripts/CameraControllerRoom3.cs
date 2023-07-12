@@ -112,8 +112,8 @@ public class CameraControllerRoom3 : MonoBehaviour
     
     public void CameraZoomObject(string G_Value,Transform G_Object)
     {
-       
-        
+
+        ButlerRoom3.Interacting = true;
         if (G_Value == "Document") //This is not updated for ROOM3. Update it later on
         {
            
@@ -265,6 +265,7 @@ public class CameraControllerRoom3 : MonoBehaviour
     {
         if (G_Value == "right") 
         {
+            ButlerRoom3.Interacting = false;
             PaintingStand.SetActive(true);
             DartArrowLeft.SetActive(false);
             DartArrowRight.SetActive(false);
@@ -291,6 +292,7 @@ public class CameraControllerRoom3 : MonoBehaviour
         }
         if (G_Value == "left")
         {
+            ButlerRoom3.Interacting = false;
             PaintingStand.SetActive(true);
             DartArrowLeft.SetActive(false);
             DartArrowRight.SetActive(false);
@@ -370,6 +372,7 @@ public class CameraControllerRoom3 : MonoBehaviour
 
     public void Back()
     {
+        ButlerRoom3.Interacting = false;
         GetComponent<Camera>().orthographicSize = 5.51f;
         GetComponent<Camera>().nearClipPlane = NearPlane;
         GetComponent<Camera>().cullingMask = EverythingMask;

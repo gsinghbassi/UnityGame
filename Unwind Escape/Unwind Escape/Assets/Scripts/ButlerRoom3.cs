@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 
 public class ButlerRoom3 : MonoBehaviour
 {
+    public static bool Interacting;
     NavMeshAgent G_Butler;
     Animator ButlerAnimator;
     public TextMeshProUGUI InformationText;
@@ -51,13 +52,22 @@ public class ButlerRoom3 : MonoBehaviour
     AudioSource ButlerAudioController;
     public AudioClip[] Sound_Footsteps;
     int SelectedSoundFootstep;
-
-
-
+    public AudioClip Sound_CupboardDoorOpen;
+    public AudioClip Sound_LigtSwitch;
+    public AudioClip Sound_ClueReveal;
+    public AudioClip Sound_ClueSlide;
+    public AudioClip Sound_Collection;
+    public AudioClip Sound_DoorLocked;
+    public AudioClip Sound_Hammer;
+    public AudioClip Sound_Dart1;
+    public AudioClip Sound_Dart2;
+    public AudioClip Sound_DartChange;
+    
 
     // Start is called before the first frame update
     void Start()
     {
+        Interacting = false;
         ButlerAudioController = GetComponent<AudioSource>();
         Document2.name = "Document2NotReady";
         CupboardActivated = false;
@@ -99,6 +109,7 @@ public class ButlerRoom3 : MonoBehaviour
             CupboardActivated = true;
             Document2.name = "Document2";
             InformationText.text = "I think thats the last evidence I need to collect. Let's quickly get it";
+            ButlerAudioController.PlayOneShot(Sound_CupboardDoorOpen);
         }
 
         if (InventoryItemNumber==0)
@@ -110,7 +121,7 @@ public class ButlerRoom3 : MonoBehaviour
             InventoryBGImage.SetActive(true);
         }
 
-        if(Input.GetMouseButtonDown(0))
+        if(Input.GetMouseButtonDown(0) && !Interacting)
         {
             Ray ray = G_Camera.ScreenPointToRay(Input.mousePosition);
             RaycastHit hitpoint;
@@ -162,6 +173,7 @@ public class ButlerRoom3 : MonoBehaviour
             if (InteractionObject.name == "LightSwitchVintage")
             {
                 InteractionObject.GetComponent<LightSwitchRoom3>().LightsSwitch();
+                ButlerAudioController.PlayOneShot(Sound_LigtSwitch);
             }
 
             if (InteractionObject.name == "Chest1")
@@ -174,10 +186,12 @@ public class ButlerRoom3 : MonoBehaviour
                     G_Camera.GetComponent<CameraControllerRoom3>().CameraZoomObject("Chest1", InteractionObject.transform);
                     InventoryManager("Hammer", false);
                     InventoryHammer = false;
+                    ButlerAudioController.PlayOneShot(Sound_Hammer);
 
                 }
                 else if(!InventoryHammer)
                 {
+                    ButlerAudioController.PlayOneShot(Sound_DoorLocked);
                     InformationTextController("OH! There is a LOCK. I need to find a way to open the Lock");
                 }
             }
@@ -194,6 +208,7 @@ public class ButlerRoom3 : MonoBehaviour
                 G_Camera.GetComponent<CameraControllerRoom3>().Back();
                 InventoryDart1 = true;
                 InventoryManager(InteractionObject.name,true);
+                ButlerAudioController.PlayOneShot(Sound_Collection);
                 G_Camera.GetComponent<CameraControllerRoom3>().Dart1Button.GetComponent<Button>().interactable = true;
             }
             if (InteractionObject.name == "Dart2"&&!InventoryDart2)
@@ -203,6 +218,7 @@ public class ButlerRoom3 : MonoBehaviour
                 G_Camera.GetComponent<CameraControllerRoom3>().Back();
                 InventoryDart2 = true;
                 InventoryManager(InteractionObject.name, true);
+                ButlerAudioController.PlayOneShot(Sound_Collection);
                 G_Camera.GetComponent<CameraControllerRoom3>().Dart2Button.GetComponent<Button>().interactable = true;
             }
             if (InteractionObject.name == "Hammer"&&!InventoryHammer)
@@ -211,6 +227,7 @@ public class ButlerRoom3 : MonoBehaviour
                 InformationText.text = "";
                 InventoryHammer = true;
                 InventoryManager(InteractionObject.name, true);
+                ButlerAudioController.PlayOneShot(Sound_Collection);
             }
             if (InteractionObject.name == "Spray"&& !InventorySpray)
             {
@@ -218,6 +235,7 @@ public class ButlerRoom3 : MonoBehaviour
                 InformationText.text = "";
                 InventorySpray = true;
                 InventoryManager(InteractionObject.name, true);
+                ButlerAudioController.PlayOneShot(Sound_Collection);
             }
             if (InteractionObject.name == "DeskLamp")
             {
@@ -228,10 +246,12 @@ public class ButlerRoom3 : MonoBehaviour
             {
                 InformationTextController("Hmm.There is a portrait of Charles Dickens with his Date of Birth");
                 G_Camera.GetComponent<CameraControllerRoom3>().CameraZoomObject("Charles", InteractionObject.transform);
-                 }
+                ButlerAudioController.PlayOneShot(Sound_ClueReveal);
+            }
             if (InteractionObject.name == "Clue")
             {
                 G_Camera.GetComponent<CameraControllerRoom3>().CameraZoomObject("Clue", InteractionObject.transform);
+                ButlerAudioController.PlayOneShot(Sound_ClueReveal);
             }
             if (InteractionObject.name == "Document2")
             {
@@ -239,11 +259,13 @@ public class ButlerRoom3 : MonoBehaviour
                 InventoryDocument = true;
                 InventoryManager(InteractionObject.name, true);
                 InformationText.text = "I got what I needed. Lets Leave this Building Now";
+                ButlerAudioController.PlayOneShot(Sound_Collection);
             }
             if (InteractionObject.name == "PaintingBack")
             {
                 InformationTextController("");
                 G_Camera.GetComponent<CameraControllerRoom3>().CameraZoomObject("PaintingBack", InteractionObject.transform);
+                ButlerAudioController.PlayOneShot(Sound_ClueReveal);
             }
             if (InteractionObject.name == "Dartboard")
             {
@@ -274,6 +296,7 @@ public class ButlerRoom3 : MonoBehaviour
                 {
                     InformationTextController("I can use the formula to find the missing number");
                     G_Camera.GetComponent<CameraControllerRoom3>().CameraZoomObject("Painting1", InteractionObject.transform);
+                    ButlerAudioController.PlayOneShot(Sound_ClueReveal);
                 }
 
                 if (InventorySpray)
@@ -284,7 +307,7 @@ public class ButlerRoom3 : MonoBehaviour
                     formulaactivated = true;
                     InformationTextController("The Spray revealed the Formula. Now i can find the missing number");
                     G_Camera.GetComponent<CameraControllerRoom3>().CameraZoomObject("Painting1", InteractionObject.transform);
-                    
+                    ButlerAudioController.PlayOneShot(Sound_ClueReveal);
                 }
 
             }
@@ -524,6 +547,7 @@ public class ButlerRoom3 : MonoBehaviour
 
     public void DartUpdate(int G_Input)
     {
+        ButlerAudioController.PlayOneShot(Sound_DartChange);
         if(G_Input==1)
         {
             if (x < 19)
@@ -561,6 +585,7 @@ public class ButlerRoom3 : MonoBehaviour
             DartinBoard1.transform.position = HighlightedPosition;
             InventoryManager("Dart1", false);                                                                                   
             InventoryDart1 = false;
+            ButlerAudioController.PlayOneShot(Sound_Dart1);
         }
         else if (G_Input == 1 && dart1Thrown)
         {
@@ -569,6 +594,7 @@ public class ButlerRoom3 : MonoBehaviour
             InventoryManager("Dart1", true);
             InventoryDart1 = true;
             DartinBoard1.transform.position = DartRestPosition;
+            ButlerAudioController.PlayOneShot(Sound_Collection);
         }
         if (G_Input == 2 && !dart2Thrown)
         {
@@ -577,6 +603,7 @@ public class ButlerRoom3 : MonoBehaviour
             DartinBoard2.transform.position = HighlightedPosition;
             InventoryManager("Dart2", false);
             InventoryDart2 = false;
+            ButlerAudioController.PlayOneShot(Sound_Dart2);
         }
         else if (G_Input == 2 && dart2Thrown)
         {
@@ -585,6 +612,7 @@ public class ButlerRoom3 : MonoBehaviour
             InventoryManager("Dart2", true);
             InventoryDart2 = true;            
             DartinBoard2.transform.position = DartRestPosition;
+            ButlerAudioController.PlayOneShot(Sound_Collection);
         }
 
     }

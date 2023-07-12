@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 
 public class ButlerRoom2 : MonoBehaviour
 {
+    public static bool Interacting;
     NavMeshAgent G_Butler;
     Animator ButlerAnimator;
     public TextMeshProUGUI InformationText;
@@ -26,6 +27,7 @@ public class ButlerRoom2 : MonoBehaviour
     public AudioClip[] Sound_Footsteps;
     int SelectedSoundFootstep;
     public AudioClip Sound_CupboardDoorOpen;
+    public AudioClip Sound_CupboardDoorClose;
     public AudioClip Sound_LigtSwitch;
     public AudioClip Sound_ClueReveal;
     public AudioClip Sound_ClueSlide;
@@ -37,6 +39,7 @@ public class ButlerRoom2 : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Interacting = false;
         ButlerAudioController = GetComponent<AudioSource>();
         InventoryDocument = false;
         ButlerAnimator = GetComponent<Animator>();
@@ -49,7 +52,7 @@ public class ButlerRoom2 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetMouseButtonDown(0))
+        if(Input.GetMouseButtonDown(0) && !Interacting)
         {
             Ray ray = G_Camera.ScreenPointToRay(Input.mousePosition);
             RaycastHit hitpoint;
@@ -110,6 +113,7 @@ public class ButlerRoom2 : MonoBehaviour
             {
                 G_Camera.GetComponent<CameraControllerRoom2>().CameraZoomObject("PaintingClock", InteractionObject.transform);
                 InformationText.text = "";
+                ButlerAudioController.PlayOneShot(Sound_ClueReveal);
             }
             
             if (InteractionObject.name == "Clock")
@@ -164,6 +168,7 @@ public class ButlerRoom2 : MonoBehaviour
                     G_Camera.GetComponent<CameraControllerRoom2>().CameraZoomObject("CupboardClue", CupboardClue.transform);
                     InformationText.text = "";
                     InteractionObject.name = "CupboardUnlocked";
+                    ButlerAudioController.PlayOneShot(Sound_CupboardDoorOpen);
                 }
                 
             }
@@ -171,6 +176,7 @@ public class ButlerRoom2 : MonoBehaviour
             {
                 G_Camera.GetComponent<CameraControllerRoom2>().CameraZoomObject("CupboardClue", CupboardClue.transform);
               InformationText.text = "";
+                ButlerAudioController.PlayOneShot(Sound_ClueReveal);
 
             }
             if (InteractionObject.name == "ChestDrawers")
@@ -189,6 +195,7 @@ public class ButlerRoom2 : MonoBehaviour
                 InventoryBGImage.SetActive(true);
                 InventoryDocument = true;
                 G_Camera.GetComponent<CameraControllerRoom2>().Back();
+                ButlerAudioController.PlayOneShot(Sound_Collection);
 
             }
 
@@ -199,12 +206,14 @@ public class ButlerRoom2 : MonoBehaviour
                     InteractionObject.GetComponent<Animator>().SetBool("COpen", false);
                     InteractionObject.GetComponent<Cupboards>().DoorOpen = false;
                     InformationTextController("Press E to open the cupboard door.");
+                    ButlerAudioController.PlayOneShot(Sound_CupboardDoorClose);
                 }
                 else if (InteractionObject.GetComponent<Animator>().GetBool("COpen") == false)
                 {
                     InteractionObject.GetComponent<Animator>().SetBool("COpen", true);
                     InteractionObject.GetComponent<Cupboards>().DoorOpen = true;
                     InformationTextController("Press E to close the cupboard door.");
+                    ButlerAudioController.PlayOneShot(Sound_CupboardDoorOpen);
                 }
             }
 

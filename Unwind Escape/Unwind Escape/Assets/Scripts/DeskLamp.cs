@@ -14,11 +14,16 @@ public class DeskLamp : MonoBehaviour
     public float[] SpotIntensity;
     int indexNumber;
     public GameObject PaintingBack;
- 
+    AudioSource LampAudioController;
+    public AudioClip[] Sound_Lamp;
+    int SelectedSoundLamp;
+    bool SoundActive;
 
     // Start is called before the first frame update
     void Start()
     {
+        LampAudioController = GetComponent<AudioSource>();
+        SelectedSoundLamp = 0;
         PaintingBack.SetActive( false);        
         SpotLightController = transform.Find("SpotLight").GetComponent<Light>();
         indexNumber = 1;
@@ -32,7 +37,13 @@ public class DeskLamp : MonoBehaviour
     }
     public void UpdateLight()
     {
-        if(indexNumber<6)
+        
+        if (SoundActive)
+        {
+            LampSound();
+        }
+        SoundActive = true;
+        if (indexNumber<6)
         {
             indexNumber++;
         }
@@ -56,5 +67,18 @@ public class DeskLamp : MonoBehaviour
         }
 
 
+    }
+
+    public void LampSound()
+    {
+        if (SelectedSoundLamp < Sound_Lamp.Length - 1)
+        {
+            SelectedSoundLamp++;
+        }
+        else if (SelectedSoundLamp == Sound_Lamp.Length - 1)
+        {
+            SelectedSoundLamp = 0;
+        }
+        LampAudioController.PlayOneShot(Sound_Lamp[SelectedSoundLamp]);
     }
 }

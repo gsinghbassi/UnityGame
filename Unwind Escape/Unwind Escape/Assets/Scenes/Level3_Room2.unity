@@ -28908,7 +28908,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 1984580240554577150, guid: 465b170a4afadc34fb66ef79f1784eb4, type: 2}
   m_audioClip: {fileID: 8300000, guid: 14b847608a395284799b8377be0db90a, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.05
+  m_Volume: 0.03
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -36992,6 +36992,7 @@ GameObject:
   - component: {fileID: 3189349131065544393}
   - component: {fileID: 3189349131065544392}
   - component: {fileID: 3189349131065544400}
+  - component: {fileID: 3189349131065544401}
   m_Layer: 0
   m_Name: LockRoom2
   m_TagString: Untagged
@@ -37050,6 +37051,109 @@ MonoBehaviour:
   testZ: 90
   Shapes: {fileID: 1780748277}
   InformationText: {fileID: 1883516218}
+  CombinationSounds:
+  - {fileID: 8300000, guid: 226e22fd5f725174b8e1dc6c4553a657, type: 3}
+  - {fileID: 8300000, guid: 9f151ea5225351d49a472b4bb352311a, type: 3}
+  - {fileID: 8300000, guid: ee071a5c57b648d4c8c24fb590a08d87, type: 3}
+  - {fileID: 8300000, guid: cd9bf050dbe2b8b43a69226d4b2e8cdf, type: 3}
+  - {fileID: 8300000, guid: 13643cebf338ede42bd01bab577b4211, type: 3}
+  DrawerOpen: {fileID: 8300000, guid: f73b8271dcd3d284c963ca10fdc2ded8, type: 3}
+--- !u!82 &3189349131065544401
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3189349131065544395}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 1984580240554577150, guid: 465b170a4afadc34fb66ef79f1784eb4, type: 2}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1001 &3189349131730160471
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -38880,6 +38984,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: bd6a3c241f8059a41822178428691618, type: 3}
   - {fileID: 8300000, guid: c0b4c40d118ffb04492bfcbfc7f22e48, type: 3}
   Sound_CupboardDoorOpen: {fileID: 8300000, guid: 878fd1e1b00afe641bf594f01fa8e051, type: 3}
+  Sound_CupboardDoorClose: {fileID: 8300000, guid: 91567d6ab85d5d64a86825cdfc1bb1ba, type: 3}
   Sound_LigtSwitch: {fileID: 8300000, guid: 2b847671322c9934a950bb148d311023, type: 3}
   Sound_ClueReveal: {fileID: 8300000, guid: 7f756230daae5c041b72db44eab88e31, type: 3}
   Sound_ClueSlide: {fileID: 8300000, guid: 4f7120b73844f0c4883d1c8049f25005, type: 3}

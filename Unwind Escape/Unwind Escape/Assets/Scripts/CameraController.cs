@@ -90,7 +90,7 @@ public class CameraController : MonoBehaviour
     
     public void CameraZoomObject(string G_Value,Transform G_Object)
     {
-       
+        Butler.Interacting = true;
         if (G_Value=="CodeYellowOutside")
         {
             GetComponent<Camera>().orthographicSize = 0.6f;
@@ -158,6 +158,7 @@ public class CameraController : MonoBehaviour
     {
         if (G_Value == "right") 
         {
+            Butler.Interacting = false;
             Butler.clearinteractionobjects = true;
             CameraTarget = CameraTargetForRoomAxo;
             GetComponent<Camera>().orthographicSize = 5.51f;
@@ -175,6 +176,7 @@ public class CameraController : MonoBehaviour
         }
         if (G_Value == "left")
         {
+            Butler.Interacting = false;
             Butler.clearinteractionobjects = true;
             CameraTarget = CameraTargetForRoomAxo;
             GetComponent<Camera>().orthographicSize = 5.51f;
@@ -245,6 +247,7 @@ public class CameraController : MonoBehaviour
 
     public void Back()
     {
+        Butler.Interacting = false;
         GetComponent<Camera>().orthographicSize = 5.51f;
         GetComponent<Camera>().cullingMask = EverythingMask;
         BackButton.SetActive(false);
@@ -272,5 +275,6 @@ public class CameraController : MonoBehaviour
         Set4.SetActive(true);
         PrevCameraPosition = CameraTargetPosition;
         PrevCameraRotation = CameraTargetRotation;
+        Butler.Interacting = false;
     }
 }

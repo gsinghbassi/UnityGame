@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 
 public class Butler : MonoBehaviour
 {
+    public static bool Interacting;
     NavMeshAgent G_Butler;
     Animator ButlerAnimator;
     public TextMeshProUGUI InformationText;
@@ -38,6 +39,7 @@ public class Butler : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Interacting = false;
         SelectedSoundFootstep = 0;
         ButlerAudioController=GetComponent<AudioSource>();
         TimerCheck = 0;
@@ -52,7 +54,7 @@ public class Butler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetMouseButtonDown(0))
+        if(Input.GetMouseButtonDown(0) && !Interacting)
         {
             Ray ray = G_Camera.ScreenPointToRay(Input.mousePosition);
             RaycastHit hitpoint;
