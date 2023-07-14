@@ -15,9 +15,7 @@ public class test : MonoBehaviour
     {
         
     }
-    private void OnTriggerEnter(Collider other)
-    {
-        Debug.Log("collision " + other.name);
-    }
+    
+    public void Teset() { Debug.Log("Testworksl"); }
     
 }

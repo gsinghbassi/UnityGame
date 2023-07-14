@@ -52,7 +52,7 @@ public class ButlerRoom2 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetMouseButtonDown(0) && !Interacting)
+        if(Input.GetMouseButtonDown(0) && !Interacting && !InGameMenu.menuActive)
         {
             Ray ray = G_Camera.ScreenPointToRay(Input.mousePosition);
             RaycastHit hitpoint;
@@ -78,7 +78,7 @@ public class ButlerRoom2 : MonoBehaviour
             InteractionObject = null;
         }
 
-        if(InteractionObject!=null&&Input.GetKeyDown("e"))
+        if(InteractionObject!=null&&Input.GetKeyDown("e") && !InGameMenu.menuActive)
         {
             
             

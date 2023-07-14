@@ -1,0 +1,256 @@
+fileFormatVersion: 2
+guid: 87377172b2756a64da4660a68558b9ea
+ModelImporter:
+  serializedVersion: 21300
+  internalIDToNameTable: []
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Derevo
+    second: {fileID: 2100000, guid: 62a772de39cb6b641a7f3a2c153f1540, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Dver
+    second: {fileID: 2100000, guid: 37603bdcbce80ff468012b1ed348ef96, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Glass balcon
+    second: {fileID: 2100000, guid: 71dc3ac998b6704448ba7c7d61cf2876, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Plitka 2
+    second: {fileID: 2100000, guid: 265679e2781b43c41adce9aa47ee608c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: beton niz
+    second: {fileID: 2100000, guid: 7de54f09d8b1f8d49a15c1678a6f5c50, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: krisha
+    second: {fileID: 2100000, guid: aa3f32ccc0d67c24383fc6bb9aa2acd1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: krisha 2
+    second: {fileID: 2100000, guid: ec5145d32aaa3c14b9c4db882813f177, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: plitka
+    second: {fileID: 2100000, guid: f169b5e534cae594eaa9f3e4e6413711, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: stekla
+    second: {fileID: 2100000, guid: 0c2ba2ea9c07cd1459a2cb9fcdf122ca, type: 2}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Derevo_Base_Color
+    second: {fileID: 2800000, guid: 0fa7a35eec54eda4a9302c6c75bf94bc, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Derevo_Normal
+    second: {fileID: 2800000, guid: 600ff2e9776fd514090cc8e94748a015, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Derevo_Roughness
+    second: {fileID: 2800000, guid: 9a47cbb585c44e24e83c830af2e3acca, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Dver_Base_Color
+    second: {fileID: 2800000, guid: f4dc0a52635ada84d990536f854854fe, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Dver_Normal
+    second: {fileID: 2800000, guid: 1de904f8eb499d44a9d822fbbb04237a, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Dver_Roughness
+    second: {fileID: 2800000, guid: 9407ec2b5bd6c744c91e21f5bf748624, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Plitka 2_Base_Color
+    second: {fileID: 2800000, guid: 266c4c99586dee54bba9fe05e4192d5b, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Plitka 2_Normal
+    second: {fileID: 2800000, guid: 6985be6b43f335742945eb8922ef80a9, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Plitka 2_Roughness
+    second: {fileID: 2800000, guid: e994cbd20fa848b4591ab7b603a8fdec, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: beton niz_Base_Color
+    second: {fileID: 2800000, guid: bdf325d306b7ab3498a21c63a5a45068, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: beton niz_Normal
+    second: {fileID: 2800000, guid: 821c48701d8e433498a0211274b68386, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: beton niz_Roughness
+    second: {fileID: 2800000, guid: 47aa94200ca3ae24f8531c5ebf05f988, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: krisha 2_Base_Color
+    second: {fileID: 2800000, guid: 16752740c1aba4d47bc3de1d1f92cf31, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: krisha 2_Normal
+    second: {fileID: 2800000, guid: 89845d6a272282a4ab3c270da09685d1, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: krisha 2_Roughness
+    second: {fileID: 2800000, guid: e8658158f1951b04384c640ee3d30799, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: krisha_Base_Color
+    second: {fileID: 2800000, guid: 29ac91c9c8be8d645b1e587e808a715e, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: krisha_Normal
+    second: {fileID: 2800000, guid: 76ebbb9a4131ce94e8b3f064f7a2bb00, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: krisha_Roughness
+    second: {fileID: 2800000, guid: 7338a1f78a81775449bb4913905a6222, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: plitka_Base_Color
+    second: {fileID: 2800000, guid: b9b538d736bca944885a81a474c2d621, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: plitka_Normal
+    second: {fileID: 2800000, guid: 261c8bfdc5552214880f248a6eff6ed9, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: plitka_Roughness
+    second: {fileID: 2800000, guid: ae95e811aa736f545993c79932c0b6a7, type: 3}
+  materials:
+    materialImportMode: 2
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    removeConstantScaleCurves: 1
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    nodeNameCollisionStrategy: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 0
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  remapMaterialsIfMaterialImportModeIsNone: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

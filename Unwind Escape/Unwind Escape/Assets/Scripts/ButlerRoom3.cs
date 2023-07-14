@@ -121,7 +121,7 @@ public class ButlerRoom3 : MonoBehaviour
             InventoryBGImage.SetActive(true);
         }
 
-        if(Input.GetMouseButtonDown(0) && !Interacting)
+        if(Input.GetMouseButtonDown(0) && !Interacting && !InGameMenu.menuActive)
         {
             Ray ray = G_Camera.ScreenPointToRay(Input.mousePosition);
             RaycastHit hitpoint;
@@ -147,7 +147,7 @@ public class ButlerRoom3 : MonoBehaviour
             InteractionObject = null;
         }
 
-        if(InteractionObject!=null&&Input.GetKeyDown("e"))
+        if(InteractionObject!=null&&Input.GetKeyDown("e") && !InGameMenu.menuActive)
         {
             
             
