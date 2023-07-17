@@ -962,7 +962,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &205989929
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1494,6 +1494,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MenuAudioController: {fileID: 379002614}
   ClickSound: {fileID: 8300000, guid: 538717f5406b7384fbca399b198d5552, type: 3}
+  Room1Active: 0
+  Room2Active: 0
+  Room3Active: 0
   Room1Button: {fileID: 1645829001}
   Room2Button: {fileID: 242105110}
   Room3Button: {fileID: 828316877}
@@ -6173,7 +6176,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1737726435
 RectTransform:
   m_ObjectHideFlags: 0
