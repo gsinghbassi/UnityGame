@@ -2334,8 +2334,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 470, y: 225}
-  m_SizeDelta: {x: 818.3536, y: 43.7454}
+  m_AnchoredPosition: {x: 485, y: 64}
+  m_SizeDelta: {x: 818.3536, y: 1.5702}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &580773403
 MonoBehaviour:
@@ -2357,7 +2357,22 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Sounds
+  m_text: 'Special thanks to SketchFab for 3D models
+
+
+    Specical thanks to Turbosquid
+    for 3D models
+
+
+    Special thanks to Freepik for material
+
+
+    special thanks
+    to polyhaven and cgtrader for 3D models
+
+
+    Special thanks to Zazzle for 3D
+    model of documents'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 09650d19f6c295b43bf5bc6f23334baa, type: 2}
   m_sharedMaterial: {fileID: 8199834555312795574, guid: 09650d19f6c295b43bf5bc6f23334baa, type: 2}
@@ -2366,8 +2381,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4285953654
-  m_fontColor: {r: 0.46226418, g: 0.46226418, b: 0.46226418, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -2384,8 +2399,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 48
-  m_fontSizeBase: 48
+  m_fontSize: 40
+  m_fontSizeBase: 40
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2420,7 +2435,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0, z: 0, w: -355.5948}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -4438,7 +4453,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 1461, y: 225}
+  m_AnchoredPosition: {x: 1421, y: -41}
   m_SizeDelta: {x: 818.3536, y: 43.7454}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1344444554
@@ -4461,7 +4476,22 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Graphics
+  m_text: 'Special thanks to Storyblocks and soundjay for audio
+
+
+    Special thanks
+    to Youtube for detective background music
+
+
+    Special thanks to Pixabay and
+    Pond5 for audio
+
+
+    Special thanks to textures.com for textures
+
+
+    Special
+    thanks to sketchuptextureclub for textures'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 09650d19f6c295b43bf5bc6f23334baa, type: 2}
   m_sharedMaterial: {fileID: 8199834555312795574, guid: 09650d19f6c295b43bf5bc6f23334baa, type: 2}
@@ -4470,8 +4500,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4285953654
-  m_fontColor: {r: 0.46226418, g: 0.46226418, b: 0.46226418, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -4488,8 +4518,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 48
-  m_fontSizeBase: 48
+  m_fontSize: 40
+  m_fontSizeBase: 40
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -4524,7 +4554,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 17.222717, y: -142.70221, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
